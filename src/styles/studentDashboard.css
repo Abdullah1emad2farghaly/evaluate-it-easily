@@ -1,0 +1,24 @@
+
+@layer components {
+    .groups .input-box {
+        @apply flex justify-between items-center ;
+    }
+    .groups .input-box input,
+    .create-proposal .input-box input,
+    .create-proposal .input-box textarea {
+        @apply resize-none border border-[#4cceac] focus:outline-none placeholder:text-[#727272] p-[8px_15px] rounded-[10px];
+    }
+    .groups .input-box button,
+    .create-proposal button {
+        @apply bg-[#03ad78] text-[#fff] hover:bg-[#02a16c] min-w-[130px]  max-w-[100%] cursor-pointer p-[8px_15px] rounded-[5px] transition-colors duration-300;
+    }
+    .groups label,
+    .create-proposal .input-box label {
+        @apply text-[14px] tracking-[1px] text-[#e9e9e9dd];
+    }
+
+    .create-proposal .input-box {
+        @apply flex flex-col gap-[5px];
+    }
+
+}

@@ -1,0 +1,114 @@
+/* Admin Layout */
+.sidebar ul li {
+    position: relative;
+}
+
+.sidebar ul li a:hover::before,
+.sidebar ul li a.active::before {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 100%;
+    background-color: var(--primary-color);
+    left: -3px;
+    top: 0;
+}
+
+
+/* Analyze all projects in top */
+
+@layer components {
+    .circle-persntage {
+        @apply w-[60px] h-[60px] relative rounded-full;
+    }
+
+    .cover {
+        @apply w-[50px] h-[50px] absolute rounded-full top-1/2 left-1/2 z-[3] -translate-x-1/2 -translate-y-1/2;
+    }
+
+    .conic {
+        @apply absolute w-full h-full rounded-full z-[2];
+    }
+
+    .analyze-link {
+        @apply flex justify-center items-center no-underline min-w-[140px] max-w-[140px] h-[40px] text-[var(--background-color)] bg-[var(--primary-color)] text-[16px] tracking-[1px]
+    }
+
+    .project {
+        @apply relative max-w-[100%];
+    }
+
+    .inner {
+        @apply absolute left-1/2 top-[15px] z-100 w-[12px] h-[12px] border-2 border-[#00bc8a] -translate-1/2 rounded-full;
+    }
+
+    .outer {
+        @apply absolute w-[20px] h-[20px] top-[5px] left-1/2 rounded-full border-[2px] border-[#00bc8a] -translate-x-1/2;
+    }
+
+    .shared-style {
+        @apply absolute h-[120%] bg-[#00bc8a] top-[0px] w-[1px] left-[-20px];
+    }
+
+    .menu {
+        @apply absolute min-w-[100%] text-[14px] h-[180px] overflow-y-auto z-[100] left-[0px] rounded-[5px];
+    }
+
+    .teams-parent {
+        @apply rounded-[5px] w-[80%] cursor-pointer;
+    }
+
+    .confirm {
+        @apply w-[150px] h-[40px] text-[#f1f1f1] tracking-[1px] border-0 cursor-pointer;
+    }
+
+    .before {
+        @apply before:content-[''] before:absolute before:w-[1px] before:h-full before:bg-[var(--primary-color)] before:top-[0px] before:left-[-2px];
+    }
+
+    .sidebar a {
+        @apply relative ml-[15px] mr-[15px] decoration-0 text-[14px] font-[400] p-[10px_15px_10px_10px] pr-[0px] block tracking-[1px];
+    }
+
+    .sidebar a svg {
+        @apply mr-[15px];
+    }
+
+    .sidebar a.light:hover,
+    .sidebar a.light.active,
+    .sidebar .menu-items button.light:hover {
+        @apply bg-[#dedddd] rounded-[5px] text-[var(--primary-color)!important];
+    } 
+
+    .sidebar a.dark:hover,
+    .sidebar a.dark.active,
+    .sidebar .menu-items button.dark:hover {
+        @apply bg-[#434343] rounded-[5px] text-[var(--primary-color)!important];
+    }
+
+}
+
+/* Manage Teams */
+
+.manage-teams table th,
+.manage-teams table td {
+    text-align: center;
+    padding: 8px 10px;
+}
+
+.manage-teams table th {
+    padding: 15px 10px;
+}
+
+.manage-teams table tr td:nth-child(3) .teams-parent {
+    margin: auto;
+}
+
+
+input[list="professors"],
+input[list="assistants"],
+.manage-teams table tr td:nth-child(2) p {
+    padding: 8px 15px;
+    margin: auto;
+    font-size: 15px;
+}
