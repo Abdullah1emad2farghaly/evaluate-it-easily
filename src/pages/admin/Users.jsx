@@ -406,8 +406,7 @@ export default function UserManagement() {
     const toggleStatus = async (id) => {
         setLoading(true)
         try {
-            const res = await toggleActivate(id);
-            console.log(res);
+            await toggleActivate(id);
             setUsers((prev) => prev.map((u) => (u.id === id ? { ...u, isActive: !u.isActive } : u)));
         } catch (error) {
             HandleErrors(error.errors)
@@ -422,8 +421,8 @@ export default function UserManagement() {
         return <Loader />
 
     return (
-        <div className="flex min-h-screen ">
-            <main className="flex-1 px-6 py-6 mb-5">
+        <div className="min-h-screen lg:pr-4 lg:p-0 p-3">
+            <main className="w-full mb-5">
                 <Filters colors={colors} users={users} setUsers={setFilteredUsers} setCreating={setCreating} />
                 <SimpleLoader loading={loading} />
                 <UserTable users={filteredUsers} colors={colors} onEdit={setEditing} onToggle={toggleStatus} />

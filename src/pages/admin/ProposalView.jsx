@@ -52,12 +52,12 @@ export default function ProposalView() {
         return <Loader />
 
     return (
-        <div className=" min-h-screen flex flex-col justify-between">
+        <div className=" min-h-screen lg:pr-4 px-3 lg:px-0 flex flex-col justify-between">
 
             {/* CONTENT */}
             {
                 project && (
-                    <div className="p-5 max-w-240 mx-auto w-full">
+                    <div className="p- mx-auto w-full">
 
                         {/* Top Card */}
                         <div className="rounded-2xl p-5 border mb-5" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[800] }}>

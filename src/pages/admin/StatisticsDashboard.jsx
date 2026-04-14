@@ -538,7 +538,7 @@ export default function StatisticsDashboard({
     <div >
       <div className="min-h-screen transition-colors duration-300">
         {/* ── BODY ────────────────────────────────────────────────────────── */}
-        <main className="max-w-screen-xl mx-auto px-6 py-8 space-y-10">
+        <main className="max-w-7xl mx-auto lg:px-0 px-3 lg:pr-3 py-8 space-y-10">
 
           {loading ? (
             <DashboardSkeleton />

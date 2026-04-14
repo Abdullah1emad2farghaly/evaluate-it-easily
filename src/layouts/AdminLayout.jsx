@@ -7,11 +7,11 @@ import Title from '../pages/admin/Title'
 
 export default function AdminLayout() {
     return (
-    <div className='grid grid-cols-12 relative gap-10 lg:p-4 lg:pl-6 pt-0'>
-        <div className="col-span-2 relative">
+    <div className='flex lg:gap-4'>
+        <div className="h-screen lg:min-w-60 min-w-0 max-w-60 z-200 relative left-0  duration-1000">
             <SideBar/>
         </div>
-        <main className='relative lg:col-span-10 col-span-12'>
+        <main className='relative w-full'>
             <TopBar/>
             <Outlet/>
         </main>

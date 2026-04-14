@@ -56,9 +56,9 @@ export default function Carts({acceptedCount, rejectedCount, pendingCount}) {
         <>
             <Title title={"DASHBOARD"} />
             <div className="relative grid grid-cols-12 px-2 carts overflow-hidden gap-3">
-                <div className="col-span-12 sm:col-span-6 lg:col-span-4 " data-aos="fade-left" data-aos-delay="0">
+                <div className="col-span-12 sm:col-span-6 lg:col-span-4" data-aos="fade-left" data-aos-delay="0">
                     <div
-                        className="border-0 flex h-[150px] justify-center items-center rounded p-3 accepted shadow"
+                        className="border-0 flex h-40 justify-center items-center rounded-lg p-3 accepted shadow"
                         style={{ backgroundColor: colors.blueAccent[800] }}
                     >
                         <div className="flex w-[90%] justify-between items-center">
@@ -105,7 +105,7 @@ export default function Carts({acceptedCount, rejectedCount, pendingCount}) {
 
                 <div className="col-span-12 sm:col-span-6 lg:col-span-4 " data-aos="fade-left" data-aos-delay="300">
                     <div
-                        className="border-0 flex h-[150px] justify-center items-center rounded p-3 similar shadow"
+                        className="border-0 flex h-40 justify-center items-center rounded-lg p-3 similar shadow"
                         style={{ backgroundColor: colors.blueAccent[800] }}
                     >
                         <div className="flex justify-between w-[90%] items-center">
@@ -152,7 +152,7 @@ export default function Carts({acceptedCount, rejectedCount, pendingCount}) {
 
                 <div className="col-span-12 sm:col-span-6 lg:col-span-4 " data-aos="fade-left" data-aos-delay="600">
                     <div
-                        className="border-0 flex h-[150px] justify-center items-center rounded p-3 rejected shadow"
+                        className="border-0 flex h-40 justify-center items-center rounded-lg p-3 rejected shadow"
                         style={{ backgroundColor: colors.blueAccent[800] }}
                     >
                         <div className="flex justify-between w-[90%] items-center">

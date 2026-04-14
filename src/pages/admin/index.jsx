@@ -55,7 +55,7 @@ export default function Dashboard() {
     if (loading)
         return <Loading />
     return (
-        <div className='overflow-hidden min-h-[100vh]'>
+        <div className='overflow-hidden min-h-screen lg:pr-4 px- lg:px-0'>
             <div>
                 <Carts
                     acceptedCount={acceptedCount}

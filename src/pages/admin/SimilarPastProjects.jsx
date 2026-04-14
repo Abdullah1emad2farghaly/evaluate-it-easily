@@ -11,7 +11,7 @@ export default function SimilarPastProjects({ proposals }) {
 
 
     return (
-        <div className='w-full px-2 sm:ml-auto mb-20'>
+        <div className='w-full px-2 sm:ml-auto min-h-[50vh] mb-20 relative'>
             {
                 !filteredProposals?.length
                     ? (<LottieFiles name={"animatedData2"} />)

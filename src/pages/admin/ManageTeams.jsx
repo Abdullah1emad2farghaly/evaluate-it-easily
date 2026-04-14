@@ -290,7 +290,7 @@ export default function ManageTeams() {
         return <Loader />
 
     return (
-        <div className="p-4 md:p-6 min-h-screen mb-10">
+        <div className="lg:pr-4 px-3 lg:px-0 min-h-screen mb-10">
             <Title title={"Manage Teams"} />
             <SimpleLoader loading={loading} />
             {/* HEADER */}

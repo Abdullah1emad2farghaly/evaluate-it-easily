@@ -32,7 +32,7 @@ export default function HistoricalProjects() {
         return <Loader />
 
     return (
-        <div className="w-full mt-4 pb-5">
+        <div className="w-full mt-4 pb-5 lg:pr-4 lg:px-0 px-3">
             <Title title={"Historical Projects"} />
 
             <div className="w-full border-collapse">
@@ -41,20 +41,20 @@ export default function HistoricalProjects() {
                         projects?.map((project, index) => (
                             <div
                                 key={index}
-                                className="mb-3 flex items-center justify-between project p-4 pl-6 text-start rounded"
+                                className="mb-3 flex md:flex-row flex-col items-center justify-between project p-4 pl-6 text-start rounded"
                                 style={{ backgroundColor: colors.blueAccent[800] }}
                                 data-aos="fade-up"
                             >
                                 <p
                                     style={{ color: colors.grey[200] }}
-                                    className="line-clamp-3 overflow-hidden text-[15px] pr-4"
+                                    className="line-clamp-3 overflow-hidden text-[15px] md:pr-4"
                                 >
                                     {project.abstract}
                                 </p>
 
                                 <NavLink
                                     to={`${project.id}`}
-                                    className="border-0 text-white hover:bg-[#009c73] duration-500 rounded analyze-link font-semibold"
+                                    className="border-0 md:mt-0 mt-4 text-white hover:bg-[#009c73] duration-500 rounded analyze-link font-semibold"
                                 >
                                     View
                                 </NavLink>

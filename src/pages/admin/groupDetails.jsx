@@ -72,7 +72,7 @@ export default function GroupDetails() {
 
     return (
         group && (
-            <div className="p-6 min-h-screen">
+            <div className=" mt-3 lg:pr-4 lg:px-0 px-3 min-h-screen">
                 {/* Top Cards */}
                 <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mb-6">
                     <Card icon={<TagIcon fontSize="small" />} title="Group Name" value={group.name} />

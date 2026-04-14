@@ -284,23 +284,26 @@ export default function ProjectReview() {
       try {
         const originProposal = await getProposalById(param.id);
         setOriginProject(originProposal);
-        if (originProposal.status !== "Pending") {
-          const similarityProjects = await getEvaluateProposal(param.id);
-          setSimilarProjects(similarityProjects.similarityResults);
-        } else {
+        
+        if (originProposal?.status === "Pending") {
           const similarityProjects = await createEvaluation(param.id);
           setSimilarProjects(similarityProjects.similarityResults);
-          setOriginProject({ ...originProject, status: "UnderReview" });
+          setOriginProject({ ...originProposal, status: "UnderReview" });
+
+        } else {
+
+          const similarityProjects = await getEvaluateProposal(param.id);
+          setSimilarProjects(similarityProjects.similarityResults);
+
         }
-        // setProjectStatus(originProposal.status);
       } catch (error) {
-        HandleErrors(error.errors)
+        HandleErrors(error?.response?.data?.errors || error.message)
       } finally {
         setLoading(false);
       }
     }
     evaluateProject();
-  }, [originProject, param.id]);
+  }, [param.id]);
 
 
   useEffect(() => {
@@ -331,7 +334,7 @@ export default function ProjectReview() {
 
   return (
     <div className="min-h-screen  -6 font-sans">
-      <div className=" mx-auto p-2 space-y-4">
+      <div className=" mx-auto lg:pr-4 px-3 lg:px-0 space-y-4">
         <SimpleLoader loading={simpleLoading}/>
         {/* Main Project Card */}
         <div className="rounded-xl border shadow-sm overflow-hidden" style={{ borderColor: colors.grey[800], backgroundColor: colors.blueAccent[800] }}>

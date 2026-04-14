@@ -48,7 +48,7 @@ export default function EvaluationResults() {
         return <Loader />
     return (
         <div className="min-h-screen rounded">
-            <div className="max-w-full mx-auto sm:px-10 px-1.5 py-12 space-y-5">
+            <div className="max-w-full mx-auto py-6 lg:pr-4 px-3 lg:px-0 space-y-5">
 
                 {/* Header */}
                 <div>

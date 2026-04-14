@@ -37,7 +37,7 @@ export default function RejectedProjects() {
             <div className="pl-2 lg:p-0">
                 <Title title={"Rejected Projects"} />
             </div>
-            <div className='w-full px-2 mb-10'>
+            <div className='w-full mb-10 lg:pr-4 px-3 lg:px-0'>
                 {
                     !rejectedProjects.length 
                     ? (<LottieFiles name={"animatedData2"} />) 

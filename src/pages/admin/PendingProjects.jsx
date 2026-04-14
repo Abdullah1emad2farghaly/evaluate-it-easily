@@ -34,17 +34,15 @@ export default function PendingProjects() {
     return (
         <>
             <Title title={"Pending Projects"} />
-            <div className='w-full'>
-
+            <div className='w-full lg:pr-4 px-3 lg:px-0'>
                 {
                     !pendingProjects.length
                         ? (<LottieFiles name={"animatedData2"} />)
                         : (
-                            <div className="mt-5 p-2">
+                            <div className="mt-5">
                                 <SubmissionsPage data={pendingProjects} />
                             </div>
                         )
-
                 }
 
             </div>
