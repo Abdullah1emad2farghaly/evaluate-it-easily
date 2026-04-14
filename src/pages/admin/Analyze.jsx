@@ -125,7 +125,7 @@ function ConfirmationModal({ type, onClose, onConfirm, colors, originProject }) 
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
       style={{ backgroundColor: "rgba(0,0,0,0.45)", backdropFilter: "blur(3px)" }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
@@ -142,7 +142,7 @@ function ConfirmationModal({ type, onClose, onConfirm, colors, originProject }) 
         style={{ animation: "modalIn 0.22s cubic-bezier(.22,.68,0,1.2) both", backgroundColor: colors.blueAccent[800] }}
       >
         {/* Header */}
-        <div className="flex items-start justify-between px-6 pt-6 pb-4">
+        <div className="flex items-start justify-between px-3 sm:px-6 pt-6 pb-4">
           <div className="flex items-center gap-3">
             <div
               className={`w-11 h-11 rounded-full ${config.iconBg} ${config.iconColor} flex items-center justify-center shrink-0`}
@@ -167,7 +167,7 @@ function ConfirmationModal({ type, onClose, onConfirm, colors, originProject }) 
         <hr className="mx-6" style={{ borderColor: colors.grey[600] }} />
 
         {/* Body */}
-        <div className="px-6 py-5 space-y-4">
+        <div className="sm:px-6 px-3 py-5 space-y-4">
           {/* Project pill */}
           <div className="flex items-center gap-3 border rounded-xl px-3 py-2.5" style={{ borderColor: colors.grey[700], backgroundColor: colors.grey[900] }}>
             <PDFIcon />
@@ -204,7 +204,7 @@ function ConfirmationModal({ type, onClose, onConfirm, colors, originProject }) 
               }}
             />
             <div className="flex items-center justify-between mt-1.5" style={{ color: colors.grey[300] }}>
-              <p className="text-xs ">
+              <p className="text-xs max-w-[80%]">
                 This message will be sent to the student as notifications.
               </p>
               <span
@@ -218,7 +218,7 @@ function ConfirmationModal({ type, onClose, onConfirm, colors, originProject }) 
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-6 pb-6">
+        <div className="flex items-center justify-end gap-3 px-3 sm:px-6 pb-6">
           <button
             onClick={onClose}
             className="px-4 py-2 text-sm font-medium border rounded-lg cursor-pointer transition-colors"
@@ -229,7 +229,7 @@ function ConfirmationModal({ type, onClose, onConfirm, colors, originProject }) 
           <button
             onClick={() => { if (message.trim()) onConfirm(originProject, type, message) }}
             disabled={!message.trim()}
-            className={`inline-flex items-center cursor-pointer gap-2 px-5 py-2 text-sm font-semibold text-white rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed ${config.confirmBg}`}
+            className={`inline-flex items-center cursor-pointer gap-2 sm:px-5 px-3 py-2 text-sm font-semibold text-white rounded-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed ${config.confirmBg}`}
           >
             {config.icon}
             {config.confirmLabel}
@@ -333,8 +333,8 @@ export default function ProjectReview() {
     return <Loader />
 
   return (
-    <div className="min-h-screen  -6 font-sans">
-      <div className=" mx-auto lg:pr-4 px-3 lg:px-0 space-y-4">
+    <div className="min-h-screen mb-8 font-sans">
+      <div className=" mx-auto lg:pr-4 px-1 lg:px-0 space-y-4">
         <SimpleLoader loading={simpleLoading}/>
         {/* Main Project Card */}
         <div className="rounded-xl border shadow-sm overflow-hidden" style={{ borderColor: colors.grey[800], backgroundColor: colors.blueAccent[800] }}>
@@ -349,7 +349,7 @@ export default function ProjectReview() {
           <hr style={{ borderColor: colors.grey[800] }} />
 
           {/* Abstract */}
-          <div className="p-6">
+          <div className="sm:p-6 p-4">
             <h2 className="text-base font-semibold mb-3" style={{ color: colors.grey[200] }}>Abstract</h2>
             <p className="text-sm  leading-relaxed" style={{ color: colors.grey[300] }}>
               {originProject.abstract}
@@ -359,9 +359,9 @@ export default function ProjectReview() {
           <hr style={{ borderColor: colors.grey[800] }} />
 
           {/* Project File */}
-          <div className="p-6">
+          <div className="sm:p-6 p-4">
             <h2 className="text-base font-semibold mb-3" style={{ color: colors.grey[200] }}>Project File</h2>
-            <div className="flex items-center justify-between rounded-lg px-4 py-3 border" style={{ backgroundColor: colors.grey[900], borderColor: colors.grey[800] }}>
+            <div className="flex flex-row items-center justify-between rounded-lg px-4 py-3 border" style={{ backgroundColor: colors.grey[900], borderColor: colors.grey[800] }}>
               <div className="flex items-center gap-3">
                 <div style={{ color: colors.grey[100] }} >
                   <PDFIcon />
@@ -377,10 +377,10 @@ export default function ProjectReview() {
               </div>
               <button
                 onClick={() => handleDownload(originProject)}
-                className="inline-flex items-center cursor-pointer gap-2 bg-black text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors shadow-sm border"
+                className="inline-flex  items-center cursor-pointer gap-2 bg-black text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors shadow-sm border"
                 style={{ borderColor: colors.grey[600] }}>
                 <DownloadIcon />
-                Download
+                <span className="hidden sm:block">Download</span>
               </button>
             </div>
           </div>
@@ -391,7 +391,7 @@ export default function ProjectReview() {
               <div>
                 <hr style={{ borderColor: colors.grey[800] }} />
                 <div className="px-6 py-5">
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex sm:flex-row flex-col items-center justify-between gap-4">
                     <div>
                       <p className="text-sm font-semibold" style={{ color: colors.grey[100] }}>Review Decision</p>
                       <p className="text-xs mt-0.5 leading-snug" style={{ color: colors.grey[200] }}>
