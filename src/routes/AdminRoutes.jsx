@@ -5,7 +5,6 @@ import AcceptedProjects from '../pages/admin/AcceptedProjects'
 import RejectedProjects from '../pages/admin/RejectedProjects'
 import Analyze from '../pages/admin/Analyze'
 import ManageTeams from '../pages/admin/ManageTeams'
-import AdminGuard from './AdminGuards'
 import HistoricalProjects from '../pages/admin/HistoricalProjects'
 import View from '../pages/admin/View'
 import ProposalView from '../pages/admin/ProposalView'
@@ -14,6 +13,7 @@ import EvaluatedProjects from '../pages/admin/EvaluatedProjects'
 import Users from '../pages/admin/Users'
 import Statistics from '../pages/admin/Statistics'
 import PendingProjects from '../pages/admin/PendingProjects'
+import AdminGuard from '../guards/AdminGuards'
 
 export default function AdminRoutes() {
   return (

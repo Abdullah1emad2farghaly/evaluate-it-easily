@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import Header from "./Header";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
+import Header from "./Header";
 
 export default function MagicSlider() {
     const theme = useTheme();

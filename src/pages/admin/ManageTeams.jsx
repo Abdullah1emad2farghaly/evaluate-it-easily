@@ -17,7 +17,7 @@ import { SupervisorAssignments } from "../../services/supervisorServices";
 import SimpleLoader from "../../loaders/SimpleLoader";
 import { toast } from "react-toastify";
 import { jsPDF } from "jspdf";
-import Title from "./Title";
+import Title from "../../components/admin/Title";
 
 export default function ManageTeams() {
     const theme = useTheme();

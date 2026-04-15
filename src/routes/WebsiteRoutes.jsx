@@ -9,7 +9,7 @@ import Similarity from '../pages/website/Similarity'
 import Notifications from '../pages/website/Notifications'
 import DashboardLayout from '../layouts/DashboardLayout'
 
-import WebsiteGuard from './WebsiteGuards'
+import WebsiteGuard from '../guards/WebsiteGuards'
 
 export default function WebsiteRoutes() {
     return (

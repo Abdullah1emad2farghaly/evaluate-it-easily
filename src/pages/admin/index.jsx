@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import Carts from './Carts'
-import AllProjects from './HistoricalProjects'
+import { useEffect, useState } from 'react'
 import { getProposals } from '../../services/proposalServices';
 import Loading from '../../loaders/Loader';
-import SimilarPastProjects from './SimilarPastProjects';
+import SimilarPastProjects from '../../components/admin/SimilarPastProjects';
 import { HandleErrors } from '../../utils/HandleErrors';
+import Carts from '../../components/admin/Carts';
 
 export default function Dashboard() {
     const [proposals, setProposals] = useState([]);

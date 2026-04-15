@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { getProjectById } from '../../services/HistoricalProjectsServices';
 import Loader from '../../loaders/Loader';
-import Title from './Title';
+import Title from '../../components/admin/Title';
 import { useTheme } from '@emotion/react';
 import { tokens } from '../../theme';
 import { HandleErrors } from '../../utils/HandleErrors';
@@ -36,8 +36,8 @@ export default function View() {
         <div>
             <Title title="Project Details" />
             {project && (
-                <div className=" min-h-[60vh] py-10 pt-5 sm:px-6 p-2 flex justify-center rounded" >
-                    <div className="w-full max-w-[60rem]">
+                <div className=" min-h-[60vh] py-10 pt-5 lg:pr-4 lg:px-0 px-3 flex justify-center rounded" >
+                    <div className="w-full ">
                         <div className="bg-[#66666682] rounded-xl p-6 border mb-6" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[800] }}>
 
 

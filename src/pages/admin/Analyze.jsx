@@ -8,7 +8,7 @@ import { HandleErrors } from "../../utils/HandleErrors";
 import { makeDecision } from "../../services/decisionServices";
 import { toast } from "react-toastify";
 import Loader from "../../loaders/Loader";
-import { handleDownload } from "./DownloadProposal";
+import { handleDownload } from "../../components/admin/DownloadProposal";
 import SimpleLoader from "../../loaders/SimpleLoader";
 
 const DownloadIcon = () => (
@@ -71,17 +71,6 @@ const CloseIcon = () => (
 
 
 
-function StatusColor(status) {
-  switch (status) {
-    case "Accepted":
-      return "text-green-500 border-green-500"
-    case "Rejected":
-      return "text-red-500 border-red-500"
-    case "UnderReview":
-      return "text-orange-500 border-orange-500";
-  }
-
-}
 
 // ─── Confirmation Modal ────────────────────────────────────────────────────────
 function ConfirmationModal({ type, onClose, onConfirm, colors, originProject }) {

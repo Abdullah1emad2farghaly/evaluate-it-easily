@@ -1,11 +1,11 @@
-import React from 'react'
-import Slider from './Slider'
-import About from './About'
-import Footer from './Footer'
+import About from "../../components/website/About";
+import Footer from "../../components/website/Footer";
+import MagicSlider from "../../components/website/Slider";
+
 export default function Home() {
     return (
         <div>
-            <Slider/>
+            <MagicSlider/>
             <About/>
             <Footer/>
         </div>

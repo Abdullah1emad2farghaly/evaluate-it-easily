@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { emailConfirmation, resendEmail } from "../../services/authServices";
 import { toast } from "react-toastify";
-import Loader from "../../loaders/Loader";
 import SimpleLoader from "../../loaders/SimpleLoader";
 
 export default function VerifyAccount() {

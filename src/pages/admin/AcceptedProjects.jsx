@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import Title from './Title';
+import { useEffect, useState } from 'react'
 import { getProposals } from '../../services/proposalServices';
 import Loading from '../../loaders/Loader';
 import LottieFiles from '../../lottieFiles/LottieFiles';
 import { HandleErrors } from '../../utils/HandleErrors';
-import SubmissionsPage from './ProjectCard';
+import SubmissionsPage from '../../components/admin/ProjectCard';
+import Title from '../../components/admin/Title';
 
 export default function AcceptedProjects() {
     const [acceptedProjects, setAcceptedProjects] = useState([]);

@@ -2,7 +2,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { NavLink, useNavigate } from "react-router-dom";
-import Home from "../website/Home";
+import Home from "../../pages/website/Home";
 import { useState } from "react";
 import { login } from "../../services/authServices";
 import SimpleLoader from '../../loaders/SimpleLoader';

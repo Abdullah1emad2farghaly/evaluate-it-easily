@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import Login from './Login';
-import Register from './Register';
+import Login from '../../components/auth/Login';
+import Register from '../../components/auth/Register';
 
 export default function Auth() {
     const [active, setActive] = useState("");
@@ -13,7 +13,7 @@ export default function Auth() {
         }
     };
 
-    
+
     return (
         <div className="parent flex justify-center items-center h-screen bg-[#081b29]">
             <div
@@ -21,8 +21,8 @@ export default function Auth() {
             >
                 <span className="bg-animate md:block hidden pointer-events-none"></span>
                 <span className="bg-animate2 md:block hidden pointer-events-none"></span>
-                <Login active={active} handleForm={handleSignUp}/>
-                <Register active={active} handleForm={handleSignUp}/>
+                <Login active={active} handleForm={handleSignUp} />
+                <Register active={active} handleForm={handleSignUp} />
             </div>
         </div>
     );

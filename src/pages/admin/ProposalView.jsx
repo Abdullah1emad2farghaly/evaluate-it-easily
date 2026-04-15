@@ -8,7 +8,7 @@ import { getProposalById } from "../../services/proposalServices";
 import { useParams } from "react-router-dom";
 import Loader from "../../loaders/Loader";
 import { HandleErrors } from "../../utils/HandleErrors";
-import { handleDownload } from "./DownloadProposal";
+import { handleDownload } from "../../components/admin/DownloadProposal";
 
 
 export default function ProposalView() {

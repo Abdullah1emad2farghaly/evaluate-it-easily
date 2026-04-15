@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { getProposals } from "../../services/proposalServices";
 import { HandleErrors } from "../../utils/HandleErrors";
 import LottieFiles from "../../lottieFiles/LottieFiles";
-import Title from "./Title";
 import Loader from "../../loaders/Loader";
-import SubmissionsPage from "./ProjectCard";
+import SubmissionsPage from "../../components/admin/ProjectCard";
+import Title from "../../components/admin/Title";
 
 export default function PendingProjects() {
     const [pendingProjects, setPendingProjects] = useState([]);

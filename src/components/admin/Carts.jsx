@@ -5,7 +5,7 @@ import HourglassDisabledIcon from "@mui/icons-material/HourglassDisabled";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import Title from "./Title";
-export default function Carts({acceptedCount, rejectedCount, pendingCount}) {
+export default function Carts({ acceptedCount, rejectedCount, pendingCount }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const accepted = acceptedCount;
@@ -15,8 +15,8 @@ export default function Carts({acceptedCount, rejectedCount, pendingCount}) {
     let acceptedPercentage = 0;
     let rejectedPercentage = 0;
     let pendingPercentage = 0;
-    
-    if(totalProjects === 0) {
+
+    if (totalProjects === 0) {
         acceptedPercentage = 0;
         rejectedPercentage = 0;
         pendingPercentage = 0;
@@ -31,7 +31,7 @@ export default function Carts({acceptedCount, rejectedCount, pendingCount}) {
     const [rejectedProjects, setRejectedProjects] = useState(0);
     const [similarProjects, setSimilarProjects] = useState(0);
 
-    const handleProjects = (setState,val)=>{
+    const handleProjects = (setState, val) => {
         let interval = setInterval(() => {
             setState((prev) => {
                 if (prev >= val) {
@@ -43,12 +43,12 @@ export default function Carts({acceptedCount, rejectedCount, pendingCount}) {
         }, 50);
         return () => clearInterval(interval);
     }
-    
+
     useEffect(() => {
         handleProjects(setAcceptedProjects, acceptedPercentage);
         handleProjects(setRejectedProjects, rejectedPercentage);
         handleProjects(setSimilarProjects, pendingPercentage);
-        
+
         window.scrollTo(0, 0);
     }, []);
 

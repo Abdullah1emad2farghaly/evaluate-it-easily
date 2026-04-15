@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import Title from './Title';
+import { useEffect, useState } from 'react'
 import LottieFiles from '../../lottieFiles/LottieFiles';
 import Loading from '../../loaders/Loader';
 import { getProposals } from '../../services/proposalServices';
 import { HandleErrors } from '../../utils/HandleErrors';
-import SubmissionsPage from './ProjectCard';
+import SubmissionsPage from '../../components/admin/ProjectCard';
+import Title from '../../components/admin/Title';
 
 export default function RejectedProjects() {
     const [rejectedProjects, setRejectedProjects] = useState([]);
@@ -39,13 +39,13 @@ export default function RejectedProjects() {
             </div>
             <div className='w-full mb-10 lg:pr-4 px-3 lg:px-0'>
                 {
-                    !rejectedProjects.length 
-                    ? (<LottieFiles name={"animatedData2"} />) 
-                    :(
-                        <div className="mb-4 mt-5">
-                            <SubmissionsPage data={rejectedProjects} />
-                        </div>
-                    )
+                    !rejectedProjects.length
+                        ? (<LottieFiles name={"animatedData2"} />)
+                        : (
+                            <div className="mb-4 mt-5">
+                                <SubmissionsPage data={rejectedProjects} />
+                            </div>
+                        )
                 }
             </div>
         </>

@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 const PROJECT_STATUS = 'UnderReview';
 
 export function ProjectCard({ item, colors }) {
-    
+
     const navigate = useNavigate();
 
     const statusStyles = {
@@ -43,7 +43,7 @@ export function ProjectCard({ item, colors }) {
         >
 
             {/* Header */}
-            <div className="cursor-pointer" onClick={()=>navigate(`${item.id}`)}>
+            <div className="cursor-pointer" onClick={() => navigate(`${item.id}`)}>
                 <div className="flex justify-between pointer-events-none items-start gap-3 mb-2">
                     <h2 className="text-[16px] font-semibold leading-5.5 " style={{ color: colors.grey[100] }}>
                         {item.title}
@@ -87,7 +87,7 @@ export function ProjectCard({ item, colors }) {
                 <button
                     className="flex-1 flex items-center border cursor-pointer justify-center gap-2 text-sm font-medium py-2.5 rounded-[10px]"
                     style={{ backgroundColor: colors.greenAccent[600], borderColor: colors.grey[700] }}
-                    onClick={()=>navigate(`/admin/analyze/${item.id}`)}
+                    onClick={() => navigate(`/admin/analyze/${item.id}`)}
                 >
                     <QueryStatsIcon sx={{ fontSize: 18 }} />
                     Analyze
@@ -108,10 +108,10 @@ export default function SubmissionsPage({ data }) {
     return (
         <div className="p- min-h-screen">
             <div className="mb-4 relative mt-4 flex items-center gap-3">
-                <div className="px-1.5 py-3 block bg-[#22e788dd] rounded"/>
-                <p className="text-lg" style={{color: colors.grey[100]}}> Number of Proposals :&nbsp; {data.length}</p>
+                <div className="px-1.5 py-3 block bg-[#22e788dd] rounded" />
+                <p className="text-lg" style={{ color: colors.grey[100] }}> Number of Proposals :&nbsp; {data.length}</p>
             </div>
-            
+
             {/* Cards */}
             <div className="grid md:grid-cols-2 gap-3">
                 {data.map((item) => (

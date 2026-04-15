@@ -6,7 +6,7 @@ import { getHistoricalProjects } from "../../services/HistoricalProjectsServices
 import Loader from "../../loaders/Loader";
 import { HandleErrors } from "../../utils/HandleErrors";
 import LottieFiles from "../../lottieFiles/LottieFiles";
-import Title from "./Title";
+import Title from "../../components/admin/Title";
 export default function HistoricalProjects() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
