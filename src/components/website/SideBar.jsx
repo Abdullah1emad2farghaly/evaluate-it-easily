@@ -28,7 +28,7 @@ export default function SideBar() {
 
 
             <div className="profile flex flex-row gap-6 mt-10 px-4 items-center justify-center mb-5">
-                <div className="w-[60px] h-[50px] text-white bg-[#43afb7] flex justify-center items-center rounded ">
+                <div className="w-15 h-12.5 text-white bg-[#43afb7] flex justify-center items-center rounded ">
                     <SchoolIcon fontSize="large"/>
                 </div>
                 <p className="text-lg font-bold" style={{color: colors.grey[300]}}>STUDENT PORTAL</p>

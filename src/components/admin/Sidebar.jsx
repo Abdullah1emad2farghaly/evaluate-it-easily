@@ -8,55 +8,58 @@ import MoveDownIcon from '@mui/icons-material/MoveDown';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { logout } from "../../services/authServices";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import CloseIcon from '@mui/icons-material/Close';
+import SchoolIcon from '@mui/icons-material/School';
+
 
 import { useState } from "react";
 
-export default function Sidebar() {
+export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
     const [openMenu, setOpenMenu] = useState(false);
     const [width, setWidth] = useState("full");
-    
+
     const handleSignOut = () => {
         logout();
         navigate("/auth");
     }
 
     return (
-        <div 
-            className={`bg-[#000000ad] w-${isSidebarOpen ? width : "0"} lg:w-0 h-screen fixed`}
-            onClick={(e)=> {
-                if(e.target == e.currentTarget){
+        <div
+            className={`bg-[#0000004d] backdrop-blur-xs w-${isSidebarOpen ? width : "0"} lg:w-0 h-screen top-0 fixed`}
+            onClick={(e) => {
+                if (e.target == e.currentTarget) {
                     setIsSidebarOpen(!isSidebarOpen)
                 }
             }}
+
         >
-            <div className={`sidebar z-101 max-w-75 w-60 fixed h-full flex flex-col top-0 -left-60 lg:left-0  duration-1000 pt-5 pb-6 pl-2 ${isSidebarOpen ? 'left-0' : ''}`} style={{ backgroundColor: colors.blueAccent[800] }}>
-                <div className="close-icon lg:hidden bg-[#43afb7] rounded duration-300 hover:bg-[#4ccece] border border-[#43afb7] absolute top-3 -right-6 cursor-pointer" onClick={() => {
-                    setIsSidebarOpen(!isSidebarOpen)
-                    setWidth("full")
-                }}>
-                    {
-                        isSidebarOpen ? <ArrowBackIosNewIcon fontSize="medium" style={{ color: colors.grey[100] }} /> : <ArrowForwardIosIcon fontSize="small" style={{ color: colors.grey[100] }} />
-                    }
+            <div className={`sidebar z-101 max-w-75 w-60 fixed min-h-screen flex flex-col top-0 -left-60 lg:left-0  duration-1000  pb-6 pl-2 ${isSidebarOpen ? 'left-0' : ''}`} style={{ backgroundColor: colors.blueAccent[800] }}>
+                <div
+                    className="close-icon lg:hidden p-1 rounded duration-300 border  absolute top-4 right-4 cursor-pointer"
+                    style={{ backgroundColor: colors.grey[900], borderColor: colors.grey[700], color: colors.grey[200] }}
+                    onClick={() => {
+                        setIsSidebarOpen(!isSidebarOpen)
+                        setWidth("full")
+                    }}
+                >
+                    <CloseIcon  fontSize="medium"/>
                 </div>
-                <h2 className="text-3xl font-medium mb-5">ADMINIS</h2>
-                <div className="profile mt-5 flex gap-4 items-center">
-                    <img className="w-17.5 h-17.5 rounded-full" src="/assets/user.png" alt="profile image" />
-                    <div>
-                        <h3 className="mt-2 font-medium text-xl">ED Roh</h3>
-                        <p className="text-[#4cceac]" style={{ color: colors.greenAccent[500] }}>VP Fancy Admin</p>
+                <div className="profile flex flex-row gap-6 mt-5 px-2 items-center justify-center mb-5">
+                    <div className="w-12.5 h-12.5 text-white bg-[#2da5bd] flex justify-center items-center rounded ">
+                        <SchoolIcon fontSize="large" />
                     </div>
+                    <p className="text-lg font-bold" style={{ color: colors.grey[300] }}>ADMINS PORTAL</p>
                 </div>
 
-                <div className="menu-items mt-8 md:max-h-80 sm:max-h-50  overflow-y-auto">
+                <div className="menu-items mt-4 md:mt-5 max-h-[60vh]  overflow-y-auto">
                     <button
                         onClick={() => setOpenMenu(!openMenu)}
                         className={`py-2 mb-3 cursor-pointer flex justify-between ${theme.palette.mode} items-center gap-3 rounded text-start px-3 text-lg  tracking-[1px] w-[96%]`}
@@ -133,7 +136,7 @@ export default function Sidebar() {
                     </ul>
                 </div>
 
-                <button onClick={handleSignOut} className={`tracking-[1.5px] font-[500] cursor-pointer absolute w-[90%] bottom-[40px] left-[5%] py-3 px-4 rounded-md border border-dashed border-[#4cceac] hover:bg-[#1bc698] transition-colors duration-500`}>
+                <button onClick={handleSignOut} className={`tracking-[1.5px] font-medium cursor-pointer absolute w-[90%] bottom-3 sm:bottom-10 left-[5%] py-3 px-4 rounded-md border border-dashed border-[#4cceac] hover:bg-[#1bc698] transition-colors duration-500`}>
                     Sign Out
                 </button>
             </div>
