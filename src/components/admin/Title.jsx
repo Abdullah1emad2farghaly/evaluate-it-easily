@@ -9,7 +9,7 @@ export default function Title({title, subTitle}) {
     return (
         <div className='title mb-4 px-2 flex justify-between items-center'>
             <div>
-                <h3 className="m-0 text-2xl font-medium capitalize">{title.toUpperCase()}</h3>
+                <h3 className="m-0 text-3xl font-medium capitalize text-white">{title.toUpperCase()}</h3>
                 <p style={{color: colors.greenAccent[500]}} className='text-sm'>{subTitle ? subTitle : "welcome to your dashboard"}</p>
             </div>
         </div>

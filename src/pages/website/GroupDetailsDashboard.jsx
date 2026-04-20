@@ -6,6 +6,7 @@ import { addMemberToGroup, removeMemberFromGroup } from "../../services/groupSer
 import { toast } from "react-toastify";
 import { HandleErrors } from "../../utils/HandleErrors";
 import SimpleLoader from "../../loaders/SimpleLoader";
+import Title from "../../components/admin/Title";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 /**
@@ -419,8 +420,8 @@ export default function GroupDetailsDashboard({ setStudents, myGroup, students }
   );
 
   return (
-    <div className="min-h-screen font-sans" style={{ padding: "1.5rem 1rem", color: "#111" }}>
-
+    <div className="min-h-screen ">
+      <Title title={"My group"}/>
       {/* Conditionally rendered — zero cost when closed */}
       {confirmation && (
         <ConfirmModal
@@ -491,7 +492,7 @@ export default function GroupDetailsDashboard({ setStudents, myGroup, students }
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse" style={{ minWidth: 520 }}>
+            <table className="w-full border-collapse min-w-190" >
               <thead>
                 <tr>
                   {["Member", "Role", "Email", "Joined", "Action"].map(h => (

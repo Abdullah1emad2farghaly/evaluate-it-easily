@@ -87,35 +87,36 @@ export default function Notifications() {
                         key={index}
                         className={`relative ${theme.palette.mode === "light" ? "odd:bg-[#d2d2d2dd] even:bg-white" : "odd:bg-[#242424] even:bg-[#2e2e2ede]"} rounded-md p-4 mb-4 flex justify-between items-start ${!item.isRead ? "border-l-4 border-blue-500" : ""}`}
                     >
-                        <div className="flex gap-3">
-                            <div
-                                className={`w-9 h-9 flex items-center justify-center rounded-full ${getIconStyle(
-                                    item.type
-                                )}`}
-                            >
-                                {getIcon(item.type)}
+                        <div className="flex items-center absolute right-5 top-4 space-x-1">
+                            {!item.isRead && (
+                                <p className=" w-2 h-2 bg-blue-500 rounded-full"></p>
+                            )}
+                            <div className="text-xs whitespace-nowrap" style={{ color: colors.grey[400] }}>
+                                {formatTime(item.createdAt)}
                             </div>
-
-                            <div>
+                        </div>
+                        <div className="gap-3">
+                            <div className="flex sm:flex-row sm:items-center flex-col gap-2">
+                                <div
+                                    className={`w-9 h-9 flex  items-center justify-center rounded-full ${getIconStyle(
+                                        item.type
+                                    )}`}
+                                >
+                                    {getIcon(item.type)}
+                                </div>
                                 <h3
                                     style={{ color: colors.grey[100] }}
                                     className={`text-sm font-semibold`}
                                 >
                                     {item.title}
                                 </h3>
+                            </div>
+
+                            <div>
+
                                 <p className="text-sm mt-1 leading-relaxed" style={{ color: colors.grey[400] }}>
                                     {item.message}
                                 </p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center space-x-1">
-
-                            {!item.isRead && (
-                                <p className=" w-2 h-2 bg-blue-500 rounded-full"></p>
-                            )}
-                            <div className="text-xs whitespace-nowrap" style={{ color: colors.grey[400] }}>
-                                {formatTime(item.createdAt)}
                             </div>
                         </div>
                     </div>

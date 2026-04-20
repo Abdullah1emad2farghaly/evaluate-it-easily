@@ -82,11 +82,11 @@ export default function CreateGroup() {
 
     return (
         <div className="lg:pr-4 px-3 lg:px-0 py-6" >
-            <Title title={"New Group"} />
             <SimpleLoader loading={loading} />
             {
                 !myGroup ? (
                     <div className="groups mb-5 sm:p-8 py-10 relative border rounded-[20px] overflow-y-hidden  mt-5" style={{ backgroundColor: colors.grey[900], borderColor: colors.grey[700] }}>
+                        <Title title={"New Group"} />
                         {/* Title */}
                         <div style={{
                             color: colors.grey[200]
