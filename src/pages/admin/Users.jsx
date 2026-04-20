@@ -83,7 +83,7 @@ const StatusBadge = ({ active }) => (
 
 
 const Toggle = ({ isActive, onClick }) => (
-    <button onClick={onClick} className={`w-9 cursor-pointer h-5 flex items-center rounded-full p-[2px] ${isActive ? "bg-[#10B981]" : "bg-[#8f8f8f56]"}`}>
+    <button onClick={onClick} className={`w-9 cursor-pointer h-5 flex items-center rounded-full p-0.5 ${isActive ? "bg-[#10B981]" : "bg-[#8f8f8f56]"}`}>
         <div className={`w-4 h-4 bg-white rounded-full transition ${isActive ? "translate-x-4" : ""}`} />
     </button>
 );

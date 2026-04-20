@@ -2,7 +2,7 @@ import React from 'react'
 import './simpleLoader.css'
 export default function SimpleLoader({ loading }) {
     return (
-        <div className={`parent fixed w-[100%] top-0 left-0 z-100 ${loading ? 'flex' : 'hidden'} justify-center items-center h-[100%] bg-[#0000001b]`}>
+        <div className={`parent fixed w-full top-0 left-0 z-100 ${loading ? 'flex' : 'hidden'} justify-center items-center h-[100%] bg-[#0000001b]`}>
             <div className="simple-loader">
                 <div className="bar1"></div>
                 <div className="bar2"></div>

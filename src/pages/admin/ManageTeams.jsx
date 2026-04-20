@@ -53,6 +53,7 @@ export default function ManageTeams() {
             try {
                 const res = await getGroups();
                 setTeams(res);
+                console.log(res);
                 const allUsers = await getAllUsers();
                 setAssistants(allUsers?.filter((user) => user.role === "TechnicalAssistant"))
                 setSupervisors(allUsers?.filter((user) => user.role === "Supervisor"))

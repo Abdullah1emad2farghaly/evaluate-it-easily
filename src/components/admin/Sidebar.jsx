@@ -14,7 +14,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import CloseIcon from '@mui/icons-material/Close';
 import SchoolIcon from '@mui/icons-material/School';
-
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { useState } from "react";
 
@@ -41,7 +41,7 @@ export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
             }}
 
         >
-            <div className={`sidebar z-101 max-w-75 w-60 fixed min-h-screen flex flex-col top-0 -left-60 lg:left-0  duration-1000  pb-6 pl-2 ${isSidebarOpen ? 'left-0' : ''}`} style={{ backgroundColor: colors.blueAccent[800] }}>
+            <div className={`sidebar z-101 max-w-75 w-60 fixed min-h-screen flex flex-col top-0 -translate-x-full lg:translate-0 transition-transform  duration-1000  pb-6 pl-2 ${isSidebarOpen ? 'translate-x-0' : ''}`} style={{ backgroundColor: colors.blueAccent[800] }}>
                 <div
                     className="close-icon lg:hidden p-1 rounded duration-300 border  absolute top-4 right-4 cursor-pointer"
                     style={{ backgroundColor: colors.grey[900], borderColor: colors.grey[700], color: colors.grey[200] }}
@@ -110,25 +110,31 @@ export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
                     }
                     <ul>
                         <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="800" style={{ color: colors.grey[100] }}>
-                            <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-[5px] mr-[5px] py-3.5`} to={'users'}>
+                            <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={'users'}>
                                 <GroupsIcon />
                                 Users
                             </NavLink>
                         </li>
                         <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="1000" style={{ color: colors.grey[100] }}>
-                            <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-[5px] mr-[5px] py-3.5`} to={'manage-teams'}>
+                            <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={'manage-teams'}>
                                 <GroupsIcon />
                                 Manage Teams
                             </NavLink>
                         </li>
                         <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="1200" style={{ color: colors.grey[100] }}>
-                            <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-[5px] mr-[5px] py-3.5`} to={"historical-projects"}>
+                            <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={"historical-projects"}>
                                 <MoveDownIcon />
                                 Historical Projects
                             </NavLink>
                         </li>
                         <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="1400" style={{ color: colors.grey[100] }}>
-                            <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-[5px] mr-[5px] py-3.5`} to={"statistics"}>
+                            <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={"submission-periods"}>
+                                <AccessTimeIcon />
+                                Submission Periods
+                            </NavLink>
+                        </li>
+                        <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="1400" style={{ color: colors.grey[100] }}>
+                            <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={"statistics"}>
                                 <BarChartIcon />
                                 Statistics
                             </NavLink>

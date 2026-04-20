@@ -10,6 +10,7 @@ import Notifications from '../pages/website/Notifications'
 import DashboardLayout from '../layouts/DashboardLayout'
 
 import WebsiteGuard from '../guards/WebsiteGuards'
+import ProposalCard from '../pages/website/ProposalCard'
 
 export default function WebsiteRoutes() {
     return (
@@ -22,6 +23,7 @@ export default function WebsiteRoutes() {
                     <Route path='dashboard' element={<DashboardLayout />}>
                         <Route index element={<CreateGroup />} />
                         <Route path='create-proposal' element={<CreateProposal />} />
+                        <Route path='my-proposal' element={<ProposalCard />} />
                         <Route path='similarity' element={<Similarity />} />
                         <Route path='notifications' element={<Notifications />} />
                     </Route>

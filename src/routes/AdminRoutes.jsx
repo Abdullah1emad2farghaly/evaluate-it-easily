@@ -14,6 +14,7 @@ import Users from '../pages/admin/Users'
 import Statistics from '../pages/admin/Statistics'
 import PendingProjects from '../pages/admin/PendingProjects'
 import AdminGuard from '../guards/AdminGuards'
+import SubmissionPeriods from '../pages/admin/SubmissionPeriods'
 
 export default function AdminRoutes() {
   return (
@@ -38,6 +39,8 @@ export default function AdminRoutes() {
 
           <Route path='manage-teams' element={<ManageTeams />} />
           <Route path='manage-teams/:id' element={<GroupDetails />} />
+
+          <Route path='submission-periods' element={<SubmissionPeriods />} />
 
           <Route path='analyze/:id' element={<Analyze />} />
           <Route path='evaluated-projects' element={<EvaluatedProjects />} />

@@ -8,6 +8,7 @@ import { tokens } from "../../theme";
 import Loader from "../../loaders/Loader";
 import LottieFiles from "../../lottieFiles/LottieFiles";
 import { getNotifications } from "../../services/notificationServices";
+import Title from "../../components/admin/Title";
 
 
 export default function Notifications() {
@@ -22,8 +23,6 @@ export default function Notifications() {
             try {
                 const response = await getNotifications();
                 setNotifications(response)
-
-                console.log(response)
             } catch {
                 setLoader(false)
             } finally {
@@ -79,65 +78,52 @@ export default function Notifications() {
         return <Loader />
 
     return (
-        <div className="min-h-screen w-[100%]  sm:p-8 px-3 py-5" style={{ backgroundColor: colors.blueAccent[800] }}>
+        <div className="min-h-screen w-full lg:pr-4 lg:px-0 px-3 mt-5" >
+            <Title title={"NOTIFICATIONS"} subTitle={"Stay updated with your latest signals and alerts."} />
 
-            <div className="flex items-center justify-between mb-8">
-                <div>
-                    <h1 className="text-[2.5rem] font-semibold text-gray-800" style={{ color: colors.grey[100] }}>
-                        Notifications
-                    </h1>
-                    <p className="text-md" style={{ color: colors.grey[400] }}>
-                        Stay updated with your latest signals and alerts.
-                    </p>
-                </div>
-            </div>
-
-
-            <p className="text-sm font-semibold text-gray-400 mb-4 tracking-wider">
-                TODAY
-            </p>
-
-            {notifications.length ? notifications.map((item, index) => (
-                <div
-                    key={index}
-                    className={`relative ${theme.palette.mode === "light" ? "odd:bg-[#d2d2d2dd] even:bg-white" : "odd:bg-[#242424] even:bg-[#2e2e2ede]"} rounded-md p-4 mb-4 flex justify-between items-start ${!item.isRead ? "border-l-4 border-blue-500" : ""}`}
-                >
-                    <div className="flex gap-3">
-                        <div
-                            className={`w-9 h-9 flex items-center justify-center rounded-full ${getIconStyle(
-                                item.type
-                            )}`}
-                        >
-                            {getIcon(item.type)}
-                        </div>
-
-                        <div>
-                            <h3
-                                style={{ color: colors.grey[100] }}
-                                className={`text-sm font-semibold`}
+            <div style={{ backgroundColor: colors.blueAccent[800] }} className="sm:p-8 px-3 py-5 rounded-lg">
+                {notifications.length ? notifications.map((item, index) => (
+                    <div
+                        key={index}
+                        className={`relative ${theme.palette.mode === "light" ? "odd:bg-[#d2d2d2dd] even:bg-white" : "odd:bg-[#242424] even:bg-[#2e2e2ede]"} rounded-md p-4 mb-4 flex justify-between items-start ${!item.isRead ? "border-l-4 border-blue-500" : ""}`}
+                    >
+                        <div className="flex gap-3">
+                            <div
+                                className={`w-9 h-9 flex items-center justify-center rounded-full ${getIconStyle(
+                                    item.type
+                                )}`}
                             >
-                                {item.title}
-                            </h3>
-                            <p className="text-sm mt-1 leading-relaxed" style={{ color: colors.grey[400] }}>
-                                {item.message}
-                            </p>
+                                {getIcon(item.type)}
+                            </div>
+
+                            <div>
+                                <h3
+                                    style={{ color: colors.grey[100] }}
+                                    className={`text-sm font-semibold`}
+                                >
+                                    {item.title}
+                                </h3>
+                                <p className="text-sm mt-1 leading-relaxed" style={{ color: colors.grey[400] }}>
+                                    {item.message}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center space-x-1">
+
+                            {!item.isRead && (
+                                <p className=" w-2 h-2 bg-blue-500 rounded-full"></p>
+                            )}
+                            <div className="text-xs whitespace-nowrap" style={{ color: colors.grey[400] }}>
+                                {formatTime(item.createdAt)}
+                            </div>
                         </div>
                     </div>
-
-                    <div className="flex items-center space-x-1">
-
-                        {!item.isRead && (
-                            <p className=" w-2 h-2 bg-blue-500 rounded-full"></p>
-                        )}
-                        <div className="text-xs whitespace-nowrap" style={{ color: colors.grey[400] }}>
-                            {formatTime(item.createdAt)}
-                        </div>
-                    </div>
-                </div>
-            )) : (
-                <LottieFiles />
-            )
-            }
+                )) : (
+                    <LottieFiles />
+                )
+                }
+            </div>
         </div>
     );
 }
