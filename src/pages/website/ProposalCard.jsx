@@ -140,7 +140,7 @@ export default function ProposalCard({ myProposal }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [updateForm, setUpdateForm] = useState(false)
-  const onClose = () => {
+  const onClose = () => { 
     setUpdateForm(false);
   }
 

@@ -201,10 +201,8 @@ function MainTrack({ currentStatus, getLineProgress, getStepState }) {
         return (
           <div
             key={key}
+            className="flex flex-col"
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
               position: "relative",
               flex: isLast ? "0 0 auto" : 1,
               zIndex: 1,
@@ -289,6 +287,7 @@ function MainTrack({ currentStatus, getLineProgress, getStepState }) {
                     margin: "0 4px",
                     overflow: "hidden",
                   }}
+                  className="w-full"
                 >
                   <div
                     style={{
@@ -310,7 +309,7 @@ function MainTrack({ currentStatus, getLineProgress, getStepState }) {
             </div>
 
             {/* Label below node */}
-            <div style={{ marginTop: "14px", textAlign: "center" }}>
+            <div style={{ marginTop: "14px", textAlign: "start" }}>
               <div
                 style={{
                   fontSize: "10px",
