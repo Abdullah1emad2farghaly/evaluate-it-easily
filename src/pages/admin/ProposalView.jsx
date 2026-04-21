@@ -4,7 +4,7 @@ import { tokens } from "../../theme";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import GroupsIcon from '@mui/icons-material/Groups';
 import DownloadIcon from '@mui/icons-material/Download';
-import { getProposalById } from "../../services/proposalServices";
+import { getProposalById, makePreview } from "../../services/proposalServices";
 import { useParams } from "react-router-dom";
 import Loader from "../../loaders/Loader";
 import { HandleErrors } from "../../utils/HandleErrors";
@@ -36,7 +36,7 @@ export default function ProposalView() {
 
         fetchedProject();
         window.scrollTo(0, 0);
-    }, []);
+    }, [params.id]);
 
 
     const getStatusColor = (status) => {
@@ -146,7 +146,7 @@ export default function ProposalView() {
                                     </div>
                                 </div>
 
-                                <button onClick={()=>handleDownload(project)} className="w-full text-white bg-[#131313] py-3 cursor-pointer rounded-xl flex items-center justify-center gap-2 text-sm">
+                                <button onClick={() => handleDownload(project)} className="w-full text-white bg-[#131313] py-3 cursor-pointer rounded-xl flex items-center justify-center gap-2 text-sm">
                                     <DownloadIcon fontSize="small" />
                                     Download File
                                 </button>
@@ -156,6 +156,50 @@ export default function ProposalView() {
                     </div>
                 )
             }
+
+            <PdfPreview params={params}/>
         </div>
     );
 }
+
+
+
+const PdfPreview = ({params}) => {
+    const [pdfUrl, setPdfUrl] = useState(null);
+
+    useEffect(() => {
+        const loadPdf = async () => {
+            try {
+                const blob = await makePreview(params.id);
+                const url = URL.createObjectURL(blob);
+                setPdfUrl(url);
+            }catch(error){
+                HandleErrors(error?.errors || error.message);
+            }
+        };
+        loadPdf();
+
+        return ()=>{
+            if(pdfUrl)
+                URL.revokeObjectURL(pdfUrl);
+        }
+    }, [params.id]);
+
+    return (
+        <div className="mb-5">
+            <h2 className="text-xl font-semibold mb-4">PDF Preview</h2>
+
+            {pdfUrl ? (
+                <iframe
+                    src={pdfUrl}
+                    title="PDF Viewer"
+                    className="w-full h-150 rounded-lg border bg-white"
+
+                />
+            ) : (
+                <p>Loading PDF...</p>
+            )}
+        </div>
+    );
+};
+
