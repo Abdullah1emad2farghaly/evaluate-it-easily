@@ -7,4 +7,13 @@ export const getNotifications = async ()=>{
     }catch (error){
         throw error.response ? error.response.data : error;
     }
+}    
+
+export const readAll = async ()=>{
+    try {
+        const response = await api.patch("/api/Notifications/read-all");
+        return response.data
+    }catch (error){
+        throw error.response ? error.response.data : error;
+    }
 }       

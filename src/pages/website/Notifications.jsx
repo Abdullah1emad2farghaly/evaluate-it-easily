@@ -7,8 +7,9 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import Loader from "../../loaders/Loader";
 import LottieFiles from "../../lottieFiles/LottieFiles";
-import { getNotifications } from "../../services/notificationServices";
+import { getNotifications, readAll } from "../../services/notificationServices";
 import Title from "../../components/admin/Title";
+import { HandleErrors } from "../../utils/HandleErrors";
 
 
 export default function Notifications() {
@@ -23,7 +24,8 @@ export default function Notifications() {
             try {
                 const response = await getNotifications();
                 setNotifications(response)
-            } catch {
+            } catch(error) {
+                HandleErrors(error?.errors || error.message);
                 setLoader(false)
             } finally {
                 setLoader(false)
@@ -31,6 +33,21 @@ export default function Notifications() {
         }
 
         getAllNotifications();
+    }, [])
+
+
+    const MarkAllRead = async ()=>{
+        try {
+            await readAll();
+        }catch(error){
+            HandleErrors(error?.errors || error.message);
+        }
+
+    }
+    useEffect(()=>{
+        setTimeout(() => {
+            MarkAllRead()
+        }, 5000);
     }, [])
 
     const getIcon = (type) => {

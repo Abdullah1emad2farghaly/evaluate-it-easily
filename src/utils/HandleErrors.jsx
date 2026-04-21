@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 
 export const HandleErrors = (errors)=>{
     let timer = 3000;
+    console.log(errors)
     if(Array.isArray(errors)){
         errors.forEach(element => {
             toast.error(element, {autoClose: timer});

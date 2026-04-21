@@ -10,6 +10,7 @@ import SimpleLoader from '../../loaders/SimpleLoader';
 import { HandleErrors } from '../../utils/HandleErrors';
 import Title from '../../components/admin/Title';
 import ProposalCard from './ProposalCard';
+import ProjectStatusTracker from "./ProjectStatusTracker"
 
 export default function CreateProposal() {
     const theme = useTheme();
@@ -88,7 +89,9 @@ export default function CreateProposal() {
         <div className='lg:pr-4 pt-6 '>
             {
                 myProposal ? (
-                    <ProposalCard myProposal={myProposal} />
+                    <div>
+                        <ProposalCard myProposal={myProposal} />
+                    </div>
                 ) : (
                     <Fragment>
                         <Title title={"NEW PROPOSAL"} subTitle={"create new project proposal"} />

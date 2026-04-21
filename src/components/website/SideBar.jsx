@@ -45,7 +45,7 @@ export default function SideBar() {
                     <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="200" style={{ color: colors.grey[100] }}>
                         <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={'create-proposal'}>
                             <SwipeRightIcon />
-                            Create Proposal
+                            My Proposal
                         </NavLink>
                     </li>
                     <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="600" style={{ color: colors.grey[100] }}>

@@ -39,7 +39,6 @@ export default function Login({ handleForm, active }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
         try {
             const res = await login(data);
             clearForm();

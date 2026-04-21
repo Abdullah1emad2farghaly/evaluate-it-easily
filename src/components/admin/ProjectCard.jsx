@@ -106,14 +106,14 @@ export default function SubmissionsPage({ data }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     return (
-        <div className="p- min-h-screen">
+        <div className=" min-h-screen">
             <div className="mb-4 relative mt-4 flex items-center gap-3">
                 <div className="px-1.5 py-3 block bg-[#22e788dd] rounded" />
                 <p className="text-lg" style={{ color: colors.grey[100] }}> Number of Proposals :&nbsp; {data.length}</p>
             </div>
 
             {/* Cards */}
-            <div className="grid md:grid-cols-2 gap-3">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-3">
                 {data.map((item) => (
                     <ProjectCard key={item.id} colors={colors} item={item} />
                 ))}

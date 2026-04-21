@@ -30,16 +30,18 @@ export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
         logout();
         navigate("/auth");
     }
+    const onCloseMenu = () => {
+        setOpenMenu(false);
+    }
 
     return (
         <div
-            className={`bg-[#0000004d] backdrop-blur-xs w-${isSidebarOpen ? width : "0"} lg:w-0 h-screen top-0 fixed`}
+            className={`bg-[#0000004d] backdrop-blur-xs w-${isSidebarOpen ? width : "0"} lg:w-0 h-full top-0 fixed`}
             onClick={(e) => {
                 if (e.target == e.currentTarget) {
                     setIsSidebarOpen(!isSidebarOpen)
                 }
             }}
-
         >
             <div className={`sidebar z-101 max-w-75 w-60 fixed min-h-screen flex flex-col top-0 -translate-x-full lg:translate-0 transition-transform  duration-1000  pb-6 pl-2 ${isSidebarOpen ? 'translate-x-0' : ''}`} style={{ backgroundColor: colors.blueAccent[800] }}>
                 <div
@@ -50,7 +52,7 @@ export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
                         setWidth("full")
                     }}
                 >
-                    <CloseIcon  fontSize="medium"/>
+                    <CloseIcon fontSize="medium" />
                 </div>
                 <div className="profile flex flex-row gap-6 mt-5 px-2 items-center justify-center mb-5">
                     <div className="w-12.5 h-12.5 text-white bg-[#2da5bd] flex justify-center items-center rounded ">
@@ -75,65 +77,95 @@ export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
                     {
                         openMenu && (
                             <ul className="list-none p-0 mb-3">
-                                <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos-delay="0">
+                                <li onClick={() => {
+                                    setIsSidebarOpen(!isSidebarOpen)
+
+                                }}>
                                     <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to="/admin" end>
                                         <AccountTreeIcon />
                                         Similar Projects
                                     </NavLink>
                                 </li>
-                                <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos-delay="200" style={{ color: colors.grey[100] }}>
-                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={'accepted-projects'}>
-                                        <SwipeRightIcon />
-                                        Accepted Projects
-                                    </NavLink>
-                                </li>
-                                <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos-delay="400" style={{ color: colors.grey[100] }}>
-                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={"rejected-projects"}>
-                                        <HourglassDisabledIcon />
-                                        Rejected Projects
-                                    </NavLink>
-                                </li>
-                                <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos-delay="600" style={{ color: colors.grey[100] }}>
+                                <li onClick={() => {
+                                    setIsSidebarOpen(!isSidebarOpen)
+
+                                }} style={{ color: colors.grey[100] }}>
                                     <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={"pending-projects"}>
                                         <PendingActionsIcon />
                                         Pending Projects
                                     </NavLink>
                                 </li>
-                                <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos-delay="600" style={{ color: colors.grey[100] }}>
+                                <li onClick={() => {
+                                    setIsSidebarOpen(!isSidebarOpen)
+
+                                }} style={{ color: colors.grey[100] }}>
+                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={'accepted-projects'}>
+                                        <SwipeRightIcon />
+                                        Accepted Projects
+                                    </NavLink>
+                                </li>
+                                <li onClick={() => {
+                                    setIsSidebarOpen(!isSidebarOpen)
+
+                                }} style={{ color: colors.grey[100] }}>
+                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={"rejected-projects"}>
+                                        <HourglassDisabledIcon />
+                                        Rejected Projects
+                                    </NavLink>
+                                </li>
+                                <li onClick={() => {
+                                    setIsSidebarOpen(!isSidebarOpen)
+
+                                }} style={{ color: colors.grey[100] }}>
                                     <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={"evaluated-projects"}>
                                         <WorkspacePremiumIcon />
                                         Evaluated Projects
+                                    </NavLink>
+                                </li>
+                                <li onClick={() => {
+                                    setIsSidebarOpen(!isSidebarOpen)
+
+                                }} style={{ color: colors.grey[100] }}>
+                                    <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"}`} to={"historical-projects"}>
+                                        <MoveDownIcon />
+                                        Historical Projects
                                     </NavLink>
                                 </li>
                             </ul>
                         )
                     }
                     <ul>
-                        <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="800" style={{ color: colors.grey[100] }}>
+                        <li onClick={() => {
+                            setIsSidebarOpen(!isSidebarOpen)
+                            onCloseMenu()
+                        }} data-aos="fade-right" data-aos-delay="800" style={{ color: colors.grey[100] }}>
                             <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={'users'}>
                                 <GroupsIcon />
                                 Users
                             </NavLink>
                         </li>
-                        <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="1000" style={{ color: colors.grey[100] }}>
+                        <li onClick={() => {
+                            setIsSidebarOpen(!isSidebarOpen)
+                            onCloseMenu()
+                        }} data-aos="fade-right" data-aos-delay="1000" style={{ color: colors.grey[100] }}>
                             <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={'manage-teams'}>
                                 <GroupsIcon />
                                 Manage Teams
                             </NavLink>
                         </li>
-                        <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="1200" style={{ color: colors.grey[100] }}>
-                            <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={"historical-projects"}>
-                                <MoveDownIcon />
-                                Historical Projects
-                            </NavLink>
-                        </li>
-                        <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="1400" style={{ color: colors.grey[100] }}>
+                        <li onClick={() => {
+                            setIsSidebarOpen(!isSidebarOpen)
+                            onCloseMenu()
+                        }} data-aos="fade-right" data-aos-delay="1400" style={{ color: colors.grey[100] }}>
                             <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={"submission-periods"}>
                                 <AccessTimeIcon />
                                 Submission Periods
                             </NavLink>
                         </li>
-                        <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="1400" style={{ color: colors.grey[100] }}>
+                        <li onClick={() => {
+                            setIsSidebarOpen(!isSidebarOpen)
+                            onCloseMenu()
+                        }} data-aos="fade-right" data-aos-delay="1400" style={{ color: colors.grey[100] }}>
                             <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={"statistics"}>
                                 <BarChartIcon />
                                 Statistics
