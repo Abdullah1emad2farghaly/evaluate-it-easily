@@ -88,7 +88,7 @@ export default function ManageTeams() {
 
             toast.success("Supervisor and TechnicalAssistant are assigned successfully")
             setOpen(false);
-            const res = await getGroups();
+            const res = await getGroups();  
             console.log(res)
             setTeams(res);
         } catch (error) {

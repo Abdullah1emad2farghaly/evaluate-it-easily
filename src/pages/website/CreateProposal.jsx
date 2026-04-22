@@ -19,10 +19,7 @@ export default function CreateProposal() {
     const [fileName, setFileName] = useState("");
     const [loading, setLoading] = useState(false);
     const [myProposal, setMyProposal] = useState(null);
-
     const [loader, setLoader] = useState(true);
-
-
 
 
     const [formData, setFormData] = useState({
@@ -34,7 +31,7 @@ export default function CreateProposal() {
 
     const handleUploadFile = () => {
         fileRef.current.type = 'file';
-        fileRef.current.accept = ".pdf,.docx";
+        fileRef.current.accept = ".pdf";
         fileRef.current.click();
     };
 

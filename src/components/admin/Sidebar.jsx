@@ -81,7 +81,7 @@ export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
                                     setIsSidebarOpen(!isSidebarOpen)
 
                                 }} style={{ color: colors.grey[100] }}>
-                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={"pending-projects"}>
+                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={"/admin"} end>
                                         <PendingActionsIcon />
                                         New Proposals
                                     </NavLink>
@@ -90,7 +90,7 @@ export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
                                     setIsSidebarOpen(!isSidebarOpen)
 
                                 }}>
-                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to="/admin" end>
+                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to="indecided-proposals" end>
                                         <AccountTreeIcon />
                                         Indecided Proposals
                                     </NavLink>

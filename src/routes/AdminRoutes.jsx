@@ -22,7 +22,8 @@ export default function AdminRoutes() {
       <Route element={<AdminGuard />}>
         <Route path='/admin' element={<AdminLayout />}>
 
-          <Route index element={<Dashboard />} />
+          <Route index element={<PendingProjects />} />
+          <Route path='indecided-proposals' element={<Dashboard />} />
           <Route path=':id' element={<ProposalView />} />
 
           <Route path='accepted-projects' element={<AcceptedProjects />} />
@@ -34,7 +35,7 @@ export default function AdminRoutes() {
           <Route path='historical-projects' element={<HistoricalProjects />} />
           <Route path='historical-projects/:id' element={<View />} />
 
-          <Route path='pending-projects' element={<PendingProjects />} />
+          
           <Route path='pending-projects/:id' element={<ProposalView />} />
 
           <Route path='manage-teams' element={<ManageTeams />} />
