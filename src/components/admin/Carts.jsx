@@ -50,11 +50,10 @@ export default function Carts({ acceptedCount, rejectedCount, pendingCount }) {
         handleProjects(setSimilarProjects, pendingPercentage);
 
         window.scrollTo(0, 0);
-    }, []);
+    }, [acceptedPercentage, rejectedPercentage, pendingPercentage]);
 
     return (
         <>
-            <Title title={"DASHBOARD"} />
             <div className="relative grid grid-cols-12 px-2 carts overflow-hidden gap-3">
                 <div className="col-span-12 sm:col-span-6 lg:col-span-4" data-aos="fade-left" data-aos-delay="0">
                     <div

@@ -56,12 +56,6 @@ export default function Dashboard() {
     return (
         <div className='overflow-hidden min-h-screen lg:pr-4 px- lg:px-0'>
             <div>
-                <Carts
-                    acceptedCount={acceptedCount}
-                    rejectedCount={rejectedCount}
-                    pendingCount={pendingCount}
-                />
-
                 <SimilarPastProjects proposals={proposals} />
             </div>
         </div>
