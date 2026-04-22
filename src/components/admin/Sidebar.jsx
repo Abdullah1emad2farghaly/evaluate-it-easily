@@ -160,7 +160,7 @@ export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
                         }} data-aos="fade-right" data-aos-delay="1400" style={{ color: colors.grey[100] }}>
                             <NavLink style={{ color: colors.grey[100] }} className={`${theme.palette.mode === "dark" ? "dark" : "light"} ml-1.5 mr-1.5 py-3.5`} to={"submission-periods"}>
                                 <AccessTimeIcon />
-                                Submission Periods
+                                Submission Window
                             </NavLink>
                         </li>
                         <li onClick={() => {
