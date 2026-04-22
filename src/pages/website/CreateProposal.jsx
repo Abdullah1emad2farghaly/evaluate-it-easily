@@ -58,7 +58,8 @@ export default function CreateProposal() {
         data.append("ProposalFile", formData.ProposalFile);
 
         try {
-            await createProposal(data);
+            const res = await createProposal(data);
+            setMyProposal(res);
             toast.success("Proposal submitted successfully!");
         } catch (error) {
             HandleErrors(error.errors)
@@ -93,7 +94,7 @@ export default function CreateProposal() {
                         <ProposalCard myProposal={myProposal} />
                     </div>
                 ) : (
-                    <Fragment>
+                    <div>
                         <Title title={"NEW PROPOSAL"} subTitle={"create new project proposal"} />
                         <form
                             onSubmit={handleSubmitProposal}
@@ -155,7 +156,7 @@ export default function CreateProposal() {
                                 <button type='submit' className='px-10 tracking-[1px]' >Submit Proposal</button>
                             </div>
                         </form>
-                    </Fragment>
+                    </div>
                 )
             }
         </div>

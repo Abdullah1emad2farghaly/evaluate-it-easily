@@ -53,8 +53,9 @@ export default function ManageTeams() {
             try {
                 const res = await getGroups();
                 setTeams(res);
-                console.log(res);
+                console.log("Groups : ", res)
                 const allUsers = await getAllUsers();
+                
                 setAssistants(allUsers?.filter((user) => user.role === "TechnicalAssistant"))
                 setSupervisors(allUsers?.filter((user) => user.role === "Supervisor"))
                 setStatuses(["All Status", ...new Set(res.map((g) => g.proposalStatus).filter(status => status != null))])
@@ -84,8 +85,12 @@ export default function ManageTeams() {
         setLoading(true)
         try {
             await SupervisorAssignments({ proposalId, supervisorId, technicalAssistantId, workloadNote });
+
             toast.success("Supervisor and TechnicalAssistant are assigned successfully")
             setOpen(false);
+            const res = await getGroups();
+            console.log(res)
+            setTeams(res);
         } catch (error) {
             HandleErrors(error.errors);
         } finally {

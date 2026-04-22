@@ -80,21 +80,22 @@ export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
                                 <li onClick={() => {
                                     setIsSidebarOpen(!isSidebarOpen)
 
-                                }}>
-                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to="/admin" end>
-                                        <AccountTreeIcon />
-                                        Similar Projects
+                                }} style={{ color: colors.grey[100] }}>
+                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={"pending-projects"}>
+                                        <PendingActionsIcon />
+                                        New Proposals
                                     </NavLink>
                                 </li>
                                 <li onClick={() => {
                                     setIsSidebarOpen(!isSidebarOpen)
 
-                                }} style={{ color: colors.grey[100] }}>
-                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={"pending-projects"}>
-                                        <PendingActionsIcon />
-                                        Pending Projects
+                                }}>
+                                    <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to="/admin" end>
+                                        <AccountTreeIcon />
+                                        Indecided Proposals
                                     </NavLink>
                                 </li>
+                                
                                 <li onClick={() => {
                                     setIsSidebarOpen(!isSidebarOpen)
 
