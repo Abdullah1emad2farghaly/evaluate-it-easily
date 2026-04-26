@@ -37,14 +37,51 @@ export const getGroupById = async (id) => {
     }
 }
 
-export const addMemberToGroup = async (groupId, studentEmail) => {
+export const sendInvitation = async (groupId, studentEmail) => {
     try {
-        const response = await api.post(`/api/Groups/${groupId}/members`, studentEmail );
+        const response = await api.post(`/api/Groups/${groupId}/invitations`, studentEmail );
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : error;
     }
 }
+
+export const getGroupInvitations = async (id) => {
+    try {
+        const response = await api.get(`/api/Groups/${id}/invitations`);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error;
+    }
+}
+export const getMyInvitations = async () => {
+    try {
+        const response = await api.get(`/api/Groups/my-invitations`);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error;
+    }
+}
+
+export const acceptInvitation = async (invitationId) => {
+    try {
+        const response = await api.put(`/api/Groups/invitations/${invitationId}/accept`);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error;
+    }
+}
+
+export const rejectInvitations = async (invitationId) => {
+    try {
+        const response = await api.put(`/api/Groups/invitations/${invitationId}/reject`);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error;
+    }
+}
+
+
 
 export const removeMemberFromGroup = async (groupId, studentID) => {
     try {

@@ -104,29 +104,6 @@ export default function CreateGroup() {
                                 <button className='sm:max-w-40 bg-transparent border-green-500 border text-green-500 hover:text-white hover:bg-green-500 w-full sm:m-0 mt-2' onClick={() => { handleCreateGroup(groupName) }} >Create Group</button>
                             </div>
                         </div>
-
-
-                        {/* Add Team Member */}
-                        
-
-                        {/* Team Members */}
-                        {/* <div className="members p-10 md:px-10 px-5">
-                    <h2 className="text-lg font-[500] mb-2 text-[#DDD] " style={{ color: colors.grey[300] }}>Team Members</h2>
-                    <div className='flex gap-2 flex-wrap border border-dashed rounded-[10px] sm:p-5 p-3 border-[#4cceac]'>
-                        {
-                            members?.length ? members.map((member, index) => (
-                                <div key={index} className='flex justify-between items-center p-[3px_8px] w-fit border border-[#b6e5ff] bg-[#cafcf0] rounded text-[13px] text-[#1559ec]'>
-                                    <p className='mr-3 pointer-events-none'>{member.email}</p>
-                                    <CloseIcon onClick={() => {
-                                        setMember(member);
-                                        setConfirmation(true)
-                                    }} className="cursor-pointer" fontSize={'small'} />
-                                </div>
-                            )) : <p className='text-red-500 text-sm'>No members added yet.</p>
-                        }
-                    </div>
-                </div> */}
-
                     </div>
                 ) : (
                     <div>
