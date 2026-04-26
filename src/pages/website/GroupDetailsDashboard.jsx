@@ -2,7 +2,7 @@ import { useTheme } from "@emotion/react";
 import { memo, useCallback, useMemo, useState } from "react";
 import { tokens } from "../../theme";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { addMemberToGroup, removeMemberFromGroup } from "../../services/groupServices";
+import { removeMemberFromGroup, sendInvitation } from "../../services/groupServices";
 import { toast } from "react-toastify";
 import { HandleErrors } from "../../utils/HandleErrors";
 import SimpleLoader from "../../loaders/SimpleLoader";
@@ -143,8 +143,7 @@ const RoleCard = memo(function RoleCard({ name, role, colors }) {
 
 // ─── Dropdown Item ────────────────────────────────────────────────────────────
 
-// Extracted from AddMember so each list item gets its own stable onMouseDown
-// and doesn't cause the whole dropdown to re-render on every keystroke
+
 const DropdownItem = memo(function DropdownItem({ item, setQuery, setSearch, setShow, colors, theme }) {
   const handleMouseDown = useCallback(() => {
     setQuery(item);
@@ -167,7 +166,7 @@ const DropdownItem = memo(function DropdownItem({ item, setQuery, setSearch, set
 
 // ─── Add Member ───────────────────────────────────────────────────────────────
 
-const AddMember = memo(function AddMember({ students, setMembers, setStudents, myGroup, setLoading }) {
+const AddMember = memo(function AddMember({ students, myGroup, setLoading }) {
   const theme  = useTheme();
   const colors = tokens(theme.palette.mode);
   const [query,  setQuery]  = useState("");
@@ -187,18 +186,20 @@ const AddMember = memo(function AddMember({ students, setMembers, setStudents, m
     }
     setLoading(true);
     try {
-      const response = await addMemberToGroup(groupID, { studentEmail });
-      setStudents(prev => prev.filter(s => s.email !== studentEmail));
-      setMembers(response.members || []);
+      await sendInvitation(groupID, { studentEmail });
+      toast.success(`The invitations was successfully send to ${query.fullName}.`);
       setSearch("");
       setQuery("");
-      toast.success("Member added successfully!");
     } catch (err) {
-      HandleErrors(err.errors);
+      if(err?.errors?.length)
+        HandleErrors(err.errors);
+      else
+        toast.error(err.message);
+      console.log(err)
     } finally {
       setLoading(false);
     }
-  }, [setLoading, setStudents, setMembers]);
+  }, [setLoading, query.fullName]);
 
   const handleFocus  = useCallback(() => setShow(true), []);
   const handleBlur   = useCallback(() => setTimeout(() => setShow(false), 100), []);
@@ -208,10 +209,14 @@ const AddMember = memo(function AddMember({ students, setMembers, setStudents, m
   }, []);
 
   const handleAdd = useCallback(
-    () => addMember(query.email, myGroup.id),
+    () => {
+      addMember(query.email, myGroup.id)
+      
+    },
     [addMember, query, myGroup.id]
   );
 
+  
   return (
     <div className="groups">
       <div className="team-member my-4 p-5 border text-white rounded-xl" style={{ borderColor: colors.grey[700], backgroundColor: colors.grey[900] }}>
@@ -255,7 +260,7 @@ const AddMember = memo(function AddMember({ students, setMembers, setStudents, m
             className="w-full sm:w-[17%] max-w-full bg-transparent text-green-500 border-green-500 border hover:bg-green-500 hover:text-white sm:m-0 mt-2"
             onClick={handleAdd}
           >
-            Add Member
+            Send Invitation
           </button>
         </div>
       </div>
@@ -401,8 +406,7 @@ export default function GroupDetailsDashboard({ setStudents, myGroup, students }
     }
   }, [member, setStudents]);
 
-  // Passed to every MemberRow — stable reference means rows don't re-render when
-  // an unrelated state (e.g. confirmation dialog) changes
+  
   const handleRemoveClick = useCallback((sid, m) => {
     setStudentID(sid);
     setConfirmation(true);
@@ -472,9 +476,7 @@ export default function GroupDetailsDashboard({ setStudents, myGroup, students }
 
         {/* ── Add Member ── */}
         <AddMember
-          setMembers={setMembers}
           setLoading={setLoading}
-          setStudents={setStudents}
           myGroup={myGroup}
           students={students}
         />

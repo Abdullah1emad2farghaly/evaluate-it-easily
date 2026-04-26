@@ -10,6 +10,8 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import SchoolIcon from '@mui/icons-material/School';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'; 
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import { useState } from "react";
 
 export default function SideBar() {
@@ -52,6 +54,18 @@ export default function SideBar() {
                         <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={"similarity"}>
                             <MoveDownIcon />
                             Similar Projects
+                        </NavLink>
+                    </li>
+                    <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="800" style={{ color: colors.grey[100] }}>
+                        <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={'group-invitations'}>
+                            <InsertInvitationIcon />
+                            Group Invetations
+                        </NavLink>
+                    </li>
+                    <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="800" style={{ color: colors.grey[100] }}>
+                        <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={'my-invitations'}>
+                            <PersonAddAltIcon />
+                            My Invetations
                         </NavLink>
                     </li>
                     <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="800" style={{ color: colors.grey[100] }}>
