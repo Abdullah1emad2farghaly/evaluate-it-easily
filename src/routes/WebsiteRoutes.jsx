@@ -10,7 +10,6 @@ import Notifications from '../pages/website/Notifications'
 import DashboardLayout from '../layouts/DashboardLayout'
 
 import WebsiteGuard from '../guards/WebsiteGuards'
-import ProposalCard from '../pages/website/ProposalCard'
 import MyInvitations from '../pages/website/MyInvitations'
 import GroupInvitations from '../pages/website/GroupInvitations'
 
@@ -24,8 +23,7 @@ export default function WebsiteRoutes() {
                 <Route path='/' element={<WebsiteLayout />}>
                     <Route path='dashboard' element={<DashboardLayout />}>
                         <Route index element={<CreateGroup />} />
-                        <Route path='create-proposal' element={<CreateProposal />} />
-                        <Route path='my-proposal' element={<ProposalCard />} />
+                        <Route path='proposal' element={<CreateProposal />} />
                         <Route path='similarity' element={<Similarity />} />
                         <Route path='my-invitations' element={<MyInvitations />} />
                         <Route path='group-invitations' element={<GroupInvitations />} />

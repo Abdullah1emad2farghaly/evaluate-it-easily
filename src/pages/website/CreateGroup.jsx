@@ -1,14 +1,14 @@
 import { useTheme } from '@emotion/react';
 import CloseIcon from '@mui/icons-material/Close';
 import { tokens } from '../../theme';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { availableStudents, createGroup, getMyGroup } from '../../services/groupServices';
 import Loader from '../../loaders/Loader';
 import SimpleLoader from '../../loaders/SimpleLoader';
 import { toast } from 'react-toastify';
 import { HandleErrors } from '../../utils/HandleErrors';
 import Title from '../../components/admin/Title';
-import GroupDetailsDashboard from './GroupDetailsDashboard';
+import GroupDetailsDashboard from '../../components/website/GroupDetailsDashboard';
 
 export default function CreateGroup() {
     const theme = useTheme();
@@ -23,7 +23,7 @@ export default function CreateGroup() {
 
 
 
-    
+
 
     // Fetch my group details on component mount
     useEffect(() => {
@@ -57,7 +57,7 @@ export default function CreateGroup() {
     }, []);
 
 
-    const handleCreateGroup = async (groupName) => {
+    const handleCreateGroup = useCallback(async (groupName) => {
         if (!groupName) {
             toast.error("Group name is required.");
             return
@@ -73,8 +73,7 @@ export default function CreateGroup() {
         } finally {
             setLoading(false);
         }
-    }
-
+    }, [])
 
     if (loader) {
         return <Loader />

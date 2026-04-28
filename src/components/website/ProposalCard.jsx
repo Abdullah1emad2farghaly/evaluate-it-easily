@@ -4,16 +4,18 @@
 // TailwindCSS only — no external libraries.
 
 import { useTheme } from "@emotion/react";
-import Title from "../../components/admin/Title";
+import Title from "../admin/Title";
 import { tokens } from "../../theme";
-import { handleDownload } from "../../components/admin/DownloadProposal";
+import { handleDownload } from "../admin/DownloadProposal";
 import { useRef, useState } from "react";
 import SimpleLoader from "../../loaders/SimpleLoader";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { updateProposal } from "../../services/proposalServices";
+import { presignedUpload, updateProposal } from "../../services/proposalServices";
 import { toast } from "react-toastify";
 import { HandleErrors } from "../../utils/HandleErrors";
 import ProjectStatusTracker from "./ProjectStatusTracker";
+import axios from "axios";
+import UploadOverlay from "./UploadOverlay";
 
 const DownloadIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -136,17 +138,17 @@ function MemberAvatars({ count, colors }) {
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
-export default function ProposalCard({ myProposal }) {
+export default function ProposalCard({ myProposal, setMyProposal }) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [updateForm, setUpdateForm] = useState(false)
-  const onClose = () => { 
+  const onClose = () => {
     setUpdateForm(false);
   }
 
   return (
     <div className="min-h-screen py-6 lg:px-0 px-2 justify-center">
-      <UpdateProposal colors={colors} onClose={onClose} myProposal={myProposal} updateForm={updateForm} />
+      <UpdateProposal colors={colors} onClose={onClose} myProposal={myProposal} setMyProposal={setMyProposal} updateForm={updateForm} />
       <div className="flex sm:flex-row flex-col sm:items-center sm:justify-between">
         <Title title={"My Proposal"} subTitle={""} />
         <button onClick={() => setUpdateForm(!updateForm)} className="px-3 py-1.5 mb-3 sm:mb-0 border rounded-lg cursor-pointer bg-black text-white" style={{ borderColor: colors.grey[700] }}>Update Proposal</button>
@@ -242,28 +244,48 @@ export default function ProposalCard({ myProposal }) {
 }
 
 
-function UpdateProposal({ colors, myProposal, updateForm, onClose }) {
+function UpdateProposal({ colors, myProposal, setMyProposal, updateForm, onClose }) {
   const [loading, setLoading] = useState(false);
   const fileRef = useRef(null);
   const [fileName, setFileName] = useState("");
-  const [formData, setFormData] = useState({
-    Title: myProposal.title,
-    Abstract: myProposal.abstract,
-    ProposalFile: null
+  const [fileUpload, setFileUpload] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
+  const [data, setData] = useState({
+    title: myProposal.title,
+    abstract: myProposal.abstract,
+    originalFileName: "",
+    storedFileName: "",
+    contentType: "application/pdf",
   });
 
-
+  
   const handleUpdateProposal = async (e) => {
     e.preventDefault();
+    if (!data.title || !data.abstract || !fileUpload) {
+      toast.error("Please fill all the required fields.");
+      return;
+    }
     setLoading(true);
 
-    const data = new FormData();
-    data.append("Title", formData.Title);
-    data.append("Abstract", formData.Abstract);
-    data.append("ProposalFile", formData.ProposalFile);
-
     try {
-      await updateProposal(myProposal.id, data);
+      const { uploadUrl, storedFileName } = await presignedUpload(fileName);
+
+      await axios.put(uploadUrl, fileUpload, {
+        headers: {
+          'Content-Type': fileUpload.type,
+        },
+        onUploadProgress: (progressEvent) => {
+          const percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setUploadProgress(percent);
+        },
+      });
+
+
+      const res = await updateProposal(myProposal.id, {...data, storedFileName: storedFileName});
+      setMyProposal(res);
       toast.success("Proposal updated successfully!");
       onClose();
     } catch (error) {
@@ -271,53 +293,69 @@ function UpdateProposal({ colors, myProposal, updateForm, onClose }) {
     } finally {
       setLoading(false);
     }
-  }
+  } 
 
   const handleUploadFile = () => {
     fileRef.current.type = 'file';
-    fileRef.current.accept = ".pdf,.docx";
+    fileRef.current.accept = ".pdf";
+    fileRef.current.multiple = false;
     fileRef.current.click();
   };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "file") {
-      setFormData({ ...formData, ProposalFile: files[0] });
+      const max_size = 10 * 1024 * 1024; // 10MB
+      const file = files[0];
+      if (file.size > max_size) {
+        toast.error("File size exceeds 10MB limit.");
+        fileRef.current.value = null;
+        fileRef.current.files = null;
+        setFileUpload(null);
+        setFileName("");
+        return;
+      }
+      setFileUpload(files[0]);
+      setData({ ...data, originalFileName: file.name });
       setFileName(files[0].name);
     } else {
-      setFormData({ ...formData, [name]: value });
+      setData({ ...data, [name]: value });
     }
   }
+  
   return (
     <div>
       {
         updateForm && (
           <div
             className="fixed inset-0 z-50 flex backdrop-blur-xs items-center justify-center p-2 sm:p-4"
-            onClick={(e) => { if (e.target === e.currentTarget) {
-              onClose();
-              setFormData({...formData, ProposalFile: null})
-              setFileName("")
-            } }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                onClose();
+                setFileUpload(null);
+                setFileName("")
+              }
+            }}
           >
+
             <form
               onSubmit={handleUpdateProposal}
               encType="multipart/form-data"
               className='create-proposal relative max-w-xl w-full border rounded-xl py-5 '
               style={{ backgroundColor: colors.grey[900], borderColor: colors.grey[800] }}
             >
-              <SimpleLoader loading={loading} />
+              {loading && <UploadOverlay progress={uploadProgress} />}
 
               <div className="input-box px-5 mb-5">
                 <div className='flex justify-between px-1'>
                   <label style={{ color: colors.grey[300] }} htmlFor="">Project Title <span className='text-red-500'>*</span></label>
-                  <p className={`text-sm ${formData.Title.length > 3 ? "text-green-500" : "text-red-500"}`}>{formData.Title.length} / <span>min 3</span></p>
+                  <p className={`text-sm ${data.title.length > 3 ? "text-green-500" : "text-red-500"}`}>{data.title.length} / <span>min 3</span></p>
                 </div>
                 <input
                   onChange={handleChange}
-                  value={formData.Title}
+                  value={data.title}
                   style={{ color: colors.grey[100], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}
-                  name="Title"
+                  name="title"
                   type="text"
                   placeholder='Enter project title'
                 />
@@ -326,13 +364,13 @@ function UpdateProposal({ colors, myProposal, updateForm, onClose }) {
               <div className="input-box px-5 mb-5">
                 <div className='flex justify-between px-1'>
                   <label style={{ color: colors.grey[300] }} htmlFor="abstract">Abstract / Description <span className='text-red-500'>*</span></label>
-                  <p className={`text-sm ${formData.Abstract.length < 20 ? "text-red-500" : "text-green-500"}`}>{formData.Abstract.length} / <span>min 20</span></p>
+                  <p className={`text-sm ${data.abstract.length < 20 ? "text-red-500" : "text-green-500"}`}>{data.abstract.length} / <span>min 20</span></p>
                 </div>
                 <textarea
-                  value={formData.Abstract}
+                  value={data.abstract}
                   onChange={handleChange}
                   style={{ color: colors.grey[100], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}
-                  name="Abstract"
+                  name="abstract"
                   rows={5} id="abstract"
                   placeholder='Provide a brief summary of your project goals, problem statement, and proposed solution...'
                 />
@@ -353,7 +391,7 @@ function UpdateProposal({ colors, myProposal, updateForm, onClose }) {
                 <button
                   onClick={() => {
                     onClose()
-                    setFormData({...formData, ProposalFile: null})
+                    setFileUpload(null);
                     setFileName("")
                   }}
                   className="bg-transparent text-red-500 border-red-500 border hover:bg-red-500 hover:text-white"

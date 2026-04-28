@@ -6,7 +6,7 @@ import { removeMemberFromGroup, sendInvitation } from "../../services/groupServi
 import { toast } from "react-toastify";
 import { HandleErrors } from "../../utils/HandleErrors";
 import SimpleLoader from "../../loaders/SimpleLoader";
-import Title from "../../components/admin/Title";
+import Title from "../admin/Title";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 /**
@@ -28,14 +28,14 @@ const AVATAR_COLORS = [
 
 const STATUS_STYLES = {
   Accepted: { bg: "#F0FDF4", color: "#166534", border: "#BBF7D0", dot: "#16A34A" },
-  Pending:  { bg: "#FFFBEB", color: "#92400E", border: "#FDE68A", dot: "#D97706" },
+  Pending: { bg: "#FFFBEB", color: "#92400E", border: "#FDE68A", dot: "#D97706" },
   Rejected: { bg: "#FEF2F2", color: "#991B1B", border: "#FECACA", dot: "#DC2626" },
 };
 
 const ROLE_CARD_STYLES = {
   leader: { bg: "#F5F3FF", border: "#DDD6FE", badgeBg: "#EDE9FE", badgeColor: "#5B21B6", badgeBorder: "#DDD6FE" },
-  super:  { bg: "#EEF2FF", border: "#C7D2FE", badgeBg: "#EEF2FF", badgeColor: "#3730A3", badgeBorder: "#C7D2FE" },
-  ta:     { bg: "#F0F9FF", border: "#BAE6FD", badgeBg: "#F0F9FF", badgeColor: "#0369A1", badgeBorder: "#BAE6FD" },
+  super: { bg: "#EEF2FF", border: "#C7D2FE", badgeBg: "#EEF2FF", badgeColor: "#3730A3", badgeBorder: "#C7D2FE" },
+  ta: { bg: "#F0F9FF", border: "#BAE6FD", badgeBg: "#F0F9FF", badgeColor: "#0369A1", badgeBorder: "#BAE6FD" },
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -54,16 +54,16 @@ function fmtDate(iso) {
 
 // ─── Pure style helpers (module-level — never re-created) ─────────────────────
 function AvatarStyle(role) {
-  if (role === "Leader")     return "bg-green-500 border-green-500";
+  if (role === "Leader") return "bg-green-500 border-green-500";
   if (role === "Supervisor") return "bg-orange-500 border-orange-500";
-  if (role === "member")     return "bg-blue-500 border-blue-500";
+  if (role === "member") return "bg-blue-500 border-blue-500";
   return "bg-yellow-500 border-yellow-500";
 }
 
 function RoleStyle(role) {
-  if (role === "Leader")     return "border-green-500 text-green-500";
+  if (role === "Leader") return "border-green-500 text-green-500";
   if (role === "Supervisor") return "border-orange-500 text-orange-500";
-  if (role === "member")     return "border-blue-500 text-blue-500";
+  if (role === "member") return "border-blue-500 text-blue-500";
   return "border-yellow-500 text-yellow-500";
 }
 
@@ -115,7 +115,7 @@ const RoleCard = memo(function RoleCard({ name, role, colors }) {
   const [hovered, setHovered] = useState(false);
 
   // Stable handlers — no deps, never re-created after mount
-  const handleEnter = useCallback(() => setHovered(true),  []);
+  const handleEnter = useCallback(() => setHovered(true), []);
   const handleLeave = useCallback(() => setHovered(false), []);
 
   return (
@@ -124,10 +124,10 @@ const RoleCard = memo(function RoleCard({ name, role, colors }) {
       onMouseLeave={handleLeave}
       className="rounded-xl border p-3.5 flex items-center gap-3 transition-all duration-150 cursor-default"
       style={{
-        borderColor:     colors.grey[700],
+        borderColor: colors.grey[700],
         backgroundColor: colors.blueAccent[800],
-        transform:  hovered ? "translateY(-2px)" : "none",
-        boxShadow:  hovered ? "0 4px 16px rgba(0,0,0,.06)" : "none",
+        transform: hovered ? "translateY(-2px)" : "none",
+        boxShadow: hovered ? "0 4px 16px rgba(0,0,0,.06)" : "none",
       }}
     >
       <Avatar name={name} role={role} size={44} />
@@ -155,9 +155,8 @@ const DropdownItem = memo(function DropdownItem({ item, setQuery, setSearch, set
     <li
       onMouseDown={handleMouseDown}
       style={{ color: colors.grey[400] }}
-      className={`p-2 cursor-pointer hover:text-[#00bc8a!important] ${
-        theme.palette.mode === "dark" ? "hover:bg-[#87878752]" : "hover:bg-[#cecece8b]"
-      }`}
+      className={`p-2 cursor-pointer hover:text-[#00bc8a!important] ${theme.palette.mode === "dark" ? "hover:bg-[#87878752]" : "hover:bg-[#cecece8b]"
+        }`}
     >
       {item.fullName}
     </li>
@@ -167,11 +166,11 @@ const DropdownItem = memo(function DropdownItem({ item, setQuery, setSearch, set
 // ─── Add Member ───────────────────────────────────────────────────────────────
 
 const AddMember = memo(function AddMember({ students, myGroup, setLoading }) {
-  const theme  = useTheme();
+  const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [query,  setQuery]  = useState("");
+  const [query, setQuery] = useState("");
   const [search, setSearch] = useState("");
-  const [show,   setShow]   = useState(false);
+  const [show, setShow] = useState(false);
 
   // Recompute only when students list or search string changes
   const studentFiltered = useMemo(
@@ -191,7 +190,7 @@ const AddMember = memo(function AddMember({ students, myGroup, setLoading }) {
       setSearch("");
       setQuery("");
     } catch (err) {
-      if(err?.errors?.length)
+      if (err?.errors?.length)
         HandleErrors(err.errors);
       else
         toast.error(err.message);
@@ -201,8 +200,8 @@ const AddMember = memo(function AddMember({ students, myGroup, setLoading }) {
     }
   }, [setLoading, query.fullName]);
 
-  const handleFocus  = useCallback(() => setShow(true), []);
-  const handleBlur   = useCallback(() => setTimeout(() => setShow(false), 100), []);
+  const handleFocus = useCallback(() => setShow(true), []);
+  const handleBlur = useCallback(() => setTimeout(() => setShow(false), 100), []);
   const handleChange = useCallback((e) => {
     setSearch(e.target.value);
     setQuery("");
@@ -211,12 +210,12 @@ const AddMember = memo(function AddMember({ students, myGroup, setLoading }) {
   const handleAdd = useCallback(
     () => {
       addMember(query.email, myGroup.id)
-      
+
     },
     [addMember, query, myGroup.id]
   );
 
-  
+
   return (
     <div className="groups">
       <div className="team-member my-4 p-5 border text-white rounded-xl" style={{ borderColor: colors.grey[700], backgroundColor: colors.grey[900] }}>
@@ -291,9 +290,8 @@ const MemberRow = memo(function MemberRow({ member, colors, onRemoveClick }) {
       {/* Role */}
       <td className="px-3 py-2">
         <span
-          className={`inline-flex text-xs p-[3px_8px] ${
-            member.isLeader ? RoleStyle("Leader") : RoleStyle("member")
-          } border items-center gap-1 font-medium rounded-full`}
+          className={`inline-flex text-xs p-[3px_8px] ${member.isLeader ? RoleStyle("Leader") : RoleStyle("member")
+            } border items-center gap-1 font-medium rounded-full`}
         >
           {member.isLeader && (
             <svg width="9" height="9" viewBox="0 0 16 16" fill="none">
@@ -358,7 +356,7 @@ const ConfirmModal = memo(function ConfirmModal({ colors, onCancel, onConfirm })
           <button
             onClick={onCancel}
             className="px-4 py-2 text-sm rounded-md border cursor-pointer border-gray-300  duration-500"
-            style={{color: colors.grey[200]}}
+            style={{ color: colors.grey[200] }}
           >
             Cancel
           </button>
@@ -381,14 +379,14 @@ const ConfirmModal = memo(function ConfirmModal({ colors, onCancel, onConfirm })
  * @param {{ group?: Group }} props  — pass your real group object; falls back to demo data
  */
 export default function GroupDetailsDashboard({ setStudents, myGroup, students }) {
-  const theme  = useTheme();
+  const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [members,      setMembers]      = useState(myGroup.members);
-  const [loading,      setLoading]      = useState(false);
+  const [members, setMembers] = useState(myGroup.members);
+  const [loading, setLoading] = useState(false);
   const [confirmation, setConfirmation] = useState(false);
-  const [studentID,    setStudentID]    = useState(null);
-  const [member,       setMember]       = useState(null);
+  const [studentID, setStudentID] = useState(null);
+  const [member, setMember] = useState(null);
 
   const removeMember = useCallback(async (groupID, sid) => {
     setLoading(true);
@@ -406,7 +404,7 @@ export default function GroupDetailsDashboard({ setStudents, myGroup, students }
     }
   }, [member, setStudents]);
 
-  
+
   const handleRemoveClick = useCallback((sid, m) => {
     setStudentID(sid);
     setConfirmation(true);
@@ -425,7 +423,7 @@ export default function GroupDetailsDashboard({ setStudents, myGroup, students }
 
   return (
     <div className="min-h-screen ">
-      <Title title={"My group"}/>
+      <Title title={"My group"} />
       {/* Conditionally rendered — zero cost when closed */}
       {confirmation && (
         <ConfirmModal
@@ -467,9 +465,9 @@ export default function GroupDetailsDashboard({ setStudents, myGroup, students }
           >
             <SectionHeader colors={colors} title="Team structure" />
             <div className="grid gap-2" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))" }}>
-              <RoleCard colors={colors} name={myGroup.leaderName}             role="Leader"             variant="leader" />
-              <RoleCard colors={colors} name={myGroup.supervisorName}         role="Supervisor"         variant="super"  />
-              <RoleCard colors={colors} name={myGroup.technicalAssistantName} role="Technical assistant" variant="ta"    />
+              <RoleCard colors={colors} name={myGroup.leaderName} role="Leader" variant="leader" />
+              <RoleCard colors={colors} name={myGroup.supervisorName} role="Supervisor" variant="super" />
+              <RoleCard colors={colors} name={myGroup.technicalAssistantName} role="Technical assistant" variant="ta" />
             </div>
           </div>
         )}
