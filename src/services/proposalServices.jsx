@@ -58,7 +58,7 @@ export const updateProposal = async (id, data) => {
 
 export const makePreview = async (id) => {
     try {
-        const response = await api.get(`/api/Proposals/${id}/download`, {responseType : "blob"});
+        const response = await api.get(`/api/Proposals/${id}/download`);
 
         return response.data;
     } catch(error){

@@ -128,9 +128,7 @@ export default function ManageTeams() {
         const PV = 3.2;   // vertical padding inside each row
         const PH2 = 3.0;   // horizontal padding inside each row
 
-        // ── Column layout (total usable width = 297 - 20 = 277 mm) ──
-        //  #   Members   Supervisor  Tech.Asst  Status
-        // 10 +  78    +    62     +   62    +   65  = 277 ✓
+
         const COLS = {
             no: { x: 0, w: 10 },
             mem: { x: 10, w: 78 },

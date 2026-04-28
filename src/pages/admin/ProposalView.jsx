@@ -22,6 +22,7 @@ export default function ProposalView() {
         const fetchedProject = async () => {
             try {
                 const projectData = await getProposalById(params.id);
+            
                 setProject(projectData);
                 const firstPart = projectData.submittedAt.split("T")[1];
                 const secondPart = firstPart.split(":");
@@ -44,7 +45,7 @@ export default function ProposalView() {
             case "Accepted": return "bg-green-500";
             case "Rejected": return "bg-red-500 ";
             case "UnderReview": return "bg-yellow-500";
-            default: return "bg-gray-500";
+            default: return "bg-orange-500";
         }
     }
 
@@ -153,11 +154,11 @@ export default function ProposalView() {
                             </div>
                         </div>
 
+                        <PdfPreview params={params}/>
                     </div>
                 )
             }
 
-            <PdfPreview params={params}/>
         </div>
     );
 }
@@ -171,8 +172,7 @@ const PdfPreview = ({params}) => {
         const loadPdf = async () => {
             try {
                 const blob = await makePreview(params.id);
-                const url = URL.createObjectURL(blob);
-                setPdfUrl(url);
+                setPdfUrl(blob.downloadUrl);
             }catch(error){
                 HandleErrors(error?.errors || error.message);
             }
@@ -183,7 +183,7 @@ const PdfPreview = ({params}) => {
             if(pdfUrl)
                 URL.revokeObjectURL(pdfUrl);
         }
-    }, [params.id]);
+    }, [params.id, pdfUrl]);
 
     return (
         <div className="mb-5">
