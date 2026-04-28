@@ -13,17 +13,68 @@ import GroupIcon from "@mui/icons-material/Group";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DownloadIcon from "@mui/icons-material/Download";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import SearchIcon from "@mui/icons-material/Search";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
+const FilterList = ({ colors, setYear, options = [] }) => {
+    const [open, setOpen] = useState(false);
+    const theme = useTheme()
+    const [selected, setSelected] = useState(options[0]);
+    useEffect(() => {
+        setYear(selected);
+    }, [selected, setYear]);
+    return (
+        <div className="w-full px-4 items-center cursor-pointer border rounded-lg flex relative" style={{ color: colors.grey[300], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}>
+            <input
+                type="text"
+                value={selected}
+                readOnly
+                onFocus={() => setOpen(true)}
+                onBlur={() => setTimeout(() => setOpen(false), 100)}
+                className={`w-full focus:cursor-pointer hover:cursor-pointer py-2 rounded-lg focus:outline-none`}
+            />
+            <p><ArrowDropDownIcon /></p>
+
+            {open && (
+                <ul className="absolute w-full sm:max-w-50 left-0 top-10 border border-[#00bc8a] mt-1 rounded-lg shadow-lg max-h-50 overflow-y-auto z-50" style={{ backgroundColor: colors.blueAccent[800] }} >
+                    {
+                        options.map((opt, index) => {
+                            return (
+                                <li
+                                    key={index}
+                                    onMouseDown={() => {
+                                        setOpen(false);
+                                        setSelected(opt)
+                                    }}
+                                    style={{ color: colors.grey[200] }}
+                                    className={`p-2 py-1.5 cursor-pointer hover:text-[#00bc8a!important] ${theme.palette.mode === "dark" ? "hover:bg-[#87878752]" : "hover:bg-[#cecece6f]"}`}
+                                >
+                                    {opt}
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            )}
+        </div>
+    );
+};
 
 export default function HistoricalProjects() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [loader, setLoader] = useState(true);
     const [projects, setProjects] = useState([]);
+    const [search, setSearch] = useState("");
+    const [acadimicYears, setAcademicYears] = useState(["All Academic Years"]);
+    const [year, setYear] = useState();
 
     useEffect(() => {
         const fetchProjects = async () => {
             try {
                 const data = await getHistoricalProjects();
+                setAcademicYears(["All Academic Years", ...new Set(data.map(project => project.academicYear))]);
                 setProjects(data);
             } catch (error) {
                 HandleErrors(error.errors)
@@ -34,6 +85,16 @@ export default function HistoricalProjects() {
         fetchProjects();
     }, []);
 
+    const filteredProjects = projects.filter(project => {
+        const matchesSearch =
+            (project.name || "").toLowerCase().includes(search.toLowerCase().trim(" "))
+            || (project.abstract || "").toLowerCase().includes(search.toLowerCase().trim(" "));
+        const matchesAcademicYear =
+            year === "All Academic Years" || project.academicYear === year;
+
+        return matchesSearch && matchesAcademicYear;
+    });
+
     if (loader)
         return <Loader />
 
@@ -41,19 +102,39 @@ export default function HistoricalProjects() {
         <div className="mt-4 pb-5 lg:pr-4 lg:px-0 px-3">
             <Title title={"Historical Projects"} />
 
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-3 relative">
-                {
-                    projects.length ? (
-                        projects?.map((project, index) => (
-                            
-                            <ProjectCard key={index} colors={colors} item={project} />
-                            
-                        ))
-                    ): (
-                        <LottieFiles name={"animatedData2"} />
-                    )
-                }
-            </div>
+
+
+
+            {
+                projects.length ? (
+                    <div>
+                        <div className="flex flex-col sm:flex-row  gap-2 mb-5 relative">
+                            <div className="flex items-center w-full border rounded-lg px-3" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], color: colors.grey[300] }}>
+                                <SearchIcon className="text-gray-400" />
+                                <input
+                                    placeholder="Search by groups name..."
+                                    className="w-full px-2 py-2 text-sm outline-none"
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                            </div>
+                            <FilterList colors={colors} setYear={setYear} options={acadimicYears} title={"Select to filter..."} />
+
+                            <button className="border flex gap-3 px-3 py-2 rounded-lg items-center" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], color: colors.grey[100] }}>
+                                <FilterListIcon fontSize="small" />
+                                Filtering
+                            </button>
+                        </div>
+                        <div className="grid md:grid-cols-2 grid-cols-1 gap-3 relative">
+                            {filteredProjects?.map((project, index) => (
+                                <ProjectCard key={index} colors={colors} item={project} />
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <LottieFiles name={"animatedData2"} />
+                )
+            }
+
         </div>
     );
 }
