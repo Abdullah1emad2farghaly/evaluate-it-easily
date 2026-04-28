@@ -605,7 +605,7 @@ const FilterList = ({ colors, setStatus, options = ["All Status", "Accepted", "R
                 readOnly
                 onFocus={() => setOpen(true)}
                 onBlur={() => setTimeout(() => setOpen(false), 100)}
-                className={`w-full  py-2 rounded-lg focus:outline-none`}
+                className={`w-full focus:cursor-pointer hover:cursor-pointer py-2 rounded-lg focus:outline-none`}
             />
             <p><ArrowDropDownIcon /></p>
 

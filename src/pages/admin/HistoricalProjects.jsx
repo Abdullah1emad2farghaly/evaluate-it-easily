@@ -32,7 +32,7 @@ const FilterList = ({ colors, setYear, options = [] }) => {
                 readOnly
                 onFocus={() => setOpen(true)}
                 onBlur={() => setTimeout(() => setOpen(false), 100)}
-                className={`w-full  py-2 rounded-lg focus:outline-none`}
+                className={`w-full focus:cursor-pointer hover:cursor-pointer py-2 rounded-lg focus:outline-none`}
             />
             <p><ArrowDropDownIcon /></p>
 
@@ -101,37 +101,40 @@ export default function HistoricalProjects() {
     return (
         <div className="mt-4 pb-5 lg:pr-4 lg:px-0 px-3">
             <Title title={"Historical Projects"} />
-            <div className="flex flex-col sm:flex-row  gap-2 mb-5 relative">
-                <div className="flex items-center w-full border rounded-lg px-3" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], color: colors.grey[300] }}>
-                    <SearchIcon className="text-gray-400" />
-                    <input
-                        placeholder="Search by groups name..."
-                        className="w-full px-2 py-2 text-sm outline-none"
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                </div>
-                <FilterList colors={colors} setYear={setYear} options={acadimicYears} title={"Select to filter..."} />
-
-                <button className="border flex gap-3 px-3 py-2 rounded-lg items-center" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], color: colors.grey[100] }}>
-                    <FilterListIcon fontSize="small" />
-                    Filtering
-                </button>
-            </div>
 
 
-            <div className="grid md:grid-cols-2 grid-cols-1 gap-3 relative">
-                {
-                    filteredProjects.length ? (
-                        filteredProjects?.map((project, index) => (
 
-                            <ProjectCard key={index} colors={colors} item={project} />
 
-                        ))
-                    ) : (
-                        <LottieFiles name={"animatedData2"} />
-                    )
-                }
-            </div>
+            {
+                projects.length ? (
+                    <div>
+                        <div className="flex flex-col sm:flex-row  gap-2 mb-5 relative">
+                            <div className="flex items-center w-full border rounded-lg px-3" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], color: colors.grey[300] }}>
+                                <SearchIcon className="text-gray-400" />
+                                <input
+                                    placeholder="Search by groups name..."
+                                    className="w-full px-2 py-2 text-sm outline-none"
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                            </div>
+                            <FilterList colors={colors} setYear={setYear} options={acadimicYears} title={"Select to filter..."} />
+
+                            <button className="border flex gap-3 px-3 py-2 rounded-lg items-center" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], color: colors.grey[100] }}>
+                                <FilterListIcon fontSize="small" />
+                                Filtering
+                            </button>
+                        </div>
+                        <div className="grid md:grid-cols-2 grid-cols-1 gap-3 relative">
+                            {filteredProjects?.map((project, index) => (
+                                <ProjectCard key={index} colors={colors} item={project} />
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <LottieFiles name={"animatedData2"} />
+                )
+            }
+
         </div>
     );
 }
