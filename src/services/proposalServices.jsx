@@ -9,6 +9,17 @@ export const createProposal = async (data) => {
     }
 }
 
+//post: api/Files/presigned-upload
+export const presignedUpload = async (fileName) => {
+    try {
+        const response = await api.post(`/api/Files/presigned-upload?fileName=${fileName}`);
+        return response.data;
+    } catch (error) {
+        throw error.response ? error.response.data : error;
+    }
+}
+
+
 export const getProposals = async () => {
     try {
         const response = await api.get("/api/Proposals");

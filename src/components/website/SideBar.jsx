@@ -12,16 +12,16 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import { useState } from "react";
+import { memo, useState } from "react";
 
-export default function SideBar() {
+function SideBar() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const navigate = useNavigate();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     
     return (
-        <div className={`sidebar z-101 max-w-[300px] w-[240px] fixed h-full flex flex-col top-0 -left-[240px] lg:left-0  duration-1000 pt-5 pb-6 pl-2 ${isSidebarOpen ? 'left-0' : ''}`} style={{ backgroundColor: colors.blueAccent[800] }}>
+        <div className={`sidebar z-101 max-w-75 w-60 fixed h-full flex flex-col top-0 -left-60 lg:left-0  duration-1000 pt-5 pb-6 pl-2 ${isSidebarOpen ? 'left-0' : ''}`} style={{ backgroundColor: colors.blueAccent[800] }}>
             <div className="close-icon  lg:hidden bg-[#43afb7] rounded duration-300 hover:bg-[#4ccece] border border-[#43afb7] absolute top-3 -right-6 cursor-pointer" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                 {
                     isSidebarOpen ? <ArrowBackIosNewIcon fontSize="medium" style={{ color: colors.grey[100] }} /> : <ArrowForwardIosIcon fontSize="small" style={{ color: colors.grey[100] }} />
@@ -45,7 +45,7 @@ export default function SideBar() {
                         </NavLink>
                     </li>
                     <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="200" style={{ color: colors.grey[100] }}>
-                        <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={'create-proposal'}>
+                        <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={'proposal'}>
                             <SwipeRightIcon />
                             My Proposal
                         </NavLink>
@@ -77,9 +77,11 @@ export default function SideBar() {
                     
                 </ul>
             </div>
-            <button onClick={()=>navigate('/')} className={`tracking-[1.5px] font-[500] cursor-pointer absolute w-[90%] bottom-[40px] left-[5%] py-3 px-4 rounded-md border border-dashed border-[#4cceac] hover:bg-[#1bc698] transition-colors duration-500`}>
+            <button onClick={()=>navigate('/')} className={`tracking-[1.5px] font-medium cursor-pointer absolute w-[90%] bottom-[40px] left-[5%] py-3 px-4 rounded-md border border-dashed border-[#4cceac] hover:bg-[#1bc698] transition-colors duration-500`}>
                 Home
             </button>
         </div>
     );
 }
+
+export default memo(SideBar,()=>true);

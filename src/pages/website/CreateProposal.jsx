@@ -2,15 +2,17 @@
 import { tokens } from '../../theme';
 import { useTheme } from '@emotion/react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Fragment, useEffect, useRef, useState } from 'react';
-import { createProposal, getMyProposal } from '../../services/proposalServices';
+import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { createProposal, getMyProposal, presignedUpload } from '../../services/proposalServices';
 import Loader from '../../loaders/Loader';
 import { toast } from 'react-toastify';
 import SimpleLoader from '../../loaders/SimpleLoader';
 import { HandleErrors } from '../../utils/HandleErrors';
 import Title from '../../components/admin/Title';
-import ProposalCard from './ProposalCard';
-import ProjectStatusTracker from "./ProjectStatusTracker"
+import ProposalCard from '../../components/website/ProposalCard';
+import ProjectStatusTracker from "../../components/website/ProjectStatusTracker"
+import axios from 'axios';
+import UploadOverlay from '../../components/website/UploadOverlay';
 
 export default function CreateProposal() {
     const theme = useTheme();
@@ -20,50 +22,80 @@ export default function CreateProposal() {
     const [loading, setLoading] = useState(false);
     const [myProposal, setMyProposal] = useState(null);
     const [loader, setLoader] = useState(true);
+    const [fileUpload, setFileUpload] = useState(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
 
-
-    const [formData, setFormData] = useState({
-        Title: "",
-        Abstract: "",
-        ProposalFile: null
+    const [data, setData] = useState({
+        title: "",
+        abstract: "",
+        originalFileName: "",
+        storedFileName: "",
+        contentType: "application/pdf",
     });
 
 
     const handleUploadFile = () => {
         fileRef.current.type = 'file';
         fileRef.current.accept = ".pdf";
+        fileRef.current.multiple = false;
         fileRef.current.click();
     };
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         if (name === "file") {
-            setFormData({ ...formData, ProposalFile: files[0] });
+            const max_size = 10 * 1024 * 1024; // 10MB
+            const file = files[0];
+            if (file.size > max_size) {
+                toast.error("File size exceeds 10MB limit.");
+                fileRef.current.value = null;
+                fileRef.current.files = null;
+                setFileUpload(null);
+                setFileName("");
+                return;
+            }
+            setFileUpload(files[0]);
+            setData({ ...data, originalFileName: file.name });
             setFileName(files[0].name);
         } else {
-            setFormData({ ...formData, [name]: value });
+            setData({ ...data, [name]: value });
         }
     }
 
-    const handleSubmitProposal = async (e) => {
+    const handleSubmitProposal = useCallback(async (e) => {
         e.preventDefault();
+        if (!data.title || !data.abstract || !fileUpload) {
+            toast.error("Please fill all the required fields.");
+            return;
+        }
+        setUploadProgress(0);
         setLoading(true);
 
-        const data = new FormData();
-        data.append("Title", formData.Title);
-        data.append("Abstract", formData.Abstract);
-        data.append("ProposalFile", formData.ProposalFile);
-
         try {
-            const res = await createProposal(data);
+            const { uploadUrl, storedFileName } = await presignedUpload(fileName);
+
+            await axios.put(uploadUrl, fileUpload, {
+                headers: {
+                    'Content-Type': fileUpload.type,
+                },
+                onUploadProgress: (progressEvent) => {
+                    const percent = Math.round(
+                        (progressEvent.loaded * 100) / progressEvent.total
+                    );
+                    setUploadProgress(percent);
+                },
+            });
+            
+            const res = await createProposal({ ...data, storedFileName: storedFileName });
             setMyProposal(res);
             toast.success("Proposal submitted successfully!");
         } catch (error) {
+            console.log(error)
             HandleErrors(error.errors)
         } finally {
             setLoading(false);
         }
-    }
+    }, [data, fileUpload, fileName])
 
 
     useEffect(() => {
@@ -88,18 +120,19 @@ export default function CreateProposal() {
             {
                 myProposal ? (
                     <div>
-                        <ProposalCard myProposal={myProposal} />
+                        <ProposalCard myProposal={myProposal} setMyProposal={setMyProposal} />
                     </div>
                 ) : (
                     <div>
                         <Title title={"NEW PROPOSAL"} subTitle={"create new project proposal"} />
+                        {loading && <UploadOverlay progress={uploadProgress} />}
                         <form
                             onSubmit={handleSubmitProposal}
                             encType="multipart/form-data"
+                            name='formData'
                             className='create-proposal relative border  rounded-[20px] overflow-y-hidden  my-5 mx-auto'
                             style={{ backgroundColor: colors.grey[900], borderColor: colors.grey[800] }}
                         >
-                            <SimpleLoader loading={loading} />
                             <div style={{
                                 backgroundColor: colors.grey[900],
                                 color: colors.grey[100],
@@ -111,14 +144,15 @@ export default function CreateProposal() {
 
                             <div className="input-box p-10 md:px-10 px-5 pb-8">
                                 <div className='flex justify-between px-1'>
-                                    <label style={{ color: colors.grey[300] }} htmlFor="">Project Title <span className='text-red-500'>*</span></label>
-                                    <p className={`text-sm ${formData.Title.length ? "text-green-500" : "text-red-500"}`}>{formData.Title.length} / <span>20</span></p>
+                                    <label style={{ color: colors.grey[300] }} htmlFor="title">Project Title <span className='text-red-500'>*</span></label>
+                                    <p className={`text-sm ${data.title.length >= 3 ? "text-green-500" : "text-red-500"}`}>{data.title.length} / min <span>3</span></p>
                                 </div>
                                 <input
                                     onChange={handleChange}
                                     style={{ color: colors.grey[100], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}
-                                    name="Title"
+                                    name="title"
                                     type="text"
+                                    id='title'
                                     placeholder='Enter project title'
                                 />
                             </div>
@@ -126,13 +160,14 @@ export default function CreateProposal() {
                             <div className="input-box md:px-10 px-5 pb-8">
                                 <div className='flex justify-between px-1'>
                                     <label style={{ color: colors.grey[300] }} htmlFor="abstract">Abstract / Description <span className='text-red-500'>*</span></label>
-                                    <p className={`text-sm ${formData.Abstract.length < 20 ? "text-red-500" : "text-green-500"}`}>{formData.Abstract.length} / <span>200</span></p>
+                                    <p className={`text-sm ${data.abstract.length < 20 ? "text-red-500" : "text-green-500"}`}>{data.abstract.length} / min <span>20</span></p>
                                 </div>
                                 <textarea
 
                                     onChange={handleChange}
                                     style={{ color: colors.grey[100], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}
-                                    name="Abstract"
+                                    name="abstract"
+                                    id='abstract'
                                     rows={7} id="abstract"
                                     placeholder='Provide a brief summary of your project goals, problem statement, and proposed solution...'
                                 />
@@ -140,7 +175,7 @@ export default function CreateProposal() {
 
                             <div className="input-box md:px-10 px-5 pb-8" >
                                 <label style={{ color: colors.grey[300] }} htmlFor="file">Full Proposal Document <span className='text-red-500'>*</span></label>
-                                <input onChange={handleChange} type="file" name='file' ref={fileRef} className='hidden' placeholder='Enter project title' />
+                                <input onChange={handleChange} type="file" id='file' name='file' ref={fileRef} className='hidden' placeholder='Enter project title' />
                                 <div onClick={handleUploadFile} style={{ color: colors.grey[100], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }} className='cursor-pointer border border-[#a2fae7] border-dashed bg-[#2b2b2b] rounded-[10px] flex flex-col justify-center items-center p-10 overflow-hidden'>
                                     <CloudUploadIcon style={{ fontSize: "4rem" }} />
                                     <p className='text-center mt-4 pointer-events-none'>Click to upload your project file</p>
