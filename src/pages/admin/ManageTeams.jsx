@@ -53,7 +53,7 @@ export default function ManageTeams() {
             try {
                 const res = await getGroups();
                 setTeams(res);
-                console.log("Groups : ", res)
+                
                 const allUsers = await getAllUsers();
                 
                 setAssistants(allUsers?.filter((user) => user.role === "TechnicalAssistant"))
@@ -89,7 +89,6 @@ export default function ManageTeams() {
             toast.success("Supervisor and TechnicalAssistant are assigned successfully")
             setOpen(false);
             const res = await getGroups();  
-            console.log(res)
             setTeams(res);
         } catch (error) {
             HandleErrors(error.errors);
@@ -321,7 +320,7 @@ export default function ManageTeams() {
                 </div>
                 <FilterList colors={colors} setStatus={setStatus} options={statuses} title={"Select to filter..."} />
 
-                <button className="border flex gap-3 px-3 py-2 rounded-lg flex items-center" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], color: colors.grey[100] }}>
+                <button className="border flex gap-3 px-3 py-2 rounded-lg items-center" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], color: colors.grey[100] }}>
                     <FilterListIcon fontSize="small" />
                     Filtering
                 </button>
@@ -526,7 +525,6 @@ export default function ManageTeams() {
                                 </tr>
                             )
                         }
-
                     </tbody>
                 </table>
             </div>
