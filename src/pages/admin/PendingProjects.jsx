@@ -46,6 +46,7 @@ export default function PendingProjects() {
             try {
                 const projects = await getProposals();
                 countProposalStatuses(projects);
+                
                 setPendingProjects(projects.filter((proposal) => proposal.status === "Pending"));
             } catch (error) {
                 HandleErrors(error.errors)
@@ -55,7 +56,7 @@ export default function PendingProjects() {
         }
         fetchProjects();
     }, []);
-
+    console.log(pendingProjects);
     useEffect(() => {
         scrollTo(0, 0);
     }, [])

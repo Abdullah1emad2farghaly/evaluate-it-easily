@@ -168,7 +168,7 @@ export default function CreateProposal() {
                                     style={{ color: colors.grey[100], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}
                                     name="abstract"
                                     id='abstract'
-                                    rows={7} id="abstract"
+                                    rows={7}
                                     placeholder='Provide a brief summary of your project goals, problem statement, and proposed solution...'
                                 />
                             </div>

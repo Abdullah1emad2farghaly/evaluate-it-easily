@@ -1,21 +1,21 @@
 import api from "../../services/api";
 import { HandleErrors } from "../../utils/HandleErrors";
 
-export async function handleDownload (project){
+export async function handleDownload(project) {
     try {
         const response = await api.get(project.downloadUrl, {
             responseType: "blob",
         });
+ 
 
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-
+        const url = window.URL.createObjectURL(response.data);
         const link = document.createElement("a");
         link.href = url;
         link.download = project.fileName || "proposal.pdf";
         document.body.appendChild(link);
         link.click();
         link.remove();
-
+        window.URL.revokeObjectURL(url); // cleanup
     } catch (error) {
         HandleErrors(error.errors);
     }
