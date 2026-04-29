@@ -22,7 +22,6 @@ export default function ProposalView() {
         const fetchedProject = async () => {
             try {
                 const projectData = await getProposalById(params.id);
-            
                 setProject(projectData);
                 const firstPart = projectData.submittedAt.split("T")[1];
                 const secondPart = firstPart.split(":");
@@ -154,7 +153,7 @@ export default function ProposalView() {
                             </div>
                         </div>
 
-                        <PdfPreview params={params}/>
+                        <PdfPreview project={project} />
                     </div>
                 )
             }
@@ -164,15 +163,14 @@ export default function ProposalView() {
 }
 
 
-
-const PdfPreview = ({params}) => {
+const PdfPreview = ({project}) => {
     const [pdfUrl, setPdfUrl] = useState(null);
 
     useEffect(() => {
         const loadPdf = async () => {
             try {
-                const blob = await makePreview(params.id);
-                setPdfUrl(blob.downloadUrl);
+                const blob = await makePreview(project.downloadUrl);
+                setPdfUrl(blob.previewUrl);
             }catch(error){
                 HandleErrors(error?.errors || error.message);
             }
@@ -183,7 +181,7 @@ const PdfPreview = ({params}) => {
             if(pdfUrl)
                 URL.revokeObjectURL(pdfUrl);
         }
-    }, [params.id, pdfUrl]);
+    }, [project.downloadUrl, pdfUrl]);
 
     return (
         <div className="mb-5">
