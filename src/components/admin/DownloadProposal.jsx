@@ -3,12 +3,8 @@ import { HandleErrors } from "../../utils/HandleErrors";
 
 export async function handleDownload(project) {
     try {
-        const response = await api.get(project.downloadUrl, {
-            responseType: "blob",
-        });
- 
-
-        const url = window.URL.createObjectURL(response.data);
+        const response = await api.get(`/api/Proposals/${project.id}/download`);
+        const url = response.data.downloadUrl;
         const link = document.createElement("a");
         link.href = url;
         link.download = project.fileName || "proposal.pdf";

@@ -56,9 +56,9 @@ export const updateProposal = async (id, data) => {
     }
 }
 
-export const makePreview = async (id) => {
+export const makePreview = async (downloadUrl) => {
     try {
-        const response = await api.get(`/api/Proposals/${id}/download`);
+        const response = await api.get(`${downloadUrl}`);
 
         return response.data;
     } catch(error){
