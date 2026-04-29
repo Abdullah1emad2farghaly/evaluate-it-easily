@@ -21,7 +21,6 @@ export default function SimilarPastProjects({ proposals }) {
                         </div>
                     )
             }
-
         </div>
     )
 }
