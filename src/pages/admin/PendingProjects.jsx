@@ -74,6 +74,7 @@ export default function PendingProjects() {
                 rejectedCount={rejectedCount}
                 pendingCount={pendingCount}
                 totalCount={proposals.length}
+                
             />
             <div className='w-full lg:pr-4 px-3 lg:px-0'>
                 {
