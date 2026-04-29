@@ -10,6 +10,7 @@ import Carts from "../../components/admin/Carts";
 export default function PendingProjects() {
     const [pendingProjects, setPendingProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [proposals, setProposals] = useState([]);
 
 
     const [acceptedCount, setAcceptedCount] = useState(0);
@@ -46,7 +47,7 @@ export default function PendingProjects() {
             try {
                 const projects = await getProposals();
                 countProposalStatuses(projects);
-                
+                setProposals(projects);
                 setPendingProjects(projects.filter((proposal) => proposal.status === "Pending"));
             } catch (error) {
                 HandleErrors(error.errors)
@@ -72,6 +73,7 @@ export default function PendingProjects() {
                 acceptedCount={acceptedCount}
                 rejectedCount={rejectedCount}
                 pendingCount={pendingCount}
+                totalCount={proposals.length}
             />
             <div className='w-full lg:pr-4 px-3 lg:px-0'>
                 {

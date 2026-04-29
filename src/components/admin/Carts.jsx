@@ -5,13 +5,13 @@ import HourglassDisabledIcon from "@mui/icons-material/HourglassDisabled";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import Title from "./Title";
-export default function Carts({ acceptedCount, rejectedCount, pendingCount }) {
+export default function Carts({ acceptedCount, rejectedCount, pendingCount, totalCount }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const accepted = acceptedCount;
     const rejected = rejectedCount;
     const pending = pendingCount;
-    const totalProjects = acceptedCount + rejectedCount + pendingCount;
+    const totalProjects = totalCount;
     let acceptedPercentage = 0;
     let rejectedPercentage = 0;
     let pendingPercentage = 0;
