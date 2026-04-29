@@ -29,6 +29,7 @@
     "react-scripts": "5.0.1",
     "react-toastify": "^11.0.5",
     "recharts": "^3.8.1",
+    "swiper": "^12.1.4",
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {

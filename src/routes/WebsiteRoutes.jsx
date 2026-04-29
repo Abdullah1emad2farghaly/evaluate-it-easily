@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import WebsiteLayout from '../layouts/WebsiteLayout'
 import Home from '../pages/website/Home'
+import About from '../pages/website/About'
 
 import CreateGroup from '../pages/website/CreateGroup'
 import CreateProposal from '../pages/website/CreateProposal'
@@ -18,6 +19,7 @@ export default function WebsiteRoutes() {
         <Routes>
             <Route path='/' element={<WebsiteLayout />}>
                 <Route index element={<Home />} />
+                <Route path='about' element={<About />} />
             </Route>
             <Route element={<WebsiteGuard />}>
                 <Route path='/' element={<WebsiteLayout />}>
