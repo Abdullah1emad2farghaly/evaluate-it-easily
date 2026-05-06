@@ -59,13 +59,13 @@ function SideBar() {
                     <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="800" style={{ color: colors.grey[100] }}>
                         <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={'group-invitations'}>
                             <InsertInvitationIcon />
-                            Group Invetations
+                            Group Invitations
                         </NavLink>
                     </li>
                     <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="800" style={{ color: colors.grey[100] }}>
                         <NavLink style={{ color: colors.grey[100] }} className={theme.palette.mode === "dark" ? "dark" : "light"} to={'my-invitations'}>
                             <PersonAddAltIcon />
-                            My Invetations
+                            My Invitations
                         </NavLink>
                     </li>
                     <li onClick={() => setIsSidebarOpen(!isSidebarOpen)} data-aos="fade-right" data-aos-delay="800" style={{ color: colors.grey[100] }}>
