@@ -22,7 +22,7 @@ export default function Header({ classes, bg }) {
             <nav className="w-full h-full max-w-[98%] mr-1 sm:max-w-[80%] sm:mx-auto flex justify-between items-center">
                 <img src="/assets/logo1.png" className=" h-[30px] sm:h-[40px]" alt="logo" />
                 <ul className="flex sm:space-x-3 space-x-1 items-center">
-                    
+
                     <li> 
                         <NavLink to={'/dashboard'} title="student dashboard" className={"hover:bg-green-500 transition-colors duration-500 px-3 py-2 text-white"} >Dashboard</NavLink>
                     </li>
@@ -51,3 +51,4 @@ export default function Header({ classes, bg }) {
         </header>
     )
 }
+

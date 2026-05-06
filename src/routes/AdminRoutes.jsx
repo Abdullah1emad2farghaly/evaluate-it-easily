@@ -24,7 +24,7 @@ export default function AdminRoutes() {
 
           <Route index element={<PendingProjects />} />
           <Route path='indecided-proposals' element={<Dashboard />} />
-          <Route path=':id' element={<ProposalView />} />
+          <Route path='indecided-proposals/:id' element={<ProposalView />} />
 
           <Route path='accepted-projects' element={<AcceptedProjects />} />
           <Route path='accepted-projects/:id' element={<ProposalView />} />
