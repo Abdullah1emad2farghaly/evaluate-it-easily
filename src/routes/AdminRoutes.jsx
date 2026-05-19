@@ -21,6 +21,7 @@ export default function AdminRoutes() {
     <Routes>
       <Route element={<AdminGuard />}>
         <Route path='/admin' element={<AdminLayout />}>
+          <Route path=':id' element={<ProposalView />} />
 
           <Route index element={<PendingProjects />} />
           <Route path='indecided-proposals' element={<Dashboard />} />
