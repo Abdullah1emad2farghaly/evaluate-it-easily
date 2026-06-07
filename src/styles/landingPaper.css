@@ -1,0 +1,297 @@
+/* Paper landing — scoped so global layout CSS (e.g. nav a) does not bleed in */
+
+.landing-paper {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  color: #111827;
+  background-color: #fafaf8;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23fafaf8'/%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23e5e5e0' opacity='0.4'/%3E%3C/svg%3E");
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.landing-paper :where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+}
+
+.landing-paper .paper-surface {
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23ffffff'/%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23e5e5e0' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+.landing-paper .label-uppercase {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.landing-paper .font-display {
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Scroll reveal — no blur */
+.landing-paper .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.landing-paper .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.landing-paper .reveal-hero {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.landing-paper .reveal-hero.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.landing-paper .reveal-header {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.landing-paper .reveal-header.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.landing-paper .reveal-delay-1 { transition-delay: 0.1s; }
+.landing-paper .reveal-delay-2 { transition-delay: 0.2s; }
+.landing-paper .reveal-delay-3 { transition-delay: 0.3s; }
+.landing-paper .reveal-delay-4 { transition-delay: 0.4s; }
+.landing-paper .reveal-delay-5 { transition-delay: 0.5s; }
+.landing-paper .reveal-delay-6 { transition-delay: 0.6s; }
+
+.landing-paper .nav-link {
+  position: relative;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Roboto", sans-serif;
+  color: #111111;
+  transition: color 0.2s ease;
+}
+.landing-paper .nav-link:hover {
+  color: #8b5cf6;
+}
+.landing-paper .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #d1d5db;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.landing-paper .nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+  background: #8b5cf6;
+}
+
+.landing-paper .card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.landing-paper .card:hover {
+  transform: translateY(-2px);
+  border-color: #d1d5db;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.landing-paper .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #111111;
+  color: #ffffff;
+  border-radius: 6px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background 0.2s ease;
+  border: 1px solid #111111;
+  text-decoration: none;
+  cursor: pointer;
+}
+.landing-paper .btn-primary:hover {
+  background: #374151;
+  border-color: #374151;
+}
+
+.landing-paper .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: transparent;
+  color: #111111;
+  border-radius: 6px;
+  border: 1px solid #111111;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background 0.2s ease;
+  text-decoration: none;
+}
+.landing-paper .btn-secondary:hover {
+  background: #f9fafb;
+}
+
+.landing-paper .flow-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e5e7eb;
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+.landing-paper .flow-line-fill {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  background: #8b5cf6;
+  transform: translateX(-50%);
+  transition: height 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 1px;
+}
+
+.landing-paper .flow-dot {
+  position: absolute;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: #8b5cf6;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: top 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 3;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.landing-paper .flow-node {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color 0.35s ease,
+    background-color 0.35s ease;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.landing-paper .flow-node.is-active {
+  border-color: #8b5cf6;
+  background: #f9fafb;
+}
+.landing-paper .flow-node.is-active .flow-node-icon {
+  color: #8b5cf6;
+}
+.landing-paper .flow-node .flow-node-num {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  background: #e5e7eb;
+  color: #6b7280;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+.landing-paper .flow-node.is-active .flow-node-num {
+  background: #111111;
+  color: #ffffff;
+}
+
+.landing-paper .flow-step-card {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 24px;
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s ease,
+    border-color 0.35s ease,
+    background-color 0.35s ease,
+    box-shadow 0.35s ease;
+  opacity: 0.5;
+  transform: translateY(8px);
+}
+.landing-paper .flow-step-card.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  background: #ffffff;
+  border-color: #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.landing-paper .flow-step-card.is-active:hover {
+  border-color: #d1d5db;
+}
+
+@keyframes landing-flow-dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+.landing-paper .flow-dash-animate {
+  animation: landing-flow-dash 1.5s linear infinite;
+}
+
+@keyframes landing-float-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.landing-paper .float-gentle {
+  animation: landing-float-gentle 6s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  .landing-paper .flow-line,
+  .landing-paper .flow-line-fill,
+  .landing-paper .flow-dot {
+    left: 20px;
+  }
+  .landing-paper .flow-dot {
+    display: none;
+  }
+}
