@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { getToken, getUserRole } from "../../services/authServices";
 import { ROUTES } from "./constants";
 

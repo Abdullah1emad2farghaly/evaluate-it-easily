@@ -8,10 +8,9 @@ import { login } from '../../services/authServices';
 import SimpleLoader from '../../loaders/SimpleLoader';
 import { HandleErrors } from '../../utils/HandleErrors';
 
-export default function Login({ onSwitch }) {
+export default function Login({ onSwitch, setLoading, loading }) {
     const navigate = useNavigate();
     const [hiddenPassword, setHiddenPassword] = useState(true);
-    const [loading, setLoading] = useState(false);
 
     const [data, setData] = useState({ email: '', password: '' });
 
@@ -42,8 +41,6 @@ export default function Login({ onSwitch }) {
 
     return (
         <>
-            <SimpleLoader loading={loading} />
-
             <form onSubmit={handleSubmit} noValidate>
 
                 {/* Email */}

@@ -16,7 +16,7 @@ export default function TopBar({setIsSidebarOpen, isSidebarOpen, notifications})
     const navigate = useNavigate();
 
     return (
-        <div className="topbar w-full px-4 py-1.5 z-10 top-0 text-[#404040b3] border-b left-0 " style={{borderColor: colors.grey[900], backgroundColor: colors.blueAccent[800]}}>
+        <div className="topbar w-full px-4 py-2.5 z-10 top-0 text-[#404040b3] border-b left-0 " style={{borderColor: colors.grey[900], backgroundColor: colors.blueAccent[800]}}>
             <div className="flex justify-between">
                 {/* BAR icon */}
                 <button 

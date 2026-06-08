@@ -60,7 +60,7 @@ export const tokens = (mode) => ({
             900: "#2c100f"
         },
         blueAccent: {
-            100: "#e1e2fe",
+            100: "#151632",
             200: "#c3c6fd",
             300: "#a4a9fc",
             400: "#868dfb",
@@ -179,34 +179,6 @@ export const themeSettings = (mode) => {
                 // },
             })
         },
-        // typography: {
-        //     fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        //     fontSize: 12,
-        //     h1: {
-        //         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        //         fontSize: 40,
-        //     },
-        //     h2: {
-        //         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        //         fontSize: 32,
-        //     },
-        //     h3: {
-        //         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        //         fontSize: 24,
-        //     },
-        //     h4: {   
-        //         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        //         fontSize: 20,
-        //     },
-        //     h5: {
-        //         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        //         fontSize: 16,
-        //     },
-        //     h6: {
-        //         fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-        //         fontSize: 14,
-        //     },
-        // },
     };
 };
 

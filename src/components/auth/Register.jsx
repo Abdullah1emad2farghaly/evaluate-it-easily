@@ -8,10 +8,9 @@ import SimpleLoader from '../../loaders/SimpleLoader';
 import { toast } from 'sonner';
 import { HandleErrors } from '../../utils/HandleErrors';
 
-export default function Register({ onSwitch }) {
+export default function Register({ onSwitch, setLoading, loading }) {
     const [hiddenPassword, setHiddenPassword] = useState(true);
     const [hiddenConfirm, setHiddenConfirm] = useState(true);
-    const [loading, setLoading] = useState(false);
 
     const [data, setData] = useState({
         fullName: '',
@@ -29,13 +28,14 @@ export default function Register({ onSwitch }) {
 
     const validateField = (name, value, currentData) => {
         let error = '';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
         switch (name) {
             case 'fullName':
                 if (!value.trim()) error = 'Full name is required';
                 else if (value.trim().length < 3) error = 'Name must be at least 3 characters';
                 break;
             case 'email':
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!value.trim()) error = 'Email is required';
                 else if (!emailRegex.test(value)) error = 'Please enter a valid email address';
                 break;
@@ -111,8 +111,7 @@ export default function Register({ onSwitch }) {
     };
 
     return (
-        <>
-            <SimpleLoader loading={loading} />
+        <div>
 
             <form onSubmit={handleSubmit} noValidate>
 
@@ -228,6 +227,6 @@ export default function Register({ onSwitch }) {
                 Already have an account?
                 <button type="button" onClick={onSwitch}>Sign in</button>
             </p>
-        </>
+        </div>
     );
 }

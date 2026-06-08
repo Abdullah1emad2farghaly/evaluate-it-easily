@@ -1,4 +1,3 @@
-/** Copy derived from app naming, routes, and domain logic (proposal → evaluation → committee). */
 
 export const PRODUCT_NAME = "Evaluate It Easily";
 export const PRODUCT_SUBTITLE =
