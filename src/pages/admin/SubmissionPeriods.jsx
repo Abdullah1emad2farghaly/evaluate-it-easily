@@ -7,6 +7,7 @@ import SimpleLoader from "../../loaders/SimpleLoader"
 import { HandleErrors } from "../../utils/HandleErrors"
 import { toast } from "sonner";
 import Title from "../../components/admin/Title";
+import { getThreshold, setThreshold } from "../../services/settingsServices";
 
 const initialPeriods = [
   {
@@ -271,6 +272,7 @@ export default function SubmissionPeriods() {
   const [modal, setModal] = useState(null);
   const [loader, setLoader] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [thresholdScore, setThresholdScore] = useState("");
 
 
   useEffect(() => {
@@ -284,7 +286,16 @@ export default function SubmissionPeriods() {
         setLoader(false);
       }
     }
+    const getThresholdScore = async () => {
+      try {
+        const res = await getThreshold();
+        setThresholdScore(res.threshold ?? "");
+      } catch (err) {
+        HandleErrors(err.errors || [err.message || "Failed to load threshold score"])
+      }
+    }
     getPeriods()
+    getThresholdScore()
     window.scrollTo(0, 0)
   }, [])
 
@@ -356,6 +367,17 @@ export default function SubmissionPeriods() {
 
   };
 
+  const handleThresholdSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await setThreshold(Number(thresholdScore));
+      setThresholdScore(res.threshold ?? "");
+    } catch (error) {
+      HandleErrors(error.errors || [error.message || "Failed to update threshold score"]);
+    }
+  }
+
 
   if (loader)
     return <Loader />
@@ -376,6 +398,28 @@ export default function SubmissionPeriods() {
             <span className="text-lg leading-none">+</span> Create New Period
           </button>
         </div>
+
+        <form onSubmit={handleThresholdSubmit} className="flex sm:flex-row flex-col sm:items-end gap-3 mb-6">
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium" style={{ color: colors.grey[200] }}>
+              Threshold
+            </label>
+            <input
+              type="number"
+              step="any"
+              value={thresholdScore}
+              onChange={(e) => setThresholdScore(e.target.value)}
+              style={{ color: colors.grey[100], borderColor: colors.grey[800], backgroundColor: colors.blueAccent[800] }}
+              className="border focus:outline-none rounded-lg px-4 py-2.5 text-sm placeholder-gray-400"
+            />
+          </div>
+          <button
+            type="submit"
+            className="cursor-pointer bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg shadow-sm transition-colors"
+          >
+            Submit
+          </button>
+        </form>
 
         {/* Active Period Card */}
         {currentActive && (

@@ -7,13 +7,16 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from "react-router-dom";
 
-export default function TopBar({setIsSidebarOpen, isSidebarOpen}) {
+export default function TopBar({setIsSidebarOpen, isSidebarOpen, notifications}) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
+    const navigate = useNavigate();
+
     return (
-        <div className="topbar w-full px-4 py-1.5 z-10 top-0 text-[#404040b3] border-b left-0 " style={{borderColor: colors.grey[800], backgroundColor: colors.blueAccent[800]}}>
+        <div className="topbar w-full px-4 py-1.5 z-10 top-0 text-[#404040b3] border-b left-0 " style={{borderColor: colors.grey[900], backgroundColor: colors.blueAccent[800]}}>
             <div className="flex justify-between">
                 {/* BAR icon */}
                 <button 
@@ -21,7 +24,7 @@ export default function TopBar({setIsSidebarOpen, isSidebarOpen}) {
                     style={{backgroundColor: colors.grey[900], borderColor: colors.grey[700], color: colors.grey[200]}}
                     onClick={()=>setIsSidebarOpen(!isSidebarOpen)}
                 >
-                    <MenuIcon fontSize="medium" />
+                    <MenuIcon fontSize="medium" className="hidden" />
                 </button>
                 {/* ICONS */}
                 <div display="flex">
@@ -37,13 +40,15 @@ export default function TopBar({setIsSidebarOpen, isSidebarOpen}) {
                     </IconButton>
                     <IconButton>
                         <NotificationsOutlinedIcon />
+                        {notifications?.length > 0 && (
+                            <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
+                                {notifications?.length}
+                            </span>
+                        )}
                     </IconButton>
-                    <IconButton>
-                        <SettingsOutlinedIcon />
-                    </IconButton>
-                    <IconButton>
-                        <PersonOutlinedIcon />
-                    </IconButton>
+                    <button onClick={()=> navigate("/")} className="px-4 ml-3 border border-green-500 text-green-500 hover:bg-green-500 hover:text-white cursor-pointer duration-300 py-1 rounded" >
+                        Home
+                    </button>
                 </div>
             </div>
         </div>

@@ -27,6 +27,7 @@ export default function Login({ onSwitch }) {
         try {
             const res = await login(data);
             clearForm();
+            window.localStorage.setItem("user", JSON.stringify(res));
             if (res.role === 'Admin') {
                 navigate('/admin');
             } else {

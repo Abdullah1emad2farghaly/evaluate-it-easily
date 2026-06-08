@@ -1,4 +1,5 @@
 import { useTheme } from "@emotion/react";
+import DashboardPreview from "./DashboardPreview";
 import { useMemo, useState } from "react";
 import {
   PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis,
@@ -589,6 +590,11 @@ export default function StatisticsDashboard({
                 </div>
               </section>
 
+              <section>
+                <SectionHeader>Submission &amp; Domain Overview</SectionHeader>
+                <DashboardPreview proposals={proposals} />
+              </section>
+
               {/* ── CHARTS ROW 2 ──────────────────────────────────────────── */}
               <section>
                 <SectionHeader>Trends &amp; Rankings</SectionHeader>
@@ -631,7 +637,7 @@ export default function StatisticsDashboard({
                     border border-amber-200 dark:border-amber-500/20
                     rounded-2xl p-5 flex gap-4 items-start
                   ">
-                    <span className="text-3xl mt-0.5 flex-shrink-0">⚠️</span>
+                    <span className="text-3xl mt-0.5 shrink-0">⚠️</span>
                     <div>
                       <p className="font-bold text-amber-700 dark:text-amber-400 text-sm mb-1">
                         {stats.notSubmitted} group{stats.notSubmitted > 1 ? "s have" : " has"} not submitted a proposal yet
