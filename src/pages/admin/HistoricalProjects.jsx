@@ -83,7 +83,6 @@ export default function HistoricalProjects() {
         const fetchProjects = async () => {
             try {
                 const data = await getHistoricalProjects(page, pageSize);
-                console.log(data);
                 setAcademicYears(["All Academic Years", ...new Set(data.items.map(project => project.academicYear))]);
                 setProjects(data.items);
                 setTotalPages(data.totalPages);
