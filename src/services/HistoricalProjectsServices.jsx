@@ -1,6 +1,5 @@
 import api from "./api.jsx";
 
-
 export const getHistoricalProjects = async (page, pageSize) => {
     try {
         const response = await api.get(`/api/HistoricalProjects?Page=${page}&PageSize=${pageSize}`);
