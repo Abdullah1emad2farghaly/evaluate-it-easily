@@ -1,5 +1,3 @@
-// src/components/Features.jsx
-import { motion } from "framer-motion";
 import { fadeUp } from "../../animations";
 import { ScanSearch, Users, ClipboardCheck, TrendingUp } from "lucide-react";
 

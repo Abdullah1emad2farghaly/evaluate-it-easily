@@ -289,7 +289,7 @@ export default function SubmissionPeriods() {
     const getThresholdScore = async () => {
       try {
         const res = await getThreshold();
-        setThresholdScore(res.threshold ?? "");
+        setThresholdScore(Math.round(res.threshold * 100 ));
       } catch (err) {
         HandleErrors(err.errors || [err.message || "Failed to load threshold score"])
       }
@@ -372,8 +372,7 @@ export default function SubmissionPeriods() {
     setLoading(true);
     try {
       const res = await setThreshold(Number(thresholdScore / 100));
-      console.log(res)
-      setThresholdScore(res.threshold ?? "");
+      setThresholdScore(Math.round(res.threshold * 100 ));
     } catch (error) {
       HandleErrors(error.errors || [error.message || "Failed to update threshold score"]);
     }finally {
@@ -412,7 +411,7 @@ export default function SubmissionPeriods() {
               step="any"
               maxLength={2}
               onChange={(e) => setThresholdScore(e.target.value)}
-
+              value={thresholdScore}
               onKeyDown={(e) => {
                 const allowedKeys = [
                   "Backspace",

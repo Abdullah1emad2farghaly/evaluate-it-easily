@@ -319,10 +319,8 @@ export default function Home() {
         return () => revealObserver.disconnect();
     }, []);
 
-    const year = new Date().getFullYear();
     const user = JSON.parse(window.localStorage.getItem("user"));
 
-    console.log(user)
     return (
         <div ref={landingRef} className="landing-paper scroll-smooth">
             <header
