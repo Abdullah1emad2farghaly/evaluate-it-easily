@@ -349,7 +349,7 @@ export default function Home() {
                                 user ? "Log out" : "Log in"
                             }
                         </Link>
-                        <Link to={user.role === "Admin" ? "/admin" : "/dashboard"} className="btn-primary border px-6! py-2! text-xs!" style={{ borderColor: colors.grey[700] }}>
+                        <Link to={user?.role === "Admin" ? "/admin" : "/dashboard"} className="btn-primary border px-6! py-2! text-xs!" style={{ borderColor: colors.grey[700] }}>
                             Launch Platform
                         </Link>
                         <IconButton onClick={() => {

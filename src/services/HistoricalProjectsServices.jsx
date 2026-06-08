@@ -9,6 +9,7 @@ export const getHistoricalProjects = async (page, pageSize) => {
     }
 }
 
+
 export const getProjectById = async (id) => {
   try {
     const response = await api.get(`/api/HistoricalProjects/${id}`);
