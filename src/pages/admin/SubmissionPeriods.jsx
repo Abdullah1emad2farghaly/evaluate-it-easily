@@ -5,7 +5,7 @@ import { AllPeriods, CreactPeriod, ToggleActive, UpdatePeriod } from "../../serv
 import Loader from '../../loaders/Loader'
 import SimpleLoader from "../../loaders/SimpleLoader"
 import { HandleErrors } from "../../utils/HandleErrors"
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import Title from "../../components/admin/Title";
 
 const initialPeriods = [

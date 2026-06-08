@@ -4,7 +4,7 @@ import LottieFiles from '../../lottieFiles/LottieFiles';
 import { getGroupInvitations, getMyGroup } from '../../services/groupServices';
 import  StyleGroupInvitations  from "../../components/website/StyleGroupInvitations"
 import { HandleErrors } from '../../utils/HandleErrors';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import Loader from '../../loaders/Loader';
 
 export default function GroupInvitations() {

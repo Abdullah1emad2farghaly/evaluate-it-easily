@@ -6,7 +6,7 @@ import { getProposalById } from "../../services/proposalServices";
 import { createEvaluation, getEvaluateProposal } from "../../services/evaluationServices";
 import { HandleErrors } from "../../utils/HandleErrors";
 import { makeDecision } from "../../services/decisionServices";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import Loader from "../../loaders/Loader";
 import { handleDownload } from "../../components/admin/DownloadProposal";
 import SimpleLoader from "../../loaders/SimpleLoader";

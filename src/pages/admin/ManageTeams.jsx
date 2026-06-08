@@ -15,7 +15,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { getAllUsers } from "../../services/userServices";
 import { SupervisorAssignments } from "../../services/supervisorServices";
 import SimpleLoader from "../../loaders/SimpleLoader";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { jsPDF } from "jspdf";
 import Title from "../../components/admin/Title";
 
