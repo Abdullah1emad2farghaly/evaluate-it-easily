@@ -31,7 +31,7 @@ export default function DashboardLayout() {
                     <SideBar setIsSidebarOpen={setIsSidebarOpen} isSidebarOpen={isSidebarOpen} />
                 </div>
                 <main className='relative w-full h-[85vh] mt-3'>
-                    <Outlet setNotification={setNotifications} />
+                    <Outlet setNotifications={setNotifications} />
                 </main>
             </div>
         </Fragment>
