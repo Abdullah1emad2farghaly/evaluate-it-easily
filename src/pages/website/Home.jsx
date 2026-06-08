@@ -322,6 +322,7 @@ export default function Home() {
     const year = new Date().getFullYear();
     const user = JSON.parse(window.localStorage.getItem("user"));
 
+    console.log(user)
     return (
         <div ref={landingRef} className="landing-paper scroll-smooth">
             <header
@@ -400,10 +401,10 @@ export default function Home() {
                     >
                         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-8 py-8">
                             <div className="flex flex-col gap-3 px-4">
-                                <Link to="/auth" onClick={() => logout()} className="py-3 text-center text-sm font-medium text-red-500 underline transition-colors">
+                                <Link to='/auth' onClick={() => logout()} className="py-3 text-center text-sm font-medium text-red-500 underline transition-colors">
                                     Log in
                                 </Link>
-                                <Link to="/auth" className="btn-primary w-full py-4" style={{ borderColor: colors.grey[700] }} onClick={() => setMobileMenu(false)}>
+                                <Link to={user?.role === "Admin" ? "/admin" : "/dashboard"} className="btn-primary w-full py-4" style={{ borderColor: colors.grey[700] }} onClick={() => setMobileMenu(false)}>
                                     Launch Platform
                                 </Link>
                             </div>

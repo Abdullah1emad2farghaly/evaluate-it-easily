@@ -39,7 +39,7 @@ const initialPeriods = [
   },
 ];
 
-const activePeriod = initialPeriods.find((p) => p.status === "Active");
+// const activePeriod = initialPeriods.find((p) => p.status === "Active");
 
 function formatDate(dateStr) {
   if (!dateStr) return "";
@@ -369,12 +369,15 @@ export default function SubmissionPeriods() {
 
   const handleThresholdSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
-      const res = await setThreshold(Number(thresholdScore));
+      const res = await setThreshold(Number(thresholdScore / 100));
+      console.log(res)
       setThresholdScore(res.threshold ?? "");
     } catch (error) {
       HandleErrors(error.errors || [error.message || "Failed to update threshold score"]);
+    }finally {
+      setLoading(false);
     }
   }
 
@@ -389,11 +392,11 @@ export default function SubmissionPeriods() {
 
         {/* Page Header */}
         <div className="flex sm:flex-row flex-col gap-2 items-start justify-between mb-6">
-          <Title title={"Submission Periods"} subTitle={"Manage and monitor your submission periods"}/>
-          
+          <Title title={"Submission Periods"} subTitle={"Manage and monitor your submission periods"} />
+
           <button
             onClick={() => setModal({ type: "create" })}
-            className="flex items-center justify-center sm:w-fit w-full gap-2 cursor-pointer bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg shadow-sm transition-colors"
+            className="flex items-center justify-center sm:w-fit w-full gap-2 cursor-pointer text-green-500 border border-green-500 hover:bg-green-500 hover:text-white font-semibold text-sm px-5 py-2.5 rounded-lg shadow-sm transition-colors"
           >
             <span className="text-lg leading-none">+</span> Create New Period
           </button>
@@ -401,21 +404,39 @@ export default function SubmissionPeriods() {
 
         <form onSubmit={handleThresholdSubmit} className="flex sm:flex-row flex-col sm:items-end gap-3 mb-6">
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium" style={{ color: colors.grey[200] }}>
+            <label className="text-lg uppercase font-medium" style={{ color: colors.grey[200] }}>
               Threshold
             </label>
             <input
-              type="number"
+              type="text"
               step="any"
-              value={thresholdScore}
+              maxLength={2}
               onChange={(e) => setThresholdScore(e.target.value)}
+
+              onKeyDown={(e) => {
+                const allowedKeys = [
+                  "Backspace",
+                  "Delete",
+                  "ArrowLeft",
+                  "ArrowRight",
+                  "Tab",
+                ];
+
+                if (
+                  !/[0-9]/.test(e.key) &&
+                  !allowedKeys.includes(e.key)
+                ) {
+                  e.preventDefault();
+                }
+              }}
+
               style={{ color: colors.grey[100], borderColor: colors.grey[800], backgroundColor: colors.blueAccent[800] }}
               className="border focus:outline-none rounded-lg px-4 py-2.5 text-sm placeholder-gray-400"
             />
           </div>
           <button
             type="submit"
-            className="cursor-pointer bg-green-600 hover:bg-green-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg shadow-sm transition-colors"
+            className="cursor-pointer text-green-500 border text-md py-2 border-green-500 hover:bg-green-500 hover:text-white font-semibold px-7 rounded-lg shadow-sm transition-colors"
           >
             Submit
           </button>
@@ -547,7 +568,7 @@ export default function SubmissionPeriods() {
                       >
                         <PowerIcon />
                       </button> */}
-                      <button onClick={()=>handleToggleStatus(period.id)} className={`w-9 cursor-pointer h-5 flex items-center rounded-full p-0.5 ${period.isActive ? "bg-[#10B981]" : "bg-[#8f8f8f56]"}`}>
+                      <button onClick={() => handleToggleStatus(period.id)} className={`w-9 cursor-pointer h-5 flex items-center rounded-full p-0.5 ${period.isActive ? "bg-[#10B981]" : "bg-[#8f8f8f56]"}`}>
                         <div className={`w-4 h-4 bg-white rounded-full transition ${period.isActive ? "translate-x-4" : ""}`} />
                       </button>
                     </div>
