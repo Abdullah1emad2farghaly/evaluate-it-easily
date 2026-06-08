@@ -70,7 +70,7 @@ export default function Invitations({ data, setData }) {
     }
 
     return (
-        <div className="min-h-screen lg:pr-4 px-4 lg:px-0">
+        <div className="min-h-screen lg:pr-4 pb-5 px-4 mb-5 lg:px-0">
             <SimpleLoader loading={loading} />
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -81,8 +81,8 @@ export default function Invitations({ data, setData }) {
             </div>
 
             {/* Table */}
-            <div className=" rounded-2xl border shadow-sm overflow-hidden" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}>
-                <table className="w-full text-left">
+            <div className=" rounded-2xl overflow-x-auto style-scroll border shadow-sm" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}>
+                <table className="w-full min-w-230 text-left">
                     <thead className="text-sm" style={{ color: colors.grey[100] }}>
                         <tr>
                             <th className="p-4">Group Name</th>

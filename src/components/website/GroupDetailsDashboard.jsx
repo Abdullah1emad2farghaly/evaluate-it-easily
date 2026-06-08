@@ -491,7 +491,7 @@ export default function GroupDetailsDashboard({ setStudents, myGroup, students }
             </span>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto style-scroll">
             <table className="w-full border-collapse min-w-190" >
               <thead>
                 <tr>

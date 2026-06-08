@@ -6,6 +6,7 @@ import { HandleErrors } from '../../utils/HandleErrors';
 import SubmissionsPage from '../../components/admin/ProjectCard';
 import Title from '../../components/admin/Title';
 import { archiveProject } from '../../services/HistoricalProjectsServices';
+import SimpleLoader from '../../loaders/SimpleLoader';
 
 const getAcademicYear = (dateString) => {
     const date = dateString ? new Date(dateString) : new Date();
@@ -17,7 +18,8 @@ const getAcademicYear = (dateString) => {
 
 export default function AcceptedProjects() {
     const [acceptedProjects, setAcceptedProjects] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loader, setLoader] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -27,17 +29,20 @@ export default function AcceptedProjects() {
             } catch (error) {
                 HandleErrors(error.errors)
             } finally {
-                setLoading(false);
+                setLoader(false);
             }
         }
         fetchProjects();
     }, []);
 
     const handleArchiveProject = async () => {
+        setLoading(true);
         try {
             await archiveProject(getAcademicYear(acceptedProjects[0]?.submittedAt));
         } catch (error) {
-            HandleErrors(error.errors);
+            HandleErrors(error?.errors);
+        }finally {
+            setLoading(false);
         }
     }
 
@@ -45,23 +50,24 @@ export default function AcceptedProjects() {
         scrollTo(0, 0);
     }, [])
 
-    if (loading)
+    if (loader)
         return <Loading />
 
     return (
         <>
-            <div className="flex sm:flex-row flex-col sm:items-center sm:justify-between gap-3">
+            <div className="flex sm:flex-row flex-col sm:pr-4 px-4 sm:px-0 sm:items-center sm:justify-between gap-3">
+                <SimpleLoader loading={loading} />
                 <Title title={"Accepted Projects"} />
-                {
-                    acceptedProjects.length ? (
-                        <button
-                            onClick={handleArchiveProject}
-                            className="px-4 py-2 rounded-lg cursor-pointer border bg-black text-white"
-                        >
-                            Archive All Projects
-                        </button>
-                    ) : null
-                }
+                    {
+                        acceptedProjects.length ? (
+                            <button
+                                onClick={handleArchiveProject}
+                                className="px-4 py-2 rounded-lg cursor-pointer border  text-green-500 border-green-500 hover:bg-green-500 hover:text-white transition-colors duration-300"
+                            >
+                                Archive All Projects
+                            </button>
+                        ) : null
+                    }
             </div>
             <div className='w-full lg:pr-4 px-3 lg:px-0'>
 
