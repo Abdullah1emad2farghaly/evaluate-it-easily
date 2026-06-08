@@ -12,12 +12,11 @@ import Title from "../../components/admin/Title";
 import { HandleErrors } from "../../utils/HandleErrors";
 
 
-export default function Notifications({setNotification}) {
+export default function Notifications() {
     const [loader, setLoader] = useState(false);
     const [notifications, setNotifications] = useState([]);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    setNotification([]);
 
     useEffect(() => {
         const getAllNotifications = async () => {
