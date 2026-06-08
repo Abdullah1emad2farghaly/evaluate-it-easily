@@ -11,7 +11,7 @@ import { useRef, useState } from "react";
 import SimpleLoader from "../../loaders/SimpleLoader";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { presignedUpload, updateProposal } from "../../services/proposalServices";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { HandleErrors } from "../../utils/HandleErrors";
 import ProjectStatusTracker from "./ProjectStatusTracker";
 import axios from "axios";

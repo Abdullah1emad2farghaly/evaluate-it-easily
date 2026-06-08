@@ -5,7 +5,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import { createProposal, getMyProposal, presignedUpload } from '../../services/proposalServices';
 import Loader from '../../loaders/Loader';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import SimpleLoader from '../../loaders/SimpleLoader';
 import { HandleErrors } from '../../utils/HandleErrors';
 import Title from '../../components/admin/Title';

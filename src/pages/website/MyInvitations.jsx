@@ -5,7 +5,7 @@ import { getMyInvitations } from '../../services/groupServices'
 import LottieFiles from '../../lottieFiles/LottieFiles';
 import Loader from '../../loaders/Loader';
 import { HandleErrors } from '../../utils/HandleErrors';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 
 export default function MyInvitations() {
     const [myInvitations, setMyInvitations] = useState();

@@ -7,7 +7,7 @@ import "aos/dist/aos.css";
 import AdminRoutes from "./routes/AdminRoutes";
 import WebsiteRoutes from "./routes/WebsiteRoutes";
 import AuthRoutes from "./routes/AuthRoutes";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { setNavigator } from "./services/navigationService";
 
@@ -39,10 +39,16 @@ function App() {
         {/* website routes */}
           <WebsiteRoutes />
 
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            theme="dark"
+          <Toaster 
+            position="top-right" 
+            richColors 
+            theme={theme.palette.mode === 'dark' ? 'dark' : 'light'} 
+            toastOptions={{
+              style: {
+                fontFamily: "'Montserrat', sans-serif",
+                borderRadius: '10px',
+              }
+            }}
           />
       </ThemeProvider>
     </ColorModeContext.Provider>

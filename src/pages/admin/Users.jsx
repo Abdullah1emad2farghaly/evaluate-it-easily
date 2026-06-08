@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { createStudentsAcounts, createUser, getAllUsers, toggleActivate, updateUser } from "../../services/userServices";
 import { HandleErrors } from "../../utils/HandleErrors"
 import Loader from "../../loaders/Loader"
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import SimpleLoader from "../../loaders/SimpleLoader";
 
 

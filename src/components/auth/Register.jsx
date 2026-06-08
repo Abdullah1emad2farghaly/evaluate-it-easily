@@ -1,168 +1,233 @@
-import React, { useState } from 'react'
-import PersonIcon from "@mui/icons-material/Person";
-import MailIcon from '@mui/icons-material/Mail';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import LockIcon from "@mui/icons-material/Lock";
-import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockOpenOutlinedIcon from '@mui/icons-material/LockOpenOutlined';
 import { register } from '../../services/authServices';
 import SimpleLoader from '../../loaders/SimpleLoader';
-
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { HandleErrors } from '../../utils/HandleErrors';
 
-export default function Register({ handleForm, active }) {
+export default function Register({ onSwitch }) {
     const [hiddenPassword, setHiddenPassword] = useState(true);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(true);
+    const [hiddenConfirm, setHiddenConfirm] = useState(true);
     const [loading, setLoading] = useState(false);
 
-    const togglePassword = () => {
-        setHiddenPassword(!hiddenPassword);
-    }
-
-    const toggleConfirmPassword = () => {
-        setShowConfirmPassword(!showConfirmPassword);
-    }
-
-    const reset = () => {
-        setHiddenPassword(true);
-        setShowConfirmPassword(true);
-    }
-
     const [data, setData] = useState({
-        fullName: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        fullName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
     });
 
-    const clearForm = () => {
-        setData({
-            fullName: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-        });
-    }
+    const [errors, setErrors] = useState({
+        fullName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+
+    const validateField = (name, value, currentData) => {
+        let error = '';
+        switch (name) {
+            case 'fullName':
+                if (!value.trim()) error = 'Full name is required';
+                else if (value.trim().length < 3) error = 'Name must be at least 3 characters';
+                break;
+            case 'email':
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!value.trim()) error = 'Email is required';
+                else if (!emailRegex.test(value)) error = 'Please enter a valid email address';
+                break;
+            case 'password':
+                if (!value) error = 'Password is required';
+                else if (value.length < 6) error = 'Password must be at least 6 characters';
+                break;
+            case 'confirmPassword':
+                if (!value) error = 'Please confirm your password';
+                else if (value !== currentData.password) error = 'Passwords do not match';
+                break;
+            default:
+                break;
+        }
+        return error;
+    };
+
     const handleChange = (e) => {
-        setData({
-            ...data,
-            [e.target.name]: e.target.value,
-        });
-    }
+        const { name, value } = e.target;
+        const newData = { ...data, [name]: value };
+        setData(newData);
+        
+        // Live validation on change
+        const errorMsg = validateField(name, value, newData);
+        setErrors({ ...errors, [name]: errorMsg });
+
+        // If password changes, we should also re-validate confirmPassword if it has a value
+        if (name === 'password' && newData.confirmPassword) {
+            setErrors(prev => ({
+                ...prev,
+                [name]: errorMsg,
+                confirmPassword: validateField('confirmPassword', newData.confirmPassword, newData)
+            }));
+        }
+    };
+
+    const clearForm = () => {
+        setData({ fullName: '', email: '', password: '', confirmPassword: '' });
+        setErrors({ fullName: '', email: '', password: '', confirmPassword: '' });
+        setHiddenPassword(true);
+        setHiddenConfirm(true);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        clearErrors();
+        
+        // Final validation before submit
+        const newErrors = {
+            fullName: validateField('fullName', data.fullName, data),
+            email: validateField('email', data.email, data),
+            password: validateField('password', data.password, data),
+            confirmPassword: validateField('confirmPassword', data.confirmPassword, data),
+        };
+        
+        setErrors(newErrors);
 
-        if (!data.fullName || !data.email || !data.password || !data.confirmPassword) {
-            toast.error("All fields are required!")
+        if (Object.values(newErrors).some(err => err !== '')) {
+            toast.error('Please fix the errors in the form before submitting.');
             return;
         }
+
         setLoading(true);
         try {
-            const res = await register(data)
-            console.log(res);
+            await register(data);
             clearForm();
-            handleForm();
-            clearErrors();
-            setLoading(false);
-            reset();
-            toast.success("Registration successful! Please check your email to confirm your account.");
+            onSwitch();
+            toast.success('Registration successful! Please check your email to confirm your account.');
         } catch (err) {
-            HandleErrors(err.errors)
+            HandleErrors(err.errors);
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     return (
         <>
-            <SimpleLoader className={`hidden`} loading={loading} />
-            <div className={`form-box ${active ? "z-10" : ""} register md:w-1/2 w-full right-0 md:p-[0px_40px_0px_60px] px-5 `}>
-                <h2
-                    className="text-3xl mb-5 text-white text-center animation"
-                    style={{ "--i": 17, "--j": 0 }}
-                >
-                    Sign Up
-                </h2>
-                <form onSubmit={handleSubmit} noValidate>
-                    <div
-                        className="input-box animation"
-                        style={{ "--i": 18, "--j": 1 }}
-                    >
-                        <input value={data.fullName} onChange={handleChange} type="text" id="fullName" name="fullName" required />
-                        <label htmlFor="fullName">Full Name</label>
-                        <PersonIcon className="icon" />
+            <SimpleLoader loading={loading} />
+
+            <form onSubmit={handleSubmit} noValidate>
+
+                {/* Full Name */}
+                <div className="auth-input-group">
+                    <label htmlFor="reg-fullname">Full Name</label>
+                    <div className="auth-input-wrap">
+                        <span className="auth-input-icon-left">
+                            <PersonOutlineIcon style={{ fontSize: 18 }} />
+                        </span>
+                        <input
+                            id="reg-fullname"
+                            type="text"
+                            name="fullName"
+                            value={data.fullName}
+                            onChange={handleChange}
+                            placeholder="Enter your full name"
+                            className={errors.fullName ? 'auth-input-error' : ''}
+                        />
                     </div>
-                    <div
-                        className="input-box animation"
-                        style={{ "--i": 19, "--j": 2 }}
-                    >
-                        <input value={data.email} onChange={handleChange} type="text" id="register-email" name="email" required />
-                        <label htmlFor="register-email">Email</label>
-                        <MailIcon className="icon" />
+                    {errors.fullName && <div className="auth-error-text">{errors.fullName}</div>}
+                </div>
+
+                {/* Email */}
+                <div className="auth-input-group">
+                    <label htmlFor="reg-email">Email Address</label>
+                    <div className="auth-input-wrap">
+                        <span className="auth-input-icon-left">
+                            <MailOutlineIcon style={{ fontSize: 18 }} />
+                        </span>
+                        <input
+                            id="reg-email"
+                            type="email"
+                            name="email"
+                            value={data.email}
+                            onChange={handleChange}
+                            placeholder="admin@example.com"
+                            className={errors.email ? 'auth-input-error' : ''}
+                        />
                     </div>
-                    <div
-                        className="input-box animation"
-                        style={{ "--i": 20, "--j": 3 }}
-                    >
-                        <input value={data.password} onChange={handleChange} type={hiddenPassword ? "password" : "text"} id="register-password" name="password" required />
-                        <label htmlFor="register-password">Password</label>
-                        {
-                            hiddenPassword ?
-                                <LockIcon className="icon cursor-pointer" onClick={togglePassword} />
-                                :
-                                <LockOpenIcon className='icon cursor-pointer' onClick={togglePassword} />
-                        }
+                    {errors.email && <div className="auth-error-text">{errors.email}</div>}
+                </div>
+
+                {/* Password */}
+                <div className="auth-input-group">
+                    <label htmlFor="reg-password">Password</label>
+                    <div className="auth-input-wrap">
+                        <span className="auth-input-icon-left">
+                            <LockOutlinedIcon style={{ fontSize: 18 }} />
+                        </span>
+                        <input
+                            id="reg-password"
+                            type={hiddenPassword ? 'password' : 'text'}
+                            name="password"
+                            value={data.password}
+                            onChange={handleChange}
+                            placeholder="Create a password"
+                            className={errors.password ? 'auth-input-error' : ''}
+                        />
+                        <span
+                            className="auth-input-icon-right clickable"
+                            onClick={() => setHiddenPassword(!hiddenPassword)}
+                            title={hiddenPassword ? 'Show password' : 'Hide password'}
+                        >
+                            {hiddenPassword
+                                ? <LockOutlinedIcon style={{ fontSize: 18 }} />
+                                : <LockOpenOutlinedIcon style={{ fontSize: 18 }} />
+                            }
+                        </span>
                     </div>
-                    <div
-                        className="input-box animation"
-                        style={{ "--i": 21, "--j": 4 }}
-                    >
-                        <input value={data.confirmPassword} onChange={handleChange} type={showConfirmPassword ? "password" : "text"} id="confirmPassword" name="confirmPassword" required />
-                        <label htmlFor="confirmPassword">Confirm Password</label>
-                        {
-                            showConfirmPassword ?
-                                <LockIcon className="icon cursor-pointer" onClick={toggleConfirmPassword} />
-                                :
-                                <LockOpenIcon className='icon cursor-pointer' onClick={toggleConfirmPassword} />
-                        }
+                    {errors.password && <div className="auth-error-text">{errors.password}</div>}
+                </div>
+
+                {/* Confirm Password */}
+                <div className="auth-input-group">
+                    <label htmlFor="reg-confirm">Confirm Password</label>
+                    <div className="auth-input-wrap">
+                        <span className="auth-input-icon-left">
+                            <LockOutlinedIcon style={{ fontSize: 18 }} />
+                        </span>
+                        <input
+                            id="reg-confirm"
+                            type={hiddenConfirm ? 'password' : 'text'}
+                            name="confirmPassword"
+                            value={data.confirmPassword}
+                            onChange={handleChange}
+                            placeholder="Confirm your password"
+                            className={errors.confirmPassword ? 'auth-input-error' : ''}
+                        />
+                        <span
+                            className="auth-input-icon-right clickable"
+                            onClick={() => setHiddenConfirm(!hiddenConfirm)}
+                            title={hiddenConfirm ? 'Show password' : 'Hide password'}
+                        >
+                            {hiddenConfirm
+                                ? <LockOutlinedIcon style={{ fontSize: 18 }} />
+                                : <LockOpenOutlinedIcon style={{ fontSize: 18 }} />
+                            }
+                        </span>
                     </div>
-                    <button
-                        type="submit"
-                        className="btn animation mb-3 mt-3"
-                        style={{ "--i": 22, "--j": 5 }}
-                    >
-                        Sign Up
-                    </button>
-                    <div
-                        className="logreg-link animation text-[14.5px] text-[#fff] text-center m-[0px_0px_10px] "
-                        style={{ "--i": 24, "--j": 7 }}
-                    >
-                        <p>
-                            Already have an account?
-                            <NavLink
-                                onClick={() => {
-                                    handleForm();
-                                    clearForm();
-                                    reset();
-                                }}
-                                className="login-link decoration-0 text-[#0ef] font-[600] hover:underline "
-                            >
-                                Login
-                            </NavLink>
-                        </p>
-                    </div>
-                </form>
-            </div>
-            <div className="info-text md:flex hidden pointer-events-none left-0 text-left p-[0px_100px_60px_40px] register">
-                <h2 className="animation font-semibold" style={{ "--i": 17, "--j": 0 }}>
-                    Evaluate It Easily
-                </h2>
-                <p className="animation" style={{ "--i": 18, "--j": 1 }}>
-                    To keep connected with us please login with your personal info
-                </p>
-            </div>
+                    {errors.confirmPassword && <div className="auth-error-text">{errors.confirmPassword}</div>}
+                </div>
+
+                {/* Submit */}
+                <button type="submit" id="register-submit-btn" className="auth-btn" disabled={loading}>
+                    {loading ? 'Creating account…' : 'Sign Up'}
+                </button>
+
+          
+            </form>
+
+            <p className="auth-footer">
+                Already have an account?
+                <button type="button" onClick={onSwitch}>Sign in</button>
+            </p>
         </>
-    )
+    );
 }
