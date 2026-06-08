@@ -18,9 +18,7 @@ export default function GroupInvitations() {
                 const res = await getGroupInvitations(response.id);
                 setGroupInvitations(res);
             }catch(error){
-                if(error?.errors?.length)
-                    HandleErrors(error.errors)
-                toast.error(error.message);
+                HandleErrors(error.errors)
             }finally {
                 setLoader(false);
             }
