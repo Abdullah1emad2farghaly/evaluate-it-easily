@@ -7,8 +7,8 @@ export default function Profile() {
                 <Avatar initials={IntialLetters(IntialLetters(user.fullName))} color={"bg-green-500"} />
             </div>
             <div>
-                <h5 className="text-xs font-medium text-ellipsis">{user.fullName}</h5>
-                <p className="text-xs text-gray-500">{user.email}</p>
+                <h5 className="text-xs font-medium text-ellipsis">{user?.fullName}</h5>
+                <p className="text-xs text-gray-500">{user?.email}</p>
             </div>
         </div>
     )
