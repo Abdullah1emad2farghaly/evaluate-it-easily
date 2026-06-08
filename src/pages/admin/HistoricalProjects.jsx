@@ -16,6 +16,7 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Pagination from "../../components/admin/Pagination";
 
 const FilterList = ({ colors, setYear, options = [] }) => {
     const [open, setOpen] = useState(false);
@@ -69,13 +70,23 @@ export default function HistoricalProjects() {
     const [search, setSearch] = useState("");
     const [acadimicYears, setAcademicYears] = useState(["All Academic Years"]);
     const [year, setYear] = useState();
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+
+    const pageSize = 8;
+
+    const pageHandler = (pageNumber) => {
+        setPage(pageNumber);
+    }
 
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const data = await getHistoricalProjects();
-                setAcademicYears(["All Academic Years", ...new Set(data.map(project => project.academicYear))]);
-                setProjects(data);
+                const data = await getHistoricalProjects(page, pageSize);
+                console.log(data);
+                setAcademicYears(["All Academic Years", ...new Set(data.items.map(project => project.academicYear))]);
+                setProjects(data.items);
+                setTotalPages(data.totalPages);
             } catch (error) {
                 HandleErrors(error.errors)
             } finally {
@@ -83,7 +94,7 @@ export default function HistoricalProjects() {
             }
         };
         fetchProjects();
-    }, []);
+    }, [page, pageSize]);
 
     const filteredProjects = projects.filter(project => {
         const matchesSearch =
@@ -101,10 +112,6 @@ export default function HistoricalProjects() {
     return (
         <div className="mt-4 pb-5 lg:pr-4 lg:px-0 px-3">
             <Title title={"Historical Projects"} />
-
-
-
-
             {
                 projects.length ? (
                     <div>
@@ -129,6 +136,7 @@ export default function HistoricalProjects() {
                                 <ProjectCard key={index} colors={colors} item={project} />
                             ))}
                         </div>
+                        <Pagination page={page} pageHandler={pageHandler} dynamicPage={totalPages} />
                     </div>
                 ) : (
                     <LottieFiles name={"animatedData2"} />

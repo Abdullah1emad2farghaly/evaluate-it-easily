@@ -54,7 +54,7 @@ export default function Carts({ acceptedCount, rejectedCount, pendingCount, tota
 
     return (
         <>
-            <div className="relative grid grid-cols-12 px-2 carts overflow-hidden gap-3">
+            <div className="relative grid grid-cols-12 sm:pr-3 sm:px-0 px-2 carts overflow-hidden gap-3">
                 <div className="col-span-12 sm:col-span-6 lg:col-span-4" data-aos="fade-left" data-aos-delay="0">
                     <div
                         className="border-0 flex h-40 justify-center items-center rounded-lg p-3 accepted shadow"

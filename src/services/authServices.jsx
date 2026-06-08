@@ -23,6 +23,7 @@ export const register = async (data) => {
 }
 
 export const logout = () => {
+    localStorage.removeItem("user");
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_ROLE);
     localStorage.removeItem(REFRESH_TOKEN_KEY);

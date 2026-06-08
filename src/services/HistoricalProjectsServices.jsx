@@ -1,8 +1,8 @@
 import api from './api.jsx';
 
-export const getHistoricalProjects = async () => {
+export const getHistoricalProjects = async (page, pageSize) => {
     try {
-        const response = await api.get('/api/HistoricalProjects');
+        const response = await api.get(`/api/HistoricalProjects?Page=${page}&PageSize=${pageSize}`);
         return response.data;
     } catch (error) {
         throw error.response ? error.response.data : error;

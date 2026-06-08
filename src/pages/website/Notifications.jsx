@@ -12,11 +12,12 @@ import Title from "../../components/admin/Title";
 import { HandleErrors } from "../../utils/HandleErrors";
 
 
-export default function Notifications() {
+export default function Notifications({setNotification}) {
     const [loader, setLoader] = useState(false);
     const [notifications, setNotifications] = useState([]);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    setNotification([]);
 
     useEffect(() => {
         const getAllNotifications = async () => {
@@ -102,7 +103,7 @@ export default function Notifications() {
                 {notifications.length ? notifications.map((item, index) => (
                     <div
                         key={index}
-                        className={`relative ${theme.palette.mode === "light" ? "odd:bg-[#d2d2d2dd] even:bg-white" : "odd:bg-[#242424] even:bg-[#2e2e2ede]"} rounded-md p-4 mb-4 flex justify-between items-start ${!item.isRead ? "border-l-4 border-blue-500" : ""}`}
+                        className={`relative ${theme.palette.mode === "light" ? "odd:bg-[#dddddddd] even:bg-white" : "odd:bg-[#242424] even:bg-[#2e2e2ede]"} rounded-md p-4 mb-4 flex justify-between items-start ${!item.isRead ? "border-l-4 border-blue-500" : ""}`}
                     >
                         <div className="flex items-center absolute right-5 top-4 space-x-1">
                             {!item.isRead && (

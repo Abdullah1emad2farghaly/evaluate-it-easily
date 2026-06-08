@@ -82,7 +82,7 @@ export default function EvaluationResults() {
                                             {/* Top */}
                                             <div className="flex justify-between items-start mb-6">
                                                 <div>
-                                                    <div className="flex ms:flex-row flex-col items-start sm:items-center gap-3 mb-2">
+                                                    <div className="flex sm:flex-row flex-col items-start sm:items-center gap-3 mb-2">
                                                         <span className="text-xs font-mono font-bold px-2 py-1 bg-[#435ba2] text-white rounded">
                                                             PRO-{String(item.proposalId).padStart(4, "0")}
                                                         </span>

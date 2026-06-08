@@ -42,7 +42,7 @@ export default function Login({ handleForm, active }) {
         try {
             const res = await login(data);
             clearForm();
-
+            window.localStorage.setItem("user", JSON.stringify(res));
             if (res.role === "Admin") {
                 navigate("/admin");
             } else {
@@ -61,7 +61,7 @@ export default function Login({ handleForm, active }) {
             <SimpleLoader loading={loading} />
             <div className={`form-box ${active ? "" : "z-100"} md:w-1/2 w-full login left-0 md:p-[0px_60px_0px_40px] px-5`}>
                 <h2
-                    className="text-3xl mb-5 text-[#fff] text-center animation"
+                    className="text-3xl mb-5 text-white text-center animation"
                     style={{ "--i": 0, "--j": 23 }}
                 >
                     Login

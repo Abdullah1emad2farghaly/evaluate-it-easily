@@ -17,22 +17,19 @@ import SchoolIcon from '@mui/icons-material/School';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { useState } from "react";
+import Profile from "./Profile";
 
 export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const navigate = useNavigate();
 
     const [openMenu, setOpenMenu] = useState(false);
-    const [width, setWidth] = useState("full");
+    const [width, setWidth] = useState("full");     
 
-    const handleSignOut = () => {
-        logout();
-        navigate("/auth");
-    }
     const onCloseMenu = () => {
         setOpenMenu(false);
     }
+    
 
     return (
         <div
@@ -175,9 +172,9 @@ export default function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
                     </ul>
                 </div>
 
-                <button onClick={handleSignOut} className={`tracking-[1.5px] font-medium cursor-pointer absolute w-[90%] bottom-3 sm:bottom-10 left-[5%] py-3 px-4 rounded-md border border-dashed border-[#4cceac] hover:bg-[#1bc698] transition-colors duration-500`}>
-                    Sign Out
-                </button>
+                <div className={`font-medium cursor-pointer absolute w-[90%] bottom-3 sm:bottom-10 left-[5%] py-3 px-4 rounded-md border border-dashed border-green-500 transition-colors duration-500`}>
+                    <Profile />
+                </div>
             </div>
         </div>
     );

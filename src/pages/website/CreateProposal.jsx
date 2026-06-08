@@ -13,6 +13,8 @@ import ProposalCard from '../../components/website/ProposalCard';
 import ProjectStatusTracker from "../../components/website/ProjectStatusTracker"
 import axios from 'axios';
 import UploadOverlay from '../../components/website/UploadOverlay';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 export default function CreateProposal() {
     const theme = useTheme();
@@ -25,12 +27,14 @@ export default function CreateProposal() {
     const [fileUpload, setFileUpload] = useState(null);
     const [uploadProgress, setUploadProgress] = useState(0);
 
+
     const [data, setData] = useState({
         title: "",
         abstract: "",
         originalFileName: "",
         storedFileName: "",
         contentType: "application/pdf",
+        domain: "",
     });
 
 
@@ -85,12 +89,10 @@ export default function CreateProposal() {
                     setUploadProgress(percent);
                 },
             });
-            
-            const res = await createProposal({ ...data, storedFileName: storedFileName });
-            setMyProposal(res);
+
+            await createProposal({ ...data, storedFileName: storedFileName });
             toast.success("Proposal submitted successfully!");
         } catch (error) {
-            console.log(error)
             HandleErrors(error.errors)
         } finally {
             setLoading(false);
@@ -142,19 +144,25 @@ export default function CreateProposal() {
                                 <p className='text-sm' style={{ color: colors.grey[300] }}>Please provide comprehensive details about your project for administrative review and approval.</p>
                             </div>
 
-                            <div className="input-box p-10 md:px-10 px-5 pb-8">
-                                <div className='flex justify-between px-1'>
-                                    <label style={{ color: colors.grey[300] }} htmlFor="title">Project Title <span className='text-red-500'>*</span></label>
-                                    <p className={`text-sm ${data.title.length >= 3 ? "text-green-500" : "text-red-500"}`}>{data.title.length} / min <span>3</span></p>
+                            <div className='flex gap-3 p-10 md:px-10 px-5 pb-8'>
+                                <div className="input-box w-full">
+                                    <div className='flex justify-between px-1'>
+                                        <label style={{ color: colors.grey[300] }} htmlFor="title">Project Title <span className='text-red-500'>*</span></label>
+                                        <p className={`text-sm ${data.title.length >= 3 ? "text-green-500" : "text-red-500"}`}>{data.title.length} / min <span>3</span></p>
+                                    </div>
+                                    <input
+                                        onChange={handleChange}
+                                        style={{ color: colors.grey[100], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}
+                                        name="title"
+                                        type="text"
+                                        id='title'
+                                        placeholder='Enter project title'
+                                    />
                                 </div>
-                                <input
-                                    onChange={handleChange}
-                                    style={{ color: colors.grey[100], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}
-                                    name="title"
-                                    type="text"
-                                    id='title'
-                                    placeholder='Enter project title'
-                                />
+                                <div className="input-box w-full">
+                                    <label style={{ color: colors.grey[300] }} className='ml-2' htmlFor="title">Project Domain <span className='text-red-500'>*</span></label>
+                                    <Dropdown colors={colors} setData={setData} />
+                                </div>
                             </div>
 
                             <div className="input-box md:px-10 px-5 pb-8">
@@ -194,3 +202,52 @@ export default function CreateProposal() {
         </div>
     )
 }
+
+const Dropdown = ({ colors, setData, options = ["Robotics & Autonomous Systems", "Embedded Systems", "Cybersecurity", "Fraud Detection", "Green Computing & Sustainability", "Blockchain", "Edge Computing & Cloud Computing", "Big Data & Data Analytics", "Natural Language Processing (NLP)", "Augmented Reality / Virtual Reality (AR/VR)"] }) => {
+    const [open, setOpen] = useState(false);
+    const theme = useTheme()
+    const [selected, setSelected] = useState("");
+    useEffect(() => {
+        if (setData) {
+            setData(prev => ({ ...prev, domain: selected }));
+        }
+    }, [selected, setData]);
+
+    return (
+        <div className="w-full pr-2 items-center cursor-pointer border rounded-lg flex relative" style={{ color: colors.grey[300], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}>
+            <input
+                type="text"
+                placeholder="Select Project Domain"
+                readOnly
+                value={selected}
+                onFocus={() => setOpen(true)}
+                onBlur={() => setTimeout(() => setOpen(false), 100)}
+                className={`w-full  py-2 rounded-lg focus:cursor-pointer hover:cursor-pointer border-none focus:outline-none`}
+            />
+            <p><ArrowDropDownIcon /></p>
+
+            {open && (
+                <ul className="absolute w-full left-0 top-9 border border-[#00bc8a] mt-1 rounded-lg shadow-lg max-h-40 overflow-y-auto z-50" style={{ backgroundColor: colors.blueAccent[800] }} >
+                    {
+                        options.map((opt, index) => {
+                            return (
+                                <li
+                                    key={index}
+                                    onMouseDown={() => {
+                                        setOpen(false);
+                                        setSelected(opt);
+                                    }}
+                                    disabled={opt === options[0]}
+                                    style={{ color: colors.grey[200] }}
+                                    className={`p-2 py-1.5 hover:text-[#00bc8a!important] ${theme.palette.mode === "dark" ? "hover:bg-[#87878752]" : "hover:bg-[#cecece8b]"}`}
+                                >
+                                    {opt}
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            )}
+        </div>
+    );
+};
