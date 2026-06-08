@@ -4,8 +4,8 @@
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   color: #111827;
-  background-color: #fafaf8;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23fafaf8'/%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23e5e5e0' opacity='0.4'/%3E%3C/svg%3E");
+  /* background-color: #fafaf8; */
+  /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23fafaf8'/%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23e5e5e0' opacity='0.4'/%3E%3C/svg%3E"); */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -15,10 +15,7 @@
   outline-offset: 2px;
 }
 
-.landing-paper .paper-surface {
-  background-color: #ffffff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23ffffff'/%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23e5e5e0' opacity='0.35'/%3E%3C/svg%3E");
-}
+
 
 .landing-paper .label-uppercase {
   font-family: "Roboto", sans-serif;
@@ -105,20 +102,7 @@
   background: #8b5cf6;
 }
 
-.landing-paper .card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-.landing-paper .card:hover {
-  transform: translateY(-2px);
-  border-color: #d1d5db;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-}
+
 
 .landing-paper .btn-primary {
   display: inline-flex;
@@ -138,8 +122,9 @@
   cursor: pointer;
 }
 .landing-paper .btn-primary:hover {
-  background: #374151;
-  border-color: #374151;
+  background: #fff;
+  color: black;
+  /* border-color: #374151; */
 }
 
 .landing-paper .btn-secondary {
@@ -244,7 +229,7 @@
 }
 
 .landing-paper .flow-step-card {
-  background: transparent;
+  /* background: transparent; */
   border: 1px solid transparent;
   border-radius: 6px;
   padding: 24px;

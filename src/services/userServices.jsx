@@ -9,6 +9,16 @@ export const createUser = async (data) => {
     }
 }
 
+export const createStudentsAcounts = async (data) => {
+    try {
+        const response = await api.post(`/Users/import-students`, data); 
+        return response.data;
+    }catch (error) {
+        throw error.response ? error.response.data : error;
+    }
+}
+
+
 export const getUserById = async (userId) => {
     try {
         const response = await api.get(`/Users/${userId}`); 

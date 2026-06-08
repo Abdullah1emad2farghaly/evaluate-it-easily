@@ -5,14 +5,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import SearchIcon from '@mui/icons-material/Search';
-import { createUser, getAllUsers, toggleActivate, updateUser } from "../../services/userServices";
+import { createStudentsAcounts, createUser, getAllUsers, toggleActivate, updateUser } from "../../services/userServices";
 import { HandleErrors } from "../../utils/HandleErrors"
 import Loader from "../../loaders/Loader"
 import { toast } from "react-toastify";
 import SimpleLoader from "../../loaders/SimpleLoader";
 
 
-const Filters = ({ setCreating, colors, users, setUsers }) => {
+const Filters = ({ setCreating, colors, users, setUsers, setClose }) => {
     const [userRole, setUserRole] = useState("All Roles");
     const [userStatus, setUserStatus] = useState('All Status');
     const [name, setName] = useState("");
@@ -57,9 +57,16 @@ const Filters = ({ setCreating, colors, users, setUsers }) => {
                 <Dropdown colors={colors} setUserRole={setUserRole} options={["All Roles", "Admin", "Supervisor", "Commettee", "Student", "TechnicalAssistant"]} />
                 <Dropdown colors={colors} setUserStatus={setUserStatus} options={["All Status", "Active", "InActive"]} />
             </div>
-            <button onClick={() => setCreating(true)} className="bg-green-400 cursor-pointer text-white px-4 py-1 rounded-lg text-sm font-medium">
-                + Add User
-            </button>
+            <div className="flex gap-3">
+                <button onClick={() => setCreating(true)} className="bg-green-400 cursor-pointer text-white px-4 py-1 rounded-lg text-sm font-medium">
+                    + Add User
+                </button>
+                <button
+                    onClick={() => { setClose(true) }}
+                    className="bg-blue-500 cursor-pointer text-white px-4 py-1 rounded-lg text-sm font-medium">
+                    Insert Students
+                </button>
+            </div>
         </div>
     )
 }
@@ -130,11 +137,11 @@ const UserTable = ({ users, colors, onEdit, onToggle }) => {
                                     <Avatar color={
                                         u.role === "Supervisor"
                                             ? "bg-[#f59e0b]"
-                                            : u.role === "Admin" 
-                                            ? "bg-green-500" 
-                                            : u.role === "TechnicalAssistant" 
-                                            ? "bg-orange-600" 
-                                            : "bg-blue-500"
+                                            : u.role === "Admin"
+                                                ? "bg-green-500"
+                                                : u.role === "TechnicalAssistant"
+                                                    ? "bg-orange-600"
+                                                    : "bg-blue-500"
                                     }
                                         initials={IntialLetters(u.fullName).toUpperCase()}
                                     />
@@ -336,7 +343,77 @@ const Dropdown = ({ colors, setUserRole, setUserStatus, options = ["Admin", "Sup
     );
 };
 
+
+// ===== Students Acount Creation =====
+const StudentsAcountCreation = ({ setClose, close, setLoading, setUsers }) => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const [file, setFile] = useState(null);
+    const [fileName, setFileName] = useState("");
+
+    const handleImportStudents = async (e) => {
+        e.preventDefault();
+        
+        if (!file) {
+            toast.error("Please upload a CSV file.");
+            return;
+        }
+        setLoading(true);
+        const formData = new FormData();
+        formData.append("file", file);  
+        try {
+            await createStudentsAcounts(formData);
+            toast.success("Students accounts created successfully");
+            const response = await getAllUsers();
+            setUsers(response);
+            setClose(false);
+            setFile(null);
+            setFileName("");
+        }catch(error) {
+            HandleErrors(error.errors);
+        }finally {
+            setLoading(false);
+        }
+    }
+
+    return (
+        <div
+            onClick={(e) => {
+                if (e.target === e.currentTarget) {
+                    setClose(false);
+                    setFile(null);
+                    setFileName("")
+                }
+            }}
+            className={`${close ? 'fixed' : 'hidden'} backdrop-blur-xs w-full h-full z-50 top-0 left-0 flex items-center justify-center`}>
+            <div>
+                <form onSubmit={(e) => handleImportStudents(e)} encType="multipart/form-data" className="border rounded-xl p-6 flex flex-col" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}>
+                    <h2 className="text-lg font-semibold mb-5" style={{ color: colors.grey[100] }}>Import Students Accounts</h2>
+                    <input
+                        type="file"
+                        accept=".csv"
+                        onChange={(e) => {
+                            setFile(e.target.files[0])
+                            setFileName(e.target.files[0].name)
+                        }}
+                        className="border hover:cursor-pointer rounded-lg px-3 py-2 w-full text-sm focus:outline-none"
+                        style={{ backgroundColor: colors.grey[900], borderColor: colors.grey[700], color: colors.grey[100] }}
+                    />
+                    <p className={`text-sm ${fileName !== "" ? "text-green-500" : "text-gray-500"} text-start ml-2 mt-1 mb-5 m-0 p-0`}>
+                        {fileName || "Please upload a CSV file."}
+                    </p>
+                    <button type="submit" className=" cursor-pointer transition-colors border border-[#16c277] text-green-500 hover:bg-green-500 hover:text-white duration-500  px-6 py-2.5 rounded-lg text-sm">
+                        Insert Students
+                    </button>
+                </form>
+            </div>
+        </div>
+    )
+
+}
+
 // ===== Main =====
+
 
 export default function UserManagement() {
     const theme = useTheme();
@@ -347,6 +424,8 @@ export default function UserManagement() {
     const [editing, setEditing] = useState(null);
     const [creating, setCreating] = useState(false);
     const [userRole, setUserRole] = useState("Admin");
+    const [close, setClose] = useState(false);
+
     const [addUser, setAddUser] = useState({
         fullName: "",
         email: "",
@@ -423,8 +502,9 @@ export default function UserManagement() {
     return (
         <div className="min-h-screen lg:pr-4 lg:p-0 p-3">
             <main className="w-full mb-5">
-                <Filters colors={colors} users={users} setUsers={setFilteredUsers} setCreating={setCreating} />
+                <Filters colors={colors} users={users} setUsers={setFilteredUsers} setClose={setClose} setCreating={setCreating} />
                 <SimpleLoader loading={loading} />
+                <StudentsAcountCreation setClose={setClose} setUsers={setUsers} setLoading={setLoading} close={close} />
                 <UserTable users={filteredUsers} colors={colors} onEdit={setEditing} onToggle={toggleStatus} />
                 <MobileList colors={colors} users={filteredUsers} onEdit={setEditing} onToggle={toggleStatus} />
             </main>
