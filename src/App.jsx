@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminRoutes from "./routes/AdminRoutes";
 import WebsiteRoutes from "./routes/WebsiteRoutes";
 import AuthRoutes from "./routes/AuthRoutes";
-import { Toaster } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { setNavigator } from "./services/navigationService";
 
