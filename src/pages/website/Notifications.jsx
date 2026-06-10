@@ -25,6 +25,7 @@ export default function Notifications() {
                 const response = await getNotifications();
                 setNotifications(response)
             } catch(error) {
+                
                 HandleErrors(error?.errors || error.message);
                 setLoader(false)
             } finally {

@@ -46,6 +46,7 @@ export default function PendingProjects() {
         const fetchProjects = async () => {
             try {
                 const projects = await getProposals();
+                
                 countProposalStatuses(projects);
                 setProposals(projects);
                 setPendingProjects(projects.filter((proposal) => proposal.status === "Pending"));
@@ -57,7 +58,7 @@ export default function PendingProjects() {
         }
         fetchProjects();
     }, []);
-    
+    console.log(proposals)
     useEffect(() => {
         scrollTo(0, 0);
     }, [])
@@ -76,7 +77,7 @@ export default function PendingProjects() {
                 totalCount={proposals.length}
                 
             />
-            <div className='w-full lg:pr-4 px-3 lg:px-0'>
+            <div className='w-full relative lg:pr-4 px-3 lg:px-0'>
                 {
                     !pendingProjects.length
                         ? (<LottieFiles name={"animatedData2"} />)

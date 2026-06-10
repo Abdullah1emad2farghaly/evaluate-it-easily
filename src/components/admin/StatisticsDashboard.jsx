@@ -439,7 +439,7 @@ function RecentProposalsTable({ proposals }) {
   if (!recent.length) return <EmptyState />;
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto style-scroll">
       <table className="w-full text-sm min-w-200">
         <thead>
           <tr className="border-b " style={{ color: colors.grey[100], borderColor: colors.grey[700] }}>

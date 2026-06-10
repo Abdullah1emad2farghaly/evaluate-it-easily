@@ -97,7 +97,7 @@ export default function SideBar({ setIsSidebarOpen, isSidebarOpen }) {
                     </ul>
                 </div>
 
-                <div className={`font-medium cursor-pointer overflow-hidden relative w-[90%] -bottom-20 sm:-bottom-50 left-[5%] py-3 px-3 rounded-md border border-dashed border-green-500 transition-colors duration-500`}>
+                <div className={`font-medium cursor-pointer overflow-hidden relative w-[90%] -bottom-27 sm:-bottom-50 left-[5%] py-3 px-3 rounded-md border border-dashed border-green-500 transition-colors duration-500`}>
                     <Profile />
                 </div>
             </div>

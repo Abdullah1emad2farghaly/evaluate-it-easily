@@ -3,7 +3,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AdminRoutes from "./routes/AdminRoutes";
 import WebsiteRoutes from "./routes/WebsiteRoutes";
 import AuthRoutes from "./routes/AuthRoutes";
@@ -14,11 +15,11 @@ import { setNavigator } from "./services/navigationService";
 
 function App() {
   const [theme, colorMode] = useMode();
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-        setNavigator(navigate);
-    }, [navigate]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setNavigator(navigate);
+  }, [navigate]);
 
 
   useEffect(() => {
@@ -33,23 +34,19 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {/* auth routes */}
-          <AuthRoutes />
+        <AuthRoutes />
         {/* admin routes */}
-          <AdminRoutes />
+        <AdminRoutes />
         {/* website routes */}
-          <WebsiteRoutes />
+        <WebsiteRoutes />
 
-          <Toaster 
-            position="top-right" 
-            richColors 
-            theme={theme.palette.mode === 'dark' ? 'dark' : 'light'} 
-            toastOptions={{
-              style: {
-                fontFamily: "'Montserrat', sans-serif",
-                borderRadius: '10px',
-              }
-            }}
-          />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          theme={theme.palette.mode}
+          pauseOnHover
+          closeOnClick
+        />
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

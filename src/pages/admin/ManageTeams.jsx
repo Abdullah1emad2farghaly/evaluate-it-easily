@@ -37,6 +37,10 @@ export default function ManageTeams() {
     const [message, setMessage] = useState("");
     const [expanded, setExpanded] = useState(null);
     const [search, setSearch] = useState("");
+    const [projectsDomains, setProjectsDomains] = useState([]);
+    const [domain, setDomain] = useState();
+    const statusAssignments = ["All Teams", "Assigned Supervisors", "Unassigned Supervisors"];
+    const [assignments, setAssignments] = useState();
 
 
     const IntialLetters = (name) => {
@@ -48,6 +52,7 @@ export default function ManageTeams() {
         }
     }
 
+
     useEffect(() => {
         const getTeams = async () => {
             try {
@@ -55,10 +60,11 @@ export default function ManageTeams() {
                 setTeams(res);
                 
                 const allUsers = await getAllUsers();
-                
+
                 setAssistants(allUsers?.filter((user) => user.role === "TechnicalAssistant"))
                 setSupervisors(allUsers?.filter((user) => user.role === "Supervisor"))
                 setStatuses(["All Status", ...new Set(res.map((g) => g.proposalStatus).filter(status => status != null))])
+                setProjectsDomains(["All Domains", ...new Set(res.map((g) => g.proposalDomain).filter(domain => domain != null))])
             } catch (error) {
                 HandleErrors(error.errors);
             } finally {
@@ -69,15 +75,30 @@ export default function ManageTeams() {
     }, []);
 
 
+    // i want to filter by assigned supervisor and technicalAssisstant
     const filteredTeams = teams.filter(team => {
         const matchesSearch =
             (team.name || "").toLowerCase().includes(search.toLowerCase()) ||
-            (team.leaderName || "").toLowerCase().includes(search.toLowerCase());
+            (team.leaderName || "").toLowerCase().includes(search.toLowerCase())
+            
+
 
         const matchesStatus =
             status === "All Status" || team.proposalStatus === status;
 
-        return matchesSearch && matchesStatus;
+        const matchesDomain = 
+            domain === "All Domains" || team.proposalDomain === domain;
+
+        let matchesAssignments;
+        if(assignments == "All Teams" || assignments === "Assigned Supervisors"){
+            matchesAssignments = 
+                assignments === "All Teams" || (team.supervisorName || team.technicalAssistantName)
+        }else {
+            matchesAssignments = 
+                assignments === "All Teams" || (team.supervisorName == null && team.technicalAssistantName == null);
+        }
+
+        return matchesSearch && matchesStatus && matchesDomain && matchesAssignments;
     });
 
 
@@ -288,7 +309,6 @@ export default function ManageTeams() {
     }
 
 
-
     if (loader)
         return <Loader />
 
@@ -319,6 +339,9 @@ export default function ManageTeams() {
                     />
                 </div>
                 <FilterList colors={colors} setStatus={setStatus} options={statuses} title={"Select to filter..."} />
+
+                <FilterList colors={colors} setStatus={setDomain} options={projectsDomains} title={"Select to filter..."} />
+                <FilterList colors={colors} setStatus={setAssignments} options={statusAssignments} title={"Select to filter..."} />
 
                 <button className="border flex gap-3 px-3 py-2 rounded-lg items-center" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], color: colors.grey[100] }}>
                     <FilterListIcon fontSize="small" />
@@ -429,7 +452,7 @@ export default function ManageTeams() {
                                                         <button >
                                                             {isOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
                                                         </button>
-                                                        {team.name}
+                                                        {team?.name?.split(" ")?.[0]} {team?.name?.split(" ")?.[1]}
                                                     </div>
                                                 </td>
 
@@ -445,7 +468,7 @@ export default function ManageTeams() {
                                                             {IntialLetters(team.leaderName).toUpperCase()}
                                                         </div>
                                                         <div className="">
-                                                            <p style={{ color: colors.grey[100] }}>{team.leaderName}</p>
+                                                            <p style={{ color: colors.grey[100] }}>{team?.leaderName?.split(" ")?.[0]} {team?.leaderName?.split(" ")?.[1]}</p>
                                                             <p className="text-xs" style={{ color: colors.grey[300] }}>USR-[{(team.leaderId)?.substring(0, 4)}]</p>
                                                         </div>
                                                     </div>
@@ -592,10 +615,11 @@ const Dropdown = ({ colors, isExsist, setSupervisor, options = ["Admin", "Superv
 const FilterList = ({ colors, setStatus, options = ["All Status", "Accepted", "Rejected", "UnderReview"], title }) => {
     const [open, setOpen] = useState(false);
     const theme = useTheme()
-    const [selected, setSelected] = useState("Accepted");
+    const [selected, setSelected] = useState(options[0]);
     useEffect(() => {
         setStatus(selected);
     }, [selected, setStatus]);
+
     return (
         <div className="w-full px-4 items-center cursor-pointer border rounded-lg flex relative" style={{ color: colors.grey[300], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}>
             <input

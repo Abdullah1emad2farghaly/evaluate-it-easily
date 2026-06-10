@@ -14,7 +14,13 @@ export default function TopBar({setIsSidebarOpen, isSidebarOpen, notifications})
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
     const navigate = useNavigate();
+    let navigator;
 
+    const user = JSON.parse(window.localStorage.getItem("user"))
+
+    if(user.role === "Student"){
+        navigator = "notifications";
+    }
     return (
         <div className="topbar w-full px-4 py-2.5 z-10 top-0 text-[#404040b3] border-b left-0 " style={{borderColor: colors.grey[900], backgroundColor: colors.blueAccent[800]}}>
             <div className="flex justify-between">
@@ -38,7 +44,7 @@ export default function TopBar({setIsSidebarOpen, isSidebarOpen, notifications})
                             <DarkModeOutlinedIcon />
                         )}
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={()=> navigate(navigator)}>
                         <NotificationsOutlinedIcon />
                         {notifications?.length > 0 && (
                             <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
