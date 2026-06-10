@@ -25,6 +25,7 @@ export default function Notifications() {
                 const response = await getNotifications();
                 setNotifications(response)
             } catch(error) {
+                
                 HandleErrors(error?.errors || error.message);
                 setLoader(false)
             } finally {
@@ -97,8 +98,7 @@ export default function Notifications() {
     return (
         <div className="min-h-screen w-full lg:pr-4 lg:px-0 px-3 mt-5" >
             <Title title={"NOTIFICATIONS"} subTitle={"Stay updated with your latest signals and alerts."} />
-
-            <div style={{ backgroundColor: colors.blueAccent[800] }} className="sm:p-8 px-3 py-5 rounded-lg">
+            <div style={{ backgroundColor: notifications.length && colors.blueAccent[800] }} className="sm:p-8 px-3 py-5 rounded-lg">
                 {notifications.length ? notifications.map((item, index) => (
                     <div
                         key={index}

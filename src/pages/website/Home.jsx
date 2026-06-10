@@ -87,7 +87,7 @@ function WorkflowFlow({ colors }) {
 
             {/* Step 1 */}
             <div className="flow-step relative mb-5 flex items-start gap-6 md:mb-24 md:gap-0 " data-flow-step="0">
-                <div className="grid w-full md:grid-cols-[1fr_auto_1fr] md:items-center  md:gap-8">
+                <div data-aos="zoom-in-right" className="grid w-full md:grid-cols-[1fr_auto_1fr] md:items-center  md:gap-8">
                     <div className={`flow-step-card ${activeStep >= 0 ? " is-active" : ""}`} style={{ textAlign: "right", backgroundColor: colors.primary[500], borderColor: "#8B5CF6" }}>
                         <div className="mb-3 flex justify-end gap-2">
                             <span className="label-uppercase rounded-md border border-[#E5E7EB] bg-[#eceffc] px-3 py-1 text-[#8B5CF6]">
@@ -118,7 +118,7 @@ function WorkflowFlow({ colors }) {
 
             {/* Step 2 */}
             <div className="flow-step relative mb-5 flex items-start gap-6 md:mb-24 md:gap-0" data-flow-step="1">
-                <div className="grid w-full md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-8">
+                <div data-aos="zoom-in-left" className="grid w-full md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-8">
                     <div className="hidden md:block" />
                     <div className="relative hidden justify-center md:flex">
                         <div className={`flow-node${activeStep >= 1 ? " is-active" : ""}`}>
@@ -152,7 +152,7 @@ function WorkflowFlow({ colors }) {
             {/* Step 3 */}
             <div className="flow-step relative mb-5 flex items-start gap-6 md:mb-24 md:gap-0" data-flow-step="2">
                 
-                <div className="grid w-full md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-8">
+                <div data-aos="zoom-in-right" className="grid w-full md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-8">
                     <div className={`flow-step-card${activeStep >= 2 ? " is-active" : ""}`} style={{ textAlign: "right", backgroundColor: colors.primary[500], borderColor: "#8B5CF6" }}>
                         <div className="mb-3 flex justify-end gap-2">
                             <span className="label-uppercase rounded-md border border-[#E5E7EB] bg-[#eceffc] px-3 py-1 text-[#8B5CF6]">
@@ -181,7 +181,7 @@ function WorkflowFlow({ colors }) {
 
             {/* Step 4 */}
             <div className="flow-step relative mb-5 flex items-start gap-6 md:mb-24 md:gap-0" data-flow-step="3">
-                <div className="grid w-full md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-8">
+                <div data-aos="zoom-in-left" className="grid w-full md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-8">
                     <div className="hidden md:block" />
                     <div className="relative hidden justify-center md:flex">
                         <div className={`flow-node${activeStep >= 3 ? " is-active" : ""}`}>
@@ -214,7 +214,7 @@ function WorkflowFlow({ colors }) {
 
             {/* Step 5 */}
             <div className="flow-step relative flex items-start gap-6 md:gap-0" data-flow-step="4">
-                <div className="grid w-full md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-8">
+                <div data-aos="zoom-in-right" className="grid w-full md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-8">
                     <div className={`flow-step-card${activeStep >= 4 ? " is-active" : ""}`} style={{ textAlign: "right", backgroundColor: colors.primary[500], borderColor: "#8B5CF6" }}>
                         <div className="mb-3 flex justify-end gap-2">
                             <span className="label-uppercase rounded-md border border-[#E5E7EB] bg-[#eceffc] px-3 py-1 text-[#8B5CF6]">
@@ -416,7 +416,7 @@ export default function Home() {
                 className=" relative overflow-hidden border-b  pb-32 pt-36 lg:pb-32 lg:pt-40">
                 <div className="relative z-10 mx-auto max-w-6xl px-8">
                     <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
-                        <div className="space-y-8">
+                        <div data-aos="fade-right" data-aos-duration="1200" className="space-y-8">
                             <div className="reveal-hero inline-flex items-center gap-2 rounded-md border border-green-500 px-4 py-2 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
                                 <span className="h-2 w-2 rounded-full bg-green-500" />
                                 <span className="label-uppercase text-green-500">AI-Powered Academic Platform</span>
@@ -463,7 +463,7 @@ export default function Home() {
                         </p>
                     </div>
                     <div className="grid gap-8 md:grid-cols-2">
-                        <div className="reveal card group  p-8 rounded-xl border" style={{ backgroundColor: colors.primary[500], borderColor: colors.grey[700] }}>
+                        <div data-aos="fade-right" data-aos-duration="1200" className="card group  p-8 rounded-xl border" style={{ backgroundColor: colors.primary[500], borderColor: colors.grey[700] }}>
                             <div className="flex flex-col items-start gap-6">
                                 <div className="flex items-center gap-4">
                                     <div className="border h-12 w-12 border-[#E5E7EB] bg-[#dacaff] text-[#6b2efa] flex items-center justify-center rounded-md">
@@ -481,7 +481,7 @@ export default function Home() {
                                 </div>
                             </div>
                         </div>
-                        <div className="reveal reveal-delay-1 card group p-8 rounded-xl border" style={{ backgroundColor: colors.primary[500], borderColor: colors.grey[700] }}>
+                        <div data-aos="fade-left" data-aos-duration="1200" className="card group p-8 rounded-xl border" style={{ backgroundColor: colors.primary[500], borderColor: colors.grey[700] }}>
                             <div className="flex flex-col items-start gap-6">
                                 <div className="flex items-center gap-4">
                                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md border border-[#E5E7EB] bg-[#dacaff] text-[#8B5CF6]">
@@ -499,7 +499,7 @@ export default function Home() {
                                 </div>
                             </div>
                         </div>
-                        <div className="reveal reveal-delay-2 card group p-8 rounded-xl border" style={{ backgroundColor: colors.primary[500], borderColor: colors.grey[700] }}>
+                        <div data-aos="fade-right" data-aos-duration="1200" className="card group p-8 rounded-xl border" style={{ backgroundColor: colors.primary[500], borderColor: colors.grey[700] }}>
                             <div className="flex flex-col items-start gap-6">
                                 <div className="flex items-center gap-4">
                                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md border border-[#E5E7EB] bg-[#a0fac1] text-[#16A34A]">
@@ -517,7 +517,7 @@ export default function Home() {
                                 </div>
                             </div>
                         </div>
-                        <div className="reveal reveal-delay-3 card group p-8 rounded-xl border" style={{ backgroundColor: colors.primary[500], borderColor: colors.grey[700] }}>
+                        <div data-aos="fade-left" data-aos-duration="1200" className="card group p-8 rounded-xl border" style={{ backgroundColor: colors.primary[500], borderColor: colors.grey[700] }}>
                             <div className="flex flex-col items-start gap-6">
                                 <div className="flex items-center gap-4">
                                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md border border-[#E5E7EB] bg-[#fff6d0] text-[#D97706]">
@@ -559,7 +559,7 @@ export default function Home() {
                 <div className="absolute left-0 top-0 h-px w-full bg-[#E5E7EB]" aria-hidden />
                 <div className="relative z-10 mx-auto max-w-6xl px-8 pb-8 pt-16">
                     <div className="grid grid-cols-1 gap-12 pb-2 md:grid-cols-12">
-                        <div className="md:col-span-4">
+                        <div data-aos="fade-left" data-aos-duration="800" className="md:col-span-4">
                             <div className="mb-8 flex items-center gap-3">
                                 <div className="flex h-9 w-9 items-center justify-center rounded-md bg-white shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
                                     <GraduationCap className="h-[18px] w-[18px] text-[#111111]" aria-hidden />
@@ -572,7 +572,7 @@ export default function Home() {
                             <p className="mt-3 text-xs text-[#9CA3AF]">Get updates on new features and releases.</p>
                         </div>
                         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 md:col-span-8">
-                            <div>
+                            <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="0">
                                 <h4 className="label-uppercase mb-4 text-[#D1D5DB]">Product</h4>
                                 <ul className="space-y-4">
                                     <li>
@@ -597,7 +597,7 @@ export default function Home() {
                                     </li>
                                 </ul>
                             </div>
-                            <div>
+                            <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="500">
                                 <h4 className="label-uppercase mb-4 text-[#D1D5DB]">Resources</h4>
                                 <ul className="space-y-4">
                                     <li>
@@ -622,7 +622,7 @@ export default function Home() {
                                     </li>
                                 </ul>
                             </div>
-                            <div>
+                            <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="1000">
                                 <h4 className="label-uppercase mb-4 text-[#D1D5DB]">Company</h4>
                                 <ul className="space-y-4">
                                     <li>
@@ -647,7 +647,7 @@ export default function Home() {
                                     </li>
                                 </ul>
                             </div>
-                            <div>
+                            <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="1500">
                                 <h4 className="label-uppercase mb-4 text-[#D1D5DB]">Legal</h4>
                                 <ul className="space-y-4">
                                     <li>

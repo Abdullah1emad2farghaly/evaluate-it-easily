@@ -90,8 +90,9 @@ export default function CreateProposal() {
                 },
             });
 
-            await createProposal({ ...data, storedFileName: storedFileName });
+            const res = await createProposal({ ...data, storedFileName: storedFileName });
             toast.success("Proposal submitted successfully!");
+            setMyProposal(res)
         } catch (error) {
             HandleErrors(error.errors)
         } finally {
@@ -117,6 +118,7 @@ export default function CreateProposal() {
     if (loader)
         return <Loader />
 
+    
     return (
         <div className='lg:pr-4 pt-6 '>
             {

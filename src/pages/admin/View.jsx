@@ -7,6 +7,7 @@ import { useTheme } from '@emotion/react';
 import { tokens } from '../../theme';
 import { HandleErrors } from '../../utils/HandleErrors';
 
+
 export default function View() {
     const params = useParams();
     const [project, setProject] = useState(null);
@@ -28,7 +29,6 @@ export default function View() {
         fetchProject();
     }, [params.id]);
 
-
     if (loader)
         return <Loader />
 
@@ -39,20 +39,13 @@ export default function View() {
                 <div className=" min-h-[60vh] py-10 pt-5 lg:pr-4 lg:px-0 px-3 flex justify-center rounded" >
                     <div className="w-full ">
                         <div className="bg-[#66666682] rounded-xl p-6 border mb-6" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[800] }}>
-
-
                             <p className="text-2xl font-semibold tracking-widest mb-3" style={{ color: colors.grey[400] }}>
                                 ABSTRACT
                             </p>
-
                             <p className="text-[.94rem] leading-7 mb-6" style={{ color: colors.grey[300] }}>
                                 {project.abstract}
                             </p>
-
-
                             <div className="border-t  mb-6" style={{ borderColor: colors.grey[600] }}></div>
-
-
                             <div className="grid grid-cols-2 gap-y-6">
 
                                 <div>
@@ -90,37 +83,6 @@ export default function View() {
 
                             </div>
                         </div>
-
-                        {/* <div className="grid grid-cols-2 gap-5">
-                            <div className="bg-[#e9edf3] rounded-xl p-5">
-                                <div className="flex justify-between items-center mb-3">
-                                    <p className="text-[11px] text-gray-400 tracking-widest">
-                                        PROPOSAL ID
-                                    </p>
-
-                                    <button className="flex items-center gap-1 text-sm text-blue-600">
-                                        Copy
-                                    </button>
-                                </div>
-
-                                <p className="text-[18px] text-gray-800">PR-8921</p>
-                            </div>
-
-                            <div className="bg-[#e9edf3] rounded-xl p-5">
-                                <div className="flex justify-between items-center mb-3">
-                                    <p className="text-[11px] text-gray-400 tracking-widest">
-                                        ENTITY ID
-                                    </p>
-
-                                    <button className="flex items-center gap-1 text-sm text-blue-600">
-                                        Copy
-                                    </button>
-                                </div>
-
-                                <p className="text-[18px] text-gray-800">1024</p>
-                            </div>
-
-                        </div> */}
 
                     </div>
                 </div>

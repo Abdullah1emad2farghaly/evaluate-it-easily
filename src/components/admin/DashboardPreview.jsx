@@ -60,8 +60,8 @@ const BarTip = ({ active, payload, colors }) => {
   const { domain, count, percentage } = payload[0].payload;
   return (
     <div className="border" style={{ background:colors.blueAccent[800], borderColor: colors.grey[600], borderRadius:12, padding:"10px 14px", minWidth:180 }}>
-      <p style={{ fontSize:10, fontWeight:700, color:colors.blueAccent[300], textTransform:"uppercase", letterSpacing:"0.05em", marginBottom:4 }}>Domain</p>
-      <p style={{ fontSize:12, fontWeight:700, color:colors.blueAccent[100], marginBottom:8, lineHeight:1.3 }}>{domain}</p>
+      <p style={{ fontSize:10, fontWeight:700, color:colors.blueAccent[400], textTransform:"uppercase", letterSpacing:"0.05em", marginBottom:4 }}>Domain</p>
+      <p style={{ fontSize:12, fontWeight:700, color:colors.blueAccent[300], marginBottom:8, lineHeight:1.3 }}>{domain}</p>
       <div style={{ display:"flex", gap:16 }}>
         <div><p style={{ fontSize:10, color:"#94a3b8" }}>Projects</p><p style={{ fontSize:18, fontWeight:900, color:"#6366f1" }}>{count}</p></div>
         <div><p style={{ fontSize:10, color:"#94a3b8" }}>Share</p><p style={{ fontSize:18, fontWeight:900, color:"#10b981" }}>{percentage.toFixed(1)}%</p></div>
@@ -75,7 +75,7 @@ const PieTip = ({ active, payload, colors }) => {
   const { domain, count, percentage } = payload[0].payload;
   return (
     <div className="border" style={{ background:colors.blueAccent[800], borderColor: colors.grey[700], borderRadius:12, padding:"10px 14px" }}>
-      <p style={{ fontSize:12, fontWeight:700, color:colors.blueAccent[100], maxWidth:180, lineHeight:1.3 }}>{domain}</p>
+      <p style={{ fontSize:12, fontWeight:700, color:colors.blueAccent[300], maxWidth:180, lineHeight:1.3 }}>{domain}</p>
       <p style={{ fontSize:11, color:"#94a3b8", marginTop:2 }}>{count} projects · {percentage.toFixed(1)}%</p>
     </div>
   );
@@ -106,13 +106,13 @@ export default function Dashboard({proposals}) {
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
       {/* Main */}
-      <main style={{  display: "flex", flexDirection: "column", gap: 24 }}>
+      <main className="overflow-hidden" style={{  display: "flex", flexDirection: "column", gap: 24 }}>
 
         {!loading && (
           <>
-            <div className="flex items-center gap-6">
+            <div className="flex md:flex-row flex-col items-center gap-6">
               {/* Bar chart */}
-              <div className="w-1/2 border" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], borderRadius: 20, padding: 24, }}>
+              <div className="md:w-1/2 w-full border" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], borderRadius: 20, padding: 24, }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
                   <TrendingUp size={16} color="#6366f1" />
                   <span style={{ fontSize: 14, fontWeight: 800, color: colors.grey[100] }}>Projects by Domain</span>
@@ -133,7 +133,7 @@ export default function Dashboard({proposals}) {
               </div>
 
               {/* Pie chart */}
-              <div className="w-1/2 border" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], borderRadius: 20, padding: 24, }}>
+              <div className="md:w-1/2 w-full border" style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700], borderRadius: 20, padding: 24, }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
                   <Activity size={16} color="#6366f1" />
                   <span style={{ fontSize: 14, fontWeight: 800, color: colors.grey[100] }}>Distribution</span>

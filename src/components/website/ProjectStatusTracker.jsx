@@ -2,7 +2,7 @@ import { useState } from "react";
 import { tokens } from "../../theme";
 import { useTheme } from "@emotion/react";
 
-const STATUS_ORDER = ["Pending", "UnderReview", "Accepted"];
+const STATUS_ORDER = ["Pending", "UnderReview", "Accepted", "Archived"];
 const REJECTED_BRANCH_AFTER = "UnderReview";
 
 const STATUSES = {
@@ -27,6 +27,15 @@ const STATUSES = {
     ),
   },
   Accepted: {
+    label: "Accepted",
+    sublabel: "Congratulations!",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    ),
+  },
+  Archived: {
     label: "Accepted",
     sublabel: "Congratulations!",
     icon: (
@@ -70,6 +79,12 @@ const THEME = {
     line: "#7EB8E2",
   },
   Accepted: {
+    node: "#6EE7B7",
+    glow: "rgba(110,231,183,0.35)",
+    text: "#6EE7B7",
+    line: "#6EE7B7",
+  },
+  Archived: {
     node: "#6EE7B7",
     glow: "rgba(110,231,183,0.35)",
     text: "#6EE7B7",
@@ -172,7 +187,7 @@ function MainTrack({ currentStatus, getLineProgress, getStepState }) {
   const colors = tokens(theme.palette.mode);
 
   let mainSteps = ["Pending", "UnderReview"];
-  if(currentStatus === "Accepted" || currentStatus === "Rejected")
+  if(currentStatus === "Accepted" || currentStatus === "Rejected" || currentStatus === "Archived")
     mainSteps = [...mainSteps, currentStatus]
   else 
     mainSteps = [...mainSteps, "FinalDecision"]
@@ -328,7 +343,7 @@ function MainTrack({ currentStatus, getLineProgress, getStepState }) {
                   fontWeight: state === "active" ? "500" : "400",
                 }}
               >
-                {STATUSES[key].label}
+                {key}
               </div>
             </div>
           </div>

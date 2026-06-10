@@ -39,7 +39,7 @@ export function ProjectCard({ item, colors }) {
     return (
         <div
             style={{ backgroundColor: colors.blueAccent[800], borderColor: colors.grey[800] }}
-            className="border rounded-[14px] p-5 shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_10px_rgba(0,0,0,0.08)] transition-all"
+            className="border mb-4 rounded-[14px] p-5 shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_10px_rgba(0,0,0,0.08)] transition-all"
         >
 
             {/* Header */}

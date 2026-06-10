@@ -7,6 +7,7 @@ import SubmissionsPage from '../../components/admin/ProjectCard';
 import Title from '../../components/admin/Title';
 import { archiveProject } from '../../services/HistoricalProjectsServices';
 import SimpleLoader from '../../loaders/SimpleLoader';
+import { toast } from 'react-toastify';
 
 const getAcademicYear = (dateString) => {
     const date = dateString ? new Date(dateString) : new Date();
@@ -39,6 +40,8 @@ export default function AcceptedProjects() {
         setLoading(true);
         try {
             await archiveProject(getAcademicYear(acceptedProjects[0]?.submittedAt));
+            toast.success("Projects archived successfully");
+            setAcceptedProjects([]);
         } catch (error) {
             HandleErrors(error?.errors);
         }finally {
