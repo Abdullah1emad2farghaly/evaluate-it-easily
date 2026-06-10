@@ -5,9 +5,9 @@ import { AllPeriods, CreactPeriod, ToggleActive, UpdatePeriod } from "../../serv
 import Loader from '../../loaders/Loader'
 import SimpleLoader from "../../loaders/SimpleLoader"
 import { HandleErrors } from "../../utils/HandleErrors"
-import { toast } from "sonner";
 import Title from "../../components/admin/Title";
 import { getThreshold, setThreshold } from "../../services/settingsServices";
+import { toast } from "react-toastify";
 
 const initialPeriods = [
   {
@@ -373,6 +373,7 @@ export default function SubmissionPeriods() {
     try {
       const res = await setThreshold(Number(thresholdScore / 100));
       setThresholdScore(Math.round(res.threshold * 100 ));
+      toast.success("ThresholdScore updated successfully")
     } catch (error) {
       HandleErrors(error.errors || [error.message || "Failed to update threshold score"]);
     }finally {
