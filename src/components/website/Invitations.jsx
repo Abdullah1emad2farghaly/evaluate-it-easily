@@ -4,8 +4,9 @@ import { tokens } from "../../theme";
 import styled from "@emotion/styled";
 import SimpleLoader from "../../loaders/SimpleLoader";
 import { HandleErrors } from "../../utils/HandleErrors";
-import { toast } from "sonner";
+
 import { acceptInvitation, rejectInvitations } from "../../services/groupServices";
+import { toast } from "react-toastify";
 
 
 

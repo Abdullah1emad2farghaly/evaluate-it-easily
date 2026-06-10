@@ -15,9 +15,21 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { getAllUsers } from "../../services/userServices";
 import { SupervisorAssignments } from "../../services/supervisorServices";
 import SimpleLoader from "../../loaders/SimpleLoader";
-import { toast } from "sonner";
 import { jsPDF } from "jspdf";
 import Title from "../../components/admin/Title";
+import { toast } from "react-toastify";
+import AMIRI_BASE64 from "../../fonts/Amiri.base64";
+import reshaper from "arabic-reshaper";
+
+const isArabicText = (text) => /[\u0600-\u06FF]/.test(text);
+
+const formatArabic = (text) => {
+    if (!text) return "";
+    if (!isArabicText(text)) return text;
+    const reshaped = reshaper.convertArabic(text);
+    // Reverse word order only (not characters), preserving each word's shape
+    return reshaped.split(" ").reverse().join(" ");
+};
 
 export default function ManageTeams() {
     const theme = useTheme();
@@ -42,6 +54,7 @@ export default function ManageTeams() {
     const statusAssignments = ["All Teams", "Assigned Supervisors", "Unassigned Supervisors"];
     const [assignments, setAssignments] = useState();
 
+    const isArabic = (text) => /[\u0600-\u06FF]/.test(text);
 
     const IntialLetters = (name) => {
         const initail = name.split(' ')
@@ -58,7 +71,7 @@ export default function ManageTeams() {
             try {
                 const res = await getGroups();
                 setTeams(res);
-                
+
                 const allUsers = await getAllUsers();
 
                 setAssistants(allUsers?.filter((user) => user.role === "TechnicalAssistant"))
@@ -75,26 +88,23 @@ export default function ManageTeams() {
     }, []);
 
 
-    // i want to filter by assigned supervisor and technicalAssisstant
     const filteredTeams = teams.filter(team => {
         const matchesSearch =
             (team.name || "").toLowerCase().includes(search.toLowerCase()) ||
             (team.leaderName || "").toLowerCase().includes(search.toLowerCase())
-            
-
 
         const matchesStatus =
             status === "All Status" || team.proposalStatus === status;
 
-        const matchesDomain = 
+        const matchesDomain =
             domain === "All Domains" || team.proposalDomain === domain;
 
         let matchesAssignments;
-        if(assignments == "All Teams" || assignments === "Assigned Supervisors"){
-            matchesAssignments = 
+        if (assignments == "All Teams" || assignments === "Assigned Supervisors") {
+            matchesAssignments =
                 assignments === "All Teams" || (team.supervisorName || team.technicalAssistantName)
-        }else {
-            matchesAssignments = 
+        } else {
+            matchesAssignments =
                 assignments === "All Teams" || (team.supervisorName == null && team.technicalAssistantName == null);
         }
 
@@ -107,10 +117,10 @@ export default function ManageTeams() {
         try {
             await SupervisorAssignments({ proposalId, supervisorId, technicalAssistantId, workloadNote });
 
-            toast.success("Supervisor and TechnicalAssistant are assigned successfully")
             setOpen(false);
-            const res = await getGroups();  
+            const res = await getGroups();
             setTeams(res);
+            toast.success("Supervisor and TechnicalAssistant are assigned successfully")
         } catch (error) {
             HandleErrors(error.errors);
         } finally {
@@ -123,10 +133,8 @@ export default function ManageTeams() {
         UnderReview: { pdfRGB: [254, 215, 170], label: "Under Review", tw: "bg-orange-200 border-orange-500 text-orange-900" },
         Pending: { pdfRGB: [253, 246, 178], label: "Pending", tw: "bg-yellow-200 border-yellow-500 text-yellow-900" },
         Rejected: { pdfRGB: [254, 202, 202], label: "Rejected", tw: "bg-red-200 border-red-500 text-red-900" },
-
-        // ✅ NEW الحالة المطلوبة
         NotSubmitted: {
-            pdfRGB: [254, 202, 202], // نفس لون rejected
+            pdfRGB: [254, 202, 202],
             label: "Not Submitted Proposal",
             tw: "bg-red-200 border-red-500 text-red-900"
         },
@@ -137,175 +145,226 @@ export default function ManageTeams() {
     // ─────────────────────────────────────────────────────────────────────────────
 
     function generateTeamsPDF(teams) {
-        const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+        try {
+            const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
 
-        const PW = doc.internal.pageSize.getWidth();   // 297 mm
-        const PH = doc.internal.pageSize.getHeight();  // 210 mm
-        const M = 10;    // page margin
-        const GAP = 1.8;   // tiny white gap between rows
-        const FS = 7.8;   // base font size
-        const LH = 4.0;   // line height per text line (mm)
-        const PV = 3.2;   // vertical padding inside each row
-        const PH2 = 3.0;   // horizontal padding inside each row
+            doc.addFileToVFS("Amiri.ttf", AMIRI_BASE64);
+            doc.addFont("Amiri.ttf", "Amiri", "normal");
 
+            const PW = doc.internal.pageSize.getWidth();
+            const PH = doc.internal.pageSize.getHeight();
+            const M = 10;
+            const GAP = 1.8;
+            const FS = 7.8;
+            const LH = 4.0;
+            const PV = 3.2;
+            const PH2 = 3.0;
 
-        const COLS = {
-            no: { x: 0, w: 10 },
-            mem: { x: 10, w: 78 },
-            sup: { x: 88, w: 62 },
-            ta: { x: 150, w: 62 },
-            stat: { x: 212, w: 65 },
-        };
+            const COLS = {
+                no: { x: 0, w: 10 },
+                mem: { x: 10, w: 78 },
+                sup: { x: 88, w: 62 },
+                ta: { x: 150, w: 62 },
+                stat: { x: 212, w: 65 },
+            };
 
-        let currentY = M + 2;
+            let currentY = M + 2;
 
-        // ── Page header helper ──────────────────────────────────────────
-        const drawPageHeader = (pageNum) => {
-            // Title
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(13);
-            doc.setTextColor(15, 23, 42);
-            doc.text("Teams Proposal Status Report", M, currentY + 4);
+            // Helper: draw text with automatic Arabic font switching
+            const drawText = (text, x, y, options = {}) => {
+                if (!text) return;
+                const str = String(text);
+                if (isArabicText(str)) {
+                    doc.setFont("Amiri", "normal");
+                    doc.text(formatArabic(str), x, y, options);
+                    // restore previous font after
+                    doc.setFont("helvetica", options._prevStyle || "normal");
+                } else {
+                    doc.text(str, x, y, options);
+                }
+            };
 
-            // Date  +  total
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(7.5);
-            doc.setTextColor(100, 116, 139);
-            const dateStr = new Date().toLocaleDateString("en-US", {
-                year: "numeric", month: "long", day: "numeric",
-            });
-            doc.text(
-                `Generated: ${dateStr}   ·   Total Teams: ${teams.length}   ·   Page ${pageNum}`,
-                M,
-                currentY + 10
-            );
+            // ── Page header helper ──────────────────────────────────────────
+            const drawPageHeader = (pageNum) => {
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(13);
+                doc.setTextColor(15, 23, 42);
+                drawText("Teams Proposal Status Report", M, currentY + 4);
 
-            // Separator
-            doc.setDrawColor(203, 213, 225);
-            doc.setLineWidth(0.25);
-            doc.line(M, currentY + 13, PW - M, currentY + 13);
-            currentY += 17;
-
-            // ── Column header row ──
-            const headerH = 7.5;
-            doc.setFillColor(30, 41, 59);
-            doc.roundedRect(M, currentY, PW - M * 2, headerH, 1.5, 1.5, "F");
-
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(7.2);
-            doc.setTextColor(248, 250, 252);
-
-            const headerTextY = currentY + headerH / 2 + 2.2;
-            const drawH = (label, col) =>
-                doc.text(label, M + col.x + PH2, headerTextY);
-
-            drawH("#", COLS.no);
-            drawH("Members", COLS.mem);
-            drawH("Supervisor", COLS.sup);
-            drawH("Technical Assistant", COLS.ta);
-            drawH("Proposal Status", COLS.stat);
-
-            currentY += headerH + GAP;
-        };
-
-        // ── Draw first page header ──────────────────────────────────────
-        let pageNum = 1;
-        drawPageHeader(pageNum);
-
-        // ── Team rows ──────────────────────────────────────────────────
-        teams.forEach((team, idx) => {
-            const statusKey = team.proposalStatus === null
-                ? "NotSubmitted"
-                : team.proposalStatus;
-
-            const cfg = STATUS_CONFIG[statusKey] || STATUS_CONFIG["Pending"];
-
-            // Dynamic row height based on member count
-            const memberCount = team.members?.length || 1;
-            const rowH = Math.max(memberCount * LH + PV * 2, 11);
-
-            // ── Page break? ─────────────────────────────────────────────
-            if (currentY + rowH > PH - M - 6) {
-                // Footer on current page
                 doc.setFont("helvetica", "normal");
-                doc.setFontSize(7);
-                doc.setTextColor(148, 163, 184);
-                doc.setDrawColor(226, 232, 240);
-                doc.setLineWidth(0.2);
-                doc.line(M, PH - 7, PW - M, PH - 7);
-                doc.text(`Page ${pageNum}`, PW - M - 12, PH - 3.5);
+                doc.setFontSize(7.5);
+                doc.setTextColor(100, 116, 139);
+                const dateStr = new Date().toLocaleDateString("en-US", {
+                    year: "numeric", month: "long", day: "numeric",
+                });
+                drawText(
+                    `Generated: ${dateStr}   ·   Total Teams: ${teams.length}   ·   Page ${pageNum}`,
+                    M,
+                    currentY + 10
+                );
 
-                doc.addPage();
-                pageNum++;
-                currentY = M + 2;
-                drawPageHeader(pageNum);
-            }
+                doc.setDrawColor(203, 213, 225);
+                doc.setLineWidth(0.25);
+                doc.line(M, currentY + 13, PW - M, currentY + 13);
+                currentY += 17;
 
-            // ── Colored background ───────────────────────────────────────
-            doc.setFillColor(...cfg.pdfRGB);
-            doc.roundedRect(M, currentY, PW - M * 2, rowH, 2, 2, "F");
+                const headerH = 7.5;
+                doc.setFillColor(30, 41, 59);
+                doc.roundedRect(M, currentY, PW - M * 2, headerH, 1.5, 1.5, "F");
 
-            // Subtle border
-            doc.setDrawColor(210, 210, 210);
-            doc.setLineWidth(0.12);
-            doc.roundedRect(M, currentY, PW - M * 2, rowH, 2, 2, "S");
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(7.2);
+                doc.setTextColor(248, 250, 252);
 
-            // ── Vertical column dividers ─────────────────────────────────
-            doc.setDrawColor(180, 180, 180);
-            doc.setLineWidth(0.08);
-            [COLS.mem, COLS.sup, COLS.ta, COLS.stat].forEach((col) => {
-                const divX = M + col.x - 1;
-                doc.line(divX, currentY + 2, divX, currentY + rowH - 2);
+                const headerTextY = currentY + headerH / 2 + 2.2;
+                const drawH = (label, col) =>
+                    drawText(label, M + col.x + PH2, headerTextY);
+
+                drawH("#", COLS.no);
+                drawH("Members", COLS.mem);
+                drawH("Supervisor", COLS.sup);
+                drawH("Technical Assistant", COLS.ta);
+                drawH("Proposal Status", COLS.stat);
+
+                currentY += headerH + GAP;
+            };
+
+            let pageNum = 1;
+            drawPageHeader(pageNum);
+
+            teams.forEach((team, idx) => {
+                const statusKey = team.proposalStatus === null
+                    ? "NotSubmitted"
+                    : team.proposalStatus;
+
+                const cfg = STATUS_CONFIG[statusKey] || STATUS_CONFIG["Pending"];
+
+                const memberCount = team.members?.length || 1;
+                const rowH = Math.max(memberCount * LH + PV * 2, 11);
+
+                if (currentY + rowH > PH - M - 6) {
+                    doc.setFont("helvetica", "normal");
+                    doc.setFontSize(7);
+                    doc.setTextColor(148, 163, 184);
+                    doc.setDrawColor(226, 232, 240);
+                    doc.setLineWidth(0.2);
+                    doc.line(M, PH - 7, PW - M, PH - 7);
+                    doc.text(`Page ${pageNum}`, PW - M - 12, PH - 3.5);
+
+                    doc.addPage();
+                    pageNum++;
+                    currentY = M + 2;
+                    drawPageHeader(pageNum);
+                }
+
+                doc.setFillColor(...cfg.pdfRGB);
+                doc.roundedRect(M, currentY, PW - M * 2, rowH, 2, 2, "F");
+
+                doc.setDrawColor(210, 210, 210);
+                doc.setLineWidth(0.12);
+                doc.roundedRect(M, currentY, PW - M * 2, rowH, 2, 2, "S");
+
+                doc.setDrawColor(180, 180, 180);
+                doc.setLineWidth(0.08);
+                [COLS.mem, COLS.sup, COLS.ta, COLS.stat].forEach((col) => {
+                    const divX = M + col.x - 1;
+                    doc.line(divX, currentY + 2, divX, currentY + rowH - 2);
+                });
+
+                const textBaseY = currentY + PV + LH;
+                doc.setTextColor(15, 23, 42);
+
+                // # – team number
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(8.5);
+                const numStr = String(idx + 1);
+                const numW = doc.getTextWidth(numStr);
+                doc.text(numStr, M + COLS.no.x + (COLS.no.w - numW) / 2, textBaseY);
+
+                // Members
+                doc.setFontSize(FS);
+                (team.members || []).forEach((member, i) => {
+                    const name = member.fullName || "";
+                    if (isArabicText(name)) {
+                        doc.setFont("Amiri", "normal");
+                        const formatted = formatArabic(name);
+                        const wrapped = doc.splitTextToSize(formatted, COLS.mem.w - PH2 * 2);
+                        // Right-align Arabic inside the cell
+                        const textW = doc.getTextWidth(wrapped[0]);
+                        const rightEdge = M + COLS.mem.x + COLS.mem.w - PH2;
+                        doc.text(wrapped[0], rightEdge - textW, textBaseY + i * LH);
+                        doc.setFont("helvetica", "normal");
+                    } else {
+                        doc.setFont("helvetica", "normal");
+                        const wrapped = doc.splitTextToSize(name, COLS.mem.w - PH2 * 2);
+                        doc.text(wrapped[0], M + COLS.mem.x + PH2, textBaseY + i * LH);
+                    }
+                });
+
+                // Supervisor
+                doc.setFontSize(FS);
+                const supName = team.supervisorName || "—";
+                if (isArabicText(supName)) {
+                    doc.setFont("Amiri", "normal");
+                    const formatted = formatArabic(supName);
+                    const textW = doc.getTextWidth(formatted);
+                    const rightEdge = M + COLS.sup.x + COLS.sup.w - PH2;
+                    doc.text(formatted, rightEdge - textW, textBaseY);
+                    doc.setFont("helvetica", "normal");
+                } else {
+                    doc.setFont("helvetica", "normal");
+                    const supLines = doc.splitTextToSize(supName, COLS.sup.w - PH2 * 2);
+                    doc.text(supLines[0], M + COLS.sup.x + PH2, textBaseY);
+                }
+
+                // Technical Assistant
+                const taName = team.technicalAssistantName || "—";
+                if (isArabicText(taName)) {
+                    doc.setFont("Amiri", "normal");
+                    const formatted = formatArabic(taName);
+                    const textW = doc.getTextWidth(formatted);
+                    const rightEdge = M + COLS.ta.x + COLS.ta.w - PH2;
+                    doc.text(formatted, rightEdge - textW, textBaseY);
+                    doc.setFont("helvetica", "normal");
+                } else {
+                    doc.setFont("helvetica", "normal");
+                    const taLines = doc.splitTextToSize(taName, COLS.ta.w - PH2 * 2);
+                    doc.text(taLines[0], M + COLS.ta.x + PH2, textBaseY);
+                }
+
+                // Status label
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(FS);
+                doc.text(cfg.label, M + COLS.stat.x + PH2, textBaseY);
+
+                currentY += rowH + GAP;
             });
 
-            // ── Cell text ────────────────────────────────────────────────
-            const textBaseY = currentY + PV + LH;
-            doc.setTextColor(15, 23, 42);
-
-            // # – team number
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(8.5);
-            const numStr = String(idx + 1);
-            const numW = doc.getTextWidth(numStr);
-            doc.text(numStr, M + COLS.no.x + (COLS.no.w - numW) / 2, textBaseY);
-
-            // Members – one name per line
+            // Final page footer
             doc.setFont("helvetica", "normal");
-            doc.setFontSize(FS);
-            (team.members || []).forEach((member, i) => {
-                const wrapped = doc.splitTextToSize(member.fullName, COLS.mem.w - PH2 * 2);
-                doc.text(wrapped[0], M + COLS.mem.x + PH2, textBaseY + i * LH);
-            });
+            doc.setFontSize(7);
+            doc.setTextColor(148, 163, 184);
+            doc.setDrawColor(226, 232, 240);
+            doc.setLineWidth(0.2);
+            doc.line(M, PH - 7, PW - M, PH - 7);
+            doc.text(`Total: ${teams.length} teams`, M, PH - 3.5);
+            doc.text(`Page ${pageNum}`, PW - M - 12, PH - 3.5);
 
-            // Supervisor
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(FS);
-            const supLines = doc.splitTextToSize(team.supervisorName || "—", COLS.sup.w - PH2 * 2);
-            doc.text(supLines[0], M + COLS.sup.x + PH2, textBaseY);
+            // ✅ Force download via blob (fixes silent fail in all browsers)
+            const blob = doc.output("blob");
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "teams_proposal_report.pdf";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
 
-            // Technical Assistant
-            const taLines = doc.splitTextToSize(team.technicalAssistantName || "—", COLS.ta.w - PH2 * 2);
-            doc.text(taLines[0], M + COLS.ta.x + PH2, textBaseY);
-
-            // Status label (bold)
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(FS);
-            doc.text(cfg.label, M + COLS.stat.x + PH2, textBaseY);
-
-            currentY += rowH + GAP; // ← GAP = tiny white space between rows
-        });
-
-        // ── Final page footer ──────────────────────────────────────────
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(7);
-        doc.setTextColor(148, 163, 184);
-        doc.setDrawColor(226, 232, 240);
-        doc.setLineWidth(0.2);
-        doc.line(M, PH - 7, PW - M, PH - 7);
-        doc.text(`Total: ${teams.length} teams`, M, PH - 3.5);
-        doc.text(`Page ${pageNum}`, PW - M - 12, PH - 3.5);
-
-        doc.save("teams_proposal_report.pdf");
+        } catch (err) {
+            console.error("PDF generation error:", err);
+            toast.error("Failed to export PDF. Check console for details.");
+        }
     }
 
 

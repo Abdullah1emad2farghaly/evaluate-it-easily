@@ -58,7 +58,6 @@ export default function PendingProjects() {
         }
         fetchProjects();
     }, []);
-    console.log(proposals)
     useEffect(() => {
         scrollTo(0, 0);
     }, [])
