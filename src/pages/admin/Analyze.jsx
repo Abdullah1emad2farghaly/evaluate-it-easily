@@ -6,10 +6,10 @@ import { getProposalById } from "../../services/proposalServices";
 import { createEvaluation, getEvaluateProposal } from "../../services/evaluationServices";
 import { HandleErrors } from "../../utils/HandleErrors";
 import { makeDecision } from "../../services/decisionServices";
-import { toast } from "sonner";
 import Loader from "../../loaders/Loader";
 import { handleDownload } from "../../components/admin/DownloadProposal";
 import SimpleLoader from "../../loaders/SimpleLoader";
+import { toast } from "react-toastify";
 
 const DownloadIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
