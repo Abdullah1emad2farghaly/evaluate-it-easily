@@ -3,10 +3,10 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { tokens } from "../../theme";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { removeMemberFromGroup, sendInvitation } from "../../services/groupServices";
-import { toast } from "sonner";
 import { HandleErrors } from "../../utils/HandleErrors";
 import SimpleLoader from "../../loaders/SimpleLoader";
 import Title from "../admin/Title";
+import { toast } from "react-toastify";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 /**
