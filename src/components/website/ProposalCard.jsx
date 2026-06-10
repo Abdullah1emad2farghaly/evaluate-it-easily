@@ -1,21 +1,19 @@
-// ProposalCard.jsx
-// Design matches the provided screenshot.
-// All fields from the API response are displayed.
-// TailwindCSS only — no external libraries.
 
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { useTheme } from "@emotion/react";
 import Title from "../admin/Title";
 import { tokens } from "../../theme";
 import { handleDownload } from "../admin/DownloadProposal";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SimpleLoader from "../../loaders/SimpleLoader";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { presignedUpload, updateProposal } from "../../services/proposalServices";
-import { toast } from "sonner";
 import { HandleErrors } from "../../utils/HandleErrors";
 import ProjectStatusTracker from "./ProjectStatusTracker";
 import axios from "axios";
 import UploadOverlay from "./UploadOverlay";
+import { toast } from "react-toastify";
 
 const DownloadIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -257,9 +255,9 @@ function UpdateProposal({ colors, myProposal, setMyProposal, updateForm, onClose
     originalFileName: "",
     storedFileName: "",
     contentType: "application/pdf",
+    domain: myProposal.domain,
   });
 
-  
   const handleUpdateProposal = async (e) => {
     e.preventDefault();
     if (!data.title || !data.abstract || !fileUpload) {
@@ -341,12 +339,12 @@ function UpdateProposal({ colors, myProposal, setMyProposal, updateForm, onClose
             <form
               onSubmit={handleUpdateProposal}
               encType="multipart/form-data"
-              className='create-proposal relative max-w-xl w-full border rounded-xl py-5 '
+              className='create-proposal px-5 relative max-w-xl w-full border rounded-xl py-5 '
               style={{ backgroundColor: colors.grey[900], borderColor: colors.grey[800] }}
             >
               {loading && <UploadOverlay progress={uploadProgress} />}
 
-              <div className="input-box px-5 mb-5">
+              <div className="input-box mb-5">
                 <div className='flex justify-between px-1'>
                   <label style={{ color: colors.grey[300] }} htmlFor="">Project Title <span className='text-red-500'>*</span></label>
                   <p className={`text-sm ${data.title.length > 3 ? "text-green-500" : "text-red-500"}`}>{data.title.length} / <span>min 3</span></p>
@@ -356,12 +354,12 @@ function UpdateProposal({ colors, myProposal, setMyProposal, updateForm, onClose
                   value={data.title}
                   style={{ color: colors.grey[100], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}
                   name="title"
-                  type="text"
+                  type="text" 
                   placeholder='Enter project title'
                 />
               </div>
-
-              <div className="input-box px-5 mb-5">
+              <Dropdown setData={setData} data={data} colors={colors}/>
+              <div className="input-box mb-5">
                 <div className='flex justify-between px-1'>
                   <label style={{ color: colors.grey[300] }} htmlFor="abstract">Abstract / Description <span className='text-red-500'>*</span></label>
                   <p className={`text-sm ${data.abstract.length < 20 ? "text-red-500" : "text-green-500"}`}>{data.abstract.length} / <span>min 20</span></p>
@@ -376,7 +374,7 @@ function UpdateProposal({ colors, myProposal, setMyProposal, updateForm, onClose
                 />
               </div>
 
-              <div className="input-box px-5 mb-5" >
+              <div className="input-box mb-5" >
                 <label style={{ color: colors.grey[300] }} htmlFor="file">Full Proposal Document <span className='text-red-500'>*</span></label>
                 <input onChange={handleChange} type="file" name='file' ref={fileRef} className='hidden' placeholder='Enter project title' />
                 <div onClick={handleUploadFile} style={{ color: colors.grey[100], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }} className='cursor-pointer border border-dashed rounded-[10px] flex flex-col justify-center items-center p-5 overflow-hidden'>
@@ -387,7 +385,7 @@ function UpdateProposal({ colors, myProposal, setMyProposal, updateForm, onClose
                 <p className='text-green-500 text-sm'> {fileName ? `uploaded : ${fileName}` : ""}</p>
               </div>
 
-              <div className='px-5 flex sm:flex-row flex-col justify-end gap-3'>
+              <div className='flex sm:flex-row flex-col justify-end gap-3'>
                 <button
                   onClick={() => {
                     onClose()
@@ -405,3 +403,53 @@ function UpdateProposal({ colors, myProposal, setMyProposal, updateForm, onClose
     </div>
   )
 }
+
+
+const Dropdown = ({ colors, setData, data, options = ["Robotics & Autonomous Systems", "Embedded Systems", "Cybersecurity", "Fraud Detection", "Green Computing & Sustainability", "Blockchain", "Edge Computing & Cloud Computing", "Big Data & Data Analytics", "Natural Language Processing (NLP)", "Augmented Reality / Virtual Reality (AR/VR)"] }) => {
+    const [open, setOpen] = useState(false);
+    const theme = useTheme()
+    const [selected, setSelected] = useState(data.domain);
+    useEffect(() => {
+        if (setData) {
+            setData(prev => ({ ...prev, domain: selected }));
+        }
+    }, [selected, setData]);
+
+    return (
+        <div className="w-full px-5 mb-5 pr-2 items-center cursor-pointer border rounded-lg flex relative" style={{ color: colors.grey[300], backgroundColor: colors.blueAccent[800], borderColor: colors.grey[700] }}>
+            <input
+                type="text"
+                placeholder="Select Project Domain"
+                readOnly
+                value={selected}
+                onFocus={() => setOpen(true)}
+                onBlur={() => setTimeout(() => setOpen(false), 100)}
+                className={`w-full  py-2 rounded-lg focus:cursor-pointer hover:cursor-pointer border-none focus:outline-none`}
+            />
+            <p><ArrowDropDownIcon /></p>
+
+            {open && (
+                <ul className="absolute w-full left-0 top-9 border border-[#00bc8a] mt-1 rounded-lg shadow-lg max-h-40 overflow-y-auto z-50" style={{ backgroundColor: colors.blueAccent[800] }} >
+                    {
+                        options.map((opt, index) => {
+                            return (
+                                <li
+                                    key={index}
+                                    onMouseDown={() => {
+                                        setOpen(false);
+                                        setSelected(opt);
+                                    }}
+                                    disabled={opt === options[0]}
+                                    style={{ color: colors.grey[200] }}
+                                    className={`p-2 py-1.5 hover:text-[#00bc8a!important] ${theme.palette.mode === "dark" ? "hover:bg-[#87878752]" : "hover:bg-[#cecece8b]"}`}
+                                >
+                                    {opt}
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            )}
+        </div>
+    );
+};

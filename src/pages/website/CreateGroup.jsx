@@ -5,10 +5,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { availableStudents, createGroup, getMyGroup } from '../../services/groupServices';
 import Loader from '../../loaders/Loader';
 import SimpleLoader from '../../loaders/SimpleLoader';
-import { toast } from 'sonner';
 import { HandleErrors } from '../../utils/HandleErrors';
 import Title from '../../components/admin/Title';
 import GroupDetailsDashboard from '../../components/website/GroupDetailsDashboard';
+import { toast } from 'react-toastify';
 
 export default function CreateGroup() {
     const theme = useTheme();
