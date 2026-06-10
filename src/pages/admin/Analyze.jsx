@@ -273,7 +273,6 @@ export default function ProjectReview() {
       try {
         const originProposal = await getProposalById(param.id);
         setOriginProject(originProposal);
-        console.log(originProposal)
         if (originProposal?.status === "Pending") {
           const similarityProjects = await createEvaluation(param.id);
           setSimilarProjects(similarityProjects.similarityResults);
@@ -284,7 +283,6 @@ export default function ProjectReview() {
 
         }
       } catch (error) {
-        console.log(error)
         HandleErrors(error?.errors || error.message)
         if(error.errors){
           return
